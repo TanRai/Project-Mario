@@ -10,11 +10,13 @@ void setInput();
 void change();
 void winInput();
 void checkInput();
+void gravity();
 void marioLevelBound(int x, int y);
 void marioCollision(int x,int y);
 bool detectCollision(int x,int y);
 void setObjects();
 bool collisionStructure(int i, int x, int y);
+bool ground();
 //*******************************************************************Variables*********************************************************************//
 struct keyState
 {
@@ -29,7 +31,10 @@ struct levelObjects
 	int width;
 	int height;
 }objects[4];
-int objectCount = 2;
+bool jumpUp = false;
+bool jump = false;
+int jumpLimit = 300;
+int objectCount = 3;
 int marioHeight = 64;
 int marioWidth = 64;
 bool marioMove = false;
@@ -44,6 +49,8 @@ int marioX = 200;
 int marioY = 128; //default 128
 int screenWidth = 1024;
 int screenHeight = 960;
+int jumpDistance = 0;
+
 unsigned int  levelTexture;
 char Mario[7][25] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Mario\\A7.bmp" };
 //*******************************************************************iDraw***********************************************************************//
@@ -115,6 +122,7 @@ void setObjects()
 {
 	objects[0] = { 0, 0, 4415, 128 };
 	objects[1] = { 1792, 128, 128, 128};
+	objects[2] = { 2432, 128, 128, 192};
 }
 void marioLevelBound(int x, int y)
 {
@@ -133,7 +141,7 @@ void marioLevelBound(int x, int y)
 		}
 		//cout << levelX << endl;
 	}
-	if (marioY > 0 && marioY < 856)
+	if (marioY + y >= 0 && marioY + y <= 856)
 	{
 		marioY += y;
 	}
@@ -189,14 +197,28 @@ void checkInput()
 	}
 	if (m_keys[0x57].bHeld == true)
 	{
-		marioCollision(0, 5);
+		marioCollision(0, 10);
 	}
 	if (m_keys[0x53].bHeld == true)
 	{
-		marioCollision(0, -5);
+		marioCollision(0, -10);
 	}
+	
+	if (m_keys[0x20].bPressed == true)
+	{
+		if (!jump)
+		{
+			if (ground())
+			{
+				jump = true;
+				jumpUp = true;
+				marioIndex = 5;
+			}
+		}
+	}
+	
 }
-void marioCollision(int x,int y)
+void marioCollision(int x,int y)                                        // Requested position of Mario first comes here. It is generally called wtih either x or y but not both. It exectues the first for loop if the movement is in x direction and the second if it is in y direction.It calls another function to check for collision. The purpose of this function is to check collision by moving 1 unit at a time.
 {
 	int i,k,l;
 	if (x > 0)
@@ -217,48 +239,67 @@ void marioCollision(int x,int y)
 	}
 	for (i = 1; i <= abs(x); i++)
 	{
-		if (detectCollision(marioTrueX + 1 * k, marioY))
+		if (!detectCollision(marioTrueX + 1 * k, marioY))
 		{
 			marioLevelBound(k, 0);
 		}
 	}
 	for (i = 1; i <= abs(y); i++)
 	{
-		if (detectCollision(marioTrueX, marioY + 1 * l))
+		if (!detectCollision(marioTrueX, marioY + 1 * l))
 		{
 			marioLevelBound(0, l);
 		}
 	}
 }
-bool detectCollision(int x, int y)
+bool detectCollision(int x, int y)                 //This function sends four corners of mario to check if it is in collision with any objects. If Mario is in collision with any objects it returns true,otherwise false. 
 {
 	int i;
 	for (i = 0; i < objectCount; i++)
 	{
-		if (!collisionStructure(i, x, y + 64))
+		if (collisionStructure(i, x, y + 64))                                   //top left of mario
 		{
 			cout << "err1" << endl;
-			return false;
+			return true;
 		}
-		if (!collisionStructure(i, x + 64, y + 64))
+		if (collisionStructure(i, x + 64, y + 64))                              //top right of mario
 		{
 			cout << "err2" << endl;
-			return false;
+			return true;
 		}
-		if (!collisionStructure(i, x, y))
+		if (collisionStructure(i, x, y))                                       //bottom left of mario
 		{
 			cout << "err3" << endl;
-			return false;
+			return true;
 		}
-		if (!collisionStructure(i, x + 64, y))
+		if (collisionStructure(i, x + 64, y))                                  //bottom right of mario
 		{
 			cout << "err4" << endl;
-			return false;
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
-bool collisionStructure(int i, int x, int y)
+bool ground()
+{
+	int i;
+	for(i=0;i<objectCount;i++)
+	{
+		if (collisionStructure(i, marioTrueX, marioY-1))
+		{
+			cout << "left ground" << endl;
+			return true;
+		}
+		if (collisionStructure(i, marioTrueX + 64, marioY - 1))
+		{
+			cout << "right ground" << endl;
+			return true;
+		}
+	}
+	return false;
+	
+}
+bool collisionStructure(int i, int x, int y)                                                        //checks if the requested coordinate/position of mario puts him in collision with any objects. If it does collide with any object it returns true, otherwise false
 {
 	bool flag1 = 0;
 	bool flag2 = 0;
@@ -282,11 +323,11 @@ bool collisionStructure(int i, int x, int y)
 	}
 	if (flag1 && flag2 && flag3 && flag4)
 	{
-		return false;
+		return true;
 	}
 	else
 	{
-		return true;
+		return false;
 	}
 }
 void setInput()
@@ -296,7 +337,7 @@ void setInput()
 	keyState *m_keys = new keyState[256];
 }
 void change(){
-	if (marioMove == true)
+	if (marioMove == true  && jump == false)
 	{
 		if (marioIndex == 0)
 		{
@@ -311,9 +352,36 @@ void change(){
 			marioIndex = 1;
 		}
 	}
-	else
+	else if (jump == false)
 	{
 		marioIndex = 0;
+	}
+}
+void gravity()
+{
+	if (jump)
+	{
+		if (jumpDistance + 10 <= jumpLimit && jumpUp)
+		{
+			jumpDistance += 10;
+			cout << "gg" << endl;
+			marioCollision(0, 10);
+		}
+		else
+		{
+			jumpDistance = 0;
+			jumpUp = false;
+			marioCollision(0, -10);
+			if (ground())
+			{
+				jump = false;
+				marioIndex = 0;
+			}
+		}
+	}
+	else
+	{
+		marioCollision(0, -10);
 	}
 }
 //*******************************************************************main***********************************************************************//
@@ -324,8 +392,8 @@ int main()
 	iSetTimer(70, change);
 	iSetTimer(1, winInput);
 	iSetTimer(8, checkInput);
+	iSetTimer(16, gravity);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
-	///updated see the documentations
 	iStart();
 	return 0;
 }
