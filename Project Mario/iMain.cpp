@@ -1,4 +1,5 @@
 #include<iostream>
+#include <cstdlib>
 using namespace std;
 #include "iGraphics.h"
 #include "WinUser.h"
@@ -11,6 +12,13 @@ void winInput();
 void checkInput();
 void marioLevelBound(int x, int y);
 void levelScroll(int x);
+void marioCollision(int x,int y);
+bool collisionStructure(int x,int y);
+void setObjects();
+bool topLeft(int i,int x,int y);
+bool topRight(int i, int x, int y);
+bool bottomLeft(int i, int x, int y);
+bool bottomRight(int i, int x, int y);
 //*******************************************************************Variables*********************************************************************//
 struct keyState
 {
@@ -18,24 +26,37 @@ struct keyState
 	bool bReleased;
 	bool bHeld;
 } m_keys[256];
+struct levelObjects
+{
+	int x;
+	int y;
+	int width;
+	int height;
+}objects[4];
+int objectCount = 2;
+int marioHeight = 64;
+int marioWidth = 64;
+bool marioMove = false;
+int marioIndex = 0;
 short m_keyOldState[256] = { 0 };
 short m_keyNewState[256] = { 0 };
 int levelX = 0;
 int levelY = 0;
 int loadFlag = 1;
+int marioTrueX = 200;
 int marioX = 200;
-int marioY = 128;
+int marioY = 128; //default 128
 int screenWidth = 1024;
 int screenHeight = 960;
 unsigned int  levelTexture;
-char Mario[1][24] = { "Characters\\Mario\\1m.bmp" };
+char Mario[7][25] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Mario\\A7.bmp" };
 //*******************************************************************iDraw***********************************************************************//
 void iDraw()
 {
 	iClear();
 	loadLevel();
 	iShowImage(levelX, levelY, 13504, 960, levelTexture);
-	iShowBMP2(marioX, marioY, Mario[0], 0);
+	iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
 }
 //*******************************************************************iMouseMove***********************************************************************//
 void iMouseMove(int mx, int my)
@@ -94,11 +115,17 @@ void iSpecialKeyboard(unsigned char key)
 	
 }
 //*******************************************************************My Functions***********************************************************************//
+void setObjects()
+{
+	objects[0] = { 0, 0, 4415, 128 };
+	objects[1] = { 1792, 128, 128, 128};
+}
 void marioLevelBound(int x, int y)
 {
 	if (marioX + x >= 0 && marioX + x < 312)
 	{	
 		marioX = marioX + x;
+		marioTrueX += x;
 	}
 	else if (marioX + x >= 312)
 	{
@@ -106,8 +133,13 @@ void marioLevelBound(int x, int y)
 		if (13504 + levelX - screenWidth - x >=0)
 		{	
 			levelX = levelX - x;
+			marioTrueX += x;
 		}
 		//cout << levelX << endl;
+	}
+	if (marioY >= 0 && marioY < 856)
+	{
+		marioY += y;
 	}
 }
 /*void winInput()
@@ -167,7 +199,269 @@ void checkInput()
 {
 	if (m_keys[0x44].bHeld == true)
 	{
-		marioLevelBound(10, 0);
+		//marioLevelBound(7, 0);
+		marioCollision(7, 0);
+		marioMove = true;
+	}
+	if (m_keys[0x44].bReleased == true)
+	{
+		marioMove = false;
+	}
+	if (m_keys[0x41].bHeld == true)
+	{
+		//marioLevelBound(-7, 0);
+		marioCollision(-7, 0);
+	}
+	if (m_keys[0x57].bHeld == true)
+	{
+		marioCollision(0, 5);
+	}
+	if (m_keys[0x53].bHeld == true)
+	{
+		marioCollision(0, -5);
+	}
+}
+void marioCollision(int x,int y)
+{
+	int i,k,l;
+	if (x > 0)
+	{
+		k = 1;
+	}
+	else if (x < 0)
+	{
+		k = -1;
+	}
+	if (y > 0)
+	{
+		l = 1;
+	}
+	else if (y<0)
+	{
+		l = -1;
+	}
+	for (i = 1; i <= abs(x); i++)
+	{
+		if (collisionStructure(marioTrueX + 1 * k, marioY))
+		{
+			marioLevelBound(k, 0);
+		}
+	}
+	for (i = 1; i <= abs(y); i++)
+	{
+		if (collisionStructure(marioTrueX, marioY + 1 * l))
+		{
+			marioLevelBound(0, l);
+		}
+	}
+}
+/*bool collisionStructure(int x, int y)
+{
+	cout << x << "    " << y << endl;
+	if ((y >=128 && x <=4415) && (y>=128))
+	{
+		
+	}
+	else
+	{
+		cout << "col1" << endl;
+		return false;
+	}
+	if ((y +64) >= 128 && x < 1791)
+	{
+
+	}
+	else
+	{
+		cout << "col2" << endl;
+		return false;
+	}
+	if (y >= 128 && (x + 64) < 1791)
+	{
+
+	}
+	else
+	{
+		cout << "col3" << endl;
+		return false;
+	}
+	if ((y + 64) >= 128 && (x + 64) < 1791)
+	{
+
+	}
+	else
+	{
+		cout << "col4" << endl;
+		return false;
+	}
+	return true;
+}*/
+bool collisionStructure(int x, int y)
+{
+	int i;
+	for (i = 0; i < objectCount; i++)
+	{
+		if (topLeft(i, x, y+64))
+		{
+
+		}
+		else
+		{
+			cout << "err1" << endl;
+			return false;
+		}
+		if (topRight(i, x+64, y+64))
+		{
+
+		}
+		else
+		{
+			cout << "err2" << endl;
+			return false;
+		}
+		if (bottomLeft(i, x, y))
+		{
+
+		}
+		else
+		{
+			cout << "err3" << endl;
+			return false;
+		}
+		if (bottomRight(i, x+64, y))
+		{
+
+		}
+		else
+		{
+			cout << "err4" << endl;
+			return false;
+		}
+	}
+	return true;
+}
+bool topLeft(int i, int x, int y)
+{
+	bool flag1 = 0;
+	bool flag2 = 0;
+	bool flag3 = 0;
+	bool flag4 = 0;
+	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
+	{
+		flag1 = 1;
+	}
+	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
+	{
+		flag2 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
+	{
+		flag3 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
+	{
+		flag4 = 1;
+	}
+	if (flag1 && flag2 && flag3 && flag4)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool topRight(int i, int x, int y)
+{
+	bool flag1 = 0;
+	bool flag2 = 0;
+	bool flag3 = 0;
+	bool flag4 = 0;
+	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
+	{
+		flag1 = 1;
+	}
+	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
+	{
+		flag2 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
+	{
+		flag3 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
+	{
+		flag4 = 1;
+	}
+	if (flag1 && flag2 && flag3 && flag4)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool bottomLeft(int i, int x, int y)
+{
+	bool flag1 = 0;
+	bool flag2 = 0;
+	bool flag3 = 0;
+	bool flag4 = 0;
+	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
+	{
+		flag1 = 1;
+	}
+	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
+	{
+		flag2 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
+	{
+		flag3 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
+	{
+		flag4 = 1;
+	}
+	if (flag1 && flag2 && flag3 && flag4)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool bottomRight(int i, int x, int y)
+{
+	bool flag1 = 0;
+	bool flag2 = 0;
+	bool flag3 = 0;
+	bool flag4 = 0;
+	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
+	{
+		flag1 = 1;
+	}
+	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
+	{
+		flag2 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
+	{
+		flag3 = 1;
+	}
+	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
+	{
+		flag4 = 1;
+	}
+	if (flag1 && flag2 && flag3 && flag4)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 void setInput()
@@ -177,13 +471,32 @@ void setInput()
 	keyState *m_keys = new keyState[256];
 }
 void change(){
-	
+	if (marioMove == true)
+	{
+		if (marioIndex == 0)
+		{
+			marioIndex = 3;
+		}
+		else if (marioIndex < 3)
+		{
+			marioIndex++;
+		}
+		else
+		{
+			marioIndex = 1;
+		}
+	}
+	else
+	{
+		marioIndex = 0;
+	}
 }
 //*******************************************************************main***********************************************************************//
 int main()
 {
+	setObjects();
 	setInput();
-	iSetTimer(1, change);
+	iSetTimer(70, change);
 	iSetTimer(1, winInput);
 	iSetTimer(8, checkInput);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
