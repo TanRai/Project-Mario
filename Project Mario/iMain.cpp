@@ -11,14 +11,10 @@ void change();
 void winInput();
 void checkInput();
 void marioLevelBound(int x, int y);
-void levelScroll(int x);
 void marioCollision(int x,int y);
-bool collisionStructure(int x,int y);
+bool detectCollision(int x,int y);
 void setObjects();
-bool topLeft(int i,int x,int y);
-bool topRight(int i, int x, int y);
-bool bottomLeft(int i, int x, int y);
-bool bottomRight(int i, int x, int y);
+bool collisionStructure(int i, int x, int y);
 //*******************************************************************Variables*********************************************************************//
 struct keyState
 {
@@ -137,30 +133,11 @@ void marioLevelBound(int x, int y)
 		}
 		//cout << levelX << endl;
 	}
-	if (marioY >= 0 && marioY < 856)
+	if (marioY > 0 && marioY < 856)
 	{
 		marioY += y;
 	}
 }
-/*void winInput()
-{
-	d = GetAsyncKeyState(0x44);
-	a = GetAsyncKeyState(0x41);
-	w = GetAsyncKeyState(0x57);
-	if (d)
-	{
-		marioLevelBound(50,0);
-		cout << marioX << endl;
-	}
-	if (a)
-	{
-		marioLevelBound(-10, 0);
-	}
-	if (w)
-	{
-		marioY = marioY ++;
-	}
-}*/
 void winInput()
 {
 	for (int i = 0; i < 256; i++)
@@ -199,7 +176,6 @@ void checkInput()
 {
 	if (m_keys[0x44].bHeld == true)
 	{
-		//marioLevelBound(7, 0);
 		marioCollision(7, 0);
 		marioMove = true;
 	}
@@ -209,7 +185,6 @@ void checkInput()
 	}
 	if (m_keys[0x41].bHeld == true)
 	{
-		//marioLevelBound(-7, 0);
 		marioCollision(-7, 0);
 	}
 	if (m_keys[0x57].bHeld == true)
@@ -242,97 +217,40 @@ void marioCollision(int x,int y)
 	}
 	for (i = 1; i <= abs(x); i++)
 	{
-		if (collisionStructure(marioTrueX + 1 * k, marioY))
+		if (detectCollision(marioTrueX + 1 * k, marioY))
 		{
 			marioLevelBound(k, 0);
 		}
 	}
 	for (i = 1; i <= abs(y); i++)
 	{
-		if (collisionStructure(marioTrueX, marioY + 1 * l))
+		if (detectCollision(marioTrueX, marioY + 1 * l))
 		{
 			marioLevelBound(0, l);
 		}
 	}
 }
-/*bool collisionStructure(int x, int y)
-{
-	cout << x << "    " << y << endl;
-	if ((y >=128 && x <=4415) && (y>=128))
-	{
-		
-	}
-	else
-	{
-		cout << "col1" << endl;
-		return false;
-	}
-	if ((y +64) >= 128 && x < 1791)
-	{
-
-	}
-	else
-	{
-		cout << "col2" << endl;
-		return false;
-	}
-	if (y >= 128 && (x + 64) < 1791)
-	{
-
-	}
-	else
-	{
-		cout << "col3" << endl;
-		return false;
-	}
-	if ((y + 64) >= 128 && (x + 64) < 1791)
-	{
-
-	}
-	else
-	{
-		cout << "col4" << endl;
-		return false;
-	}
-	return true;
-}*/
-bool collisionStructure(int x, int y)
+bool detectCollision(int x, int y)
 {
 	int i;
 	for (i = 0; i < objectCount; i++)
 	{
-		if (topLeft(i, x, y+64))
-		{
-
-		}
-		else
+		if (!collisionStructure(i, x, y + 64))
 		{
 			cout << "err1" << endl;
 			return false;
 		}
-		if (topRight(i, x+64, y+64))
-		{
-
-		}
-		else
+		if (!collisionStructure(i, x + 64, y + 64))
 		{
 			cout << "err2" << endl;
 			return false;
 		}
-		if (bottomLeft(i, x, y))
-		{
-
-		}
-		else
+		if (!collisionStructure(i, x, y))
 		{
 			cout << "err3" << endl;
 			return false;
 		}
-		if (bottomRight(i, x+64, y))
-		{
-
-		}
-		else
+		if (!collisionStructure(i, x + 64, y))
 		{
 			cout << "err4" << endl;
 			return false;
@@ -340,114 +258,21 @@ bool collisionStructure(int x, int y)
 	}
 	return true;
 }
-bool topLeft(int i, int x, int y)
+bool collisionStructure(int i, int x, int y)
 {
 	bool flag1 = 0;
 	bool flag2 = 0;
 	bool flag3 = 0;
 	bool flag4 = 0;
-	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
+	if (x > objects[i].x && y > objects[i].y)														//bottom left of object
 	{
 		flag1 = 1;
 	}
-	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
+	if (x > objects[i].x && y < objects[i].y + objects[i].height)									//top left of object 
 	{
 		flag2 = 1;
 	}
-	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
-	{
-		flag3 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
-	{
-		flag4 = 1;
-	}
-	if (flag1 && flag2 && flag3 && flag4)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-bool topRight(int i, int x, int y)
-{
-	bool flag1 = 0;
-	bool flag2 = 0;
-	bool flag3 = 0;
-	bool flag4 = 0;
-	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
-	{
-		flag1 = 1;
-	}
-	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
-	{
-		flag2 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
-	{
-		flag3 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
-	{
-		flag4 = 1;
-	}
-	if (flag1 && flag2 && flag3 && flag4)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-bool bottomLeft(int i, int x, int y)
-{
-	bool flag1 = 0;
-	bool flag2 = 0;
-	bool flag3 = 0;
-	bool flag4 = 0;
-	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
-	{
-		flag1 = 1;
-	}
-	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
-	{
-		flag2 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
-	{
-		flag3 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
-	{
-		flag4 = 1;
-	}
-	if (flag1 && flag2 && flag3 && flag4)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
-}
-bool bottomRight(int i, int x, int y)
-{
-	bool flag1 = 0;
-	bool flag2 = 0;
-	bool flag3 = 0;
-	bool flag4 = 0;
-	if (x > objects[i].x && y > objects[i].y)                                         //bottom left of object
-	{
-		flag1 = 1;
-	}
-	if (x > objects[i].x && y < objects[i].y + objects[i].height)                    //top left of object 
-	{
-		flag2 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                                      //top right of object
+	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                 //top right of object
 	{
 		flag3 = 1;
 	}
