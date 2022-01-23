@@ -15,8 +15,8 @@ void marioLevelBound(int x, int y);
 void marioCollision(int x,int y);
 bool detectCollision(int x,int y);
 void setObjects();
-bool collisionStructure(int i, int x, int y);
 bool ground();
+bool aabbCollisionMario(int a, int x,int y);
 //*******************************************************************Variables*********************************************************************//
 struct keyState
 {
@@ -120,9 +120,21 @@ void iSpecialKeyboard(unsigned char key)
 //*******************************************************************My Functions***********************************************************************//
 void setObjects()
 {
-	objects[0] = { 0, 0, 4415, 128 };
+	objects[0] = { 0, 0, 4415, 127 };
 	objects[1] = { 1792, 128, 128, 128};
 	objects[2] = { 2432, 128, 128, 192};
+}
+bool aabbCollisionMario(int a,int x,int y)
+{
+	if (objects[a].x > x + marioWidth)
+		return false;
+	if (objects[a].x + objects[a].width < x)
+		return false;
+	if (objects[a].y > y + marioHeight)
+		return false;
+	if (objects[a].y + objects[a].height < y)
+		return false;
+	return true;
 }
 void marioLevelBound(int x, int y)
 {
@@ -139,7 +151,6 @@ void marioLevelBound(int x, int y)
 			levelX = levelX - x;
 			marioTrueX += x;
 		}
-		//cout << levelX << endl;
 	}
 	if (marioY + y >= 0 && marioY + y <= 856)
 	{
@@ -239,42 +250,26 @@ void marioCollision(int x,int y)                                        // Reque
 	}
 	for (i = 1; i <= abs(x); i++)
 	{
-		if (!detectCollision(marioTrueX + 1 * k, marioY))
+		if (!detectCollision(marioTrueX + k, marioY))
 		{
 			marioLevelBound(k, 0);
 		}
 	}
 	for (i = 1; i <= abs(y); i++)
 	{
-		if (!detectCollision(marioTrueX, marioY + 1 * l))
+		if (!detectCollision(marioTrueX, marioY + l))
 		{
 			marioLevelBound(0, l);
 		}
 	}
 }
-bool detectCollision(int x, int y)                 //This function sends four corners of mario to check if it is in collision with any objects. If Mario is in collision with any objects it returns true,otherwise false. 
+bool detectCollision(int x, int y)
 {
 	int i;
 	for (i = 0; i < objectCount; i++)
 	{
-		if (collisionStructure(i, x, y + 64))                                   //top left of mario
+		if (aabbCollisionMario(i,x,y))                                  
 		{
-			cout << "err1" << endl;
-			return true;
-		}
-		if (collisionStructure(i, x + 64, y + 64))                              //top right of mario
-		{
-			cout << "err2" << endl;
-			return true;
-		}
-		if (collisionStructure(i, x, y))                                       //bottom left of mario
-		{
-			cout << "err3" << endl;
-			return true;
-		}
-		if (collisionStructure(i, x + 64, y))                                  //bottom right of mario
-		{
-			cout << "err4" << endl;
 			return true;
 		}
 	}
@@ -285,50 +280,13 @@ bool ground()
 	int i;
 	for(i=0;i<objectCount;i++)
 	{
-		if (collisionStructure(i, marioTrueX, marioY-1))
+		if (aabbCollisionMario(i, marioTrueX, marioY-1))
 		{
-			cout << "left ground" << endl;
-			return true;
-		}
-		if (collisionStructure(i, marioTrueX + 64, marioY - 1))
-		{
-			cout << "right ground" << endl;
 			return true;
 		}
 	}
 	return false;
 	
-}
-bool collisionStructure(int i, int x, int y)                                                        //checks if the requested coordinate/position of mario puts him in collision with any objects. If it does collide with any object it returns true, otherwise false
-{
-	bool flag1 = 0;
-	bool flag2 = 0;
-	bool flag3 = 0;
-	bool flag4 = 0;
-	if (x > objects[i].x && y > objects[i].y)														//bottom left of object
-	{
-		flag1 = 1;
-	}
-	if (x > objects[i].x && y < objects[i].y + objects[i].height)									//top left of object 
-	{
-		flag2 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y < objects[i].y + objects[i].height)                 //top right of object
-	{
-		flag3 = 1;
-	}
-	if (x < objects[i].x + objects[i].width && y > objects[i].y)                                     //bottom right of object
-	{
-		flag4 = 1;
-	}
-	if (flag1 && flag2 && flag3 && flag4)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
 }
 void setInput()
 {
