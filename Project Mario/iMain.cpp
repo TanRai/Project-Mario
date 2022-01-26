@@ -30,11 +30,11 @@ struct levelObjects
 	int y;
 	int width;
 	int height;
-}objects[4];
+}objects[60];
 bool jumpUp = false;
 bool jump = false;
 int jumpLimit = 300;
-int objectCount = 3;
+int objectCount = 12;
 int marioHeight = 64;
 int marioWidth = 64;
 bool marioMove = false;
@@ -123,6 +123,16 @@ void setObjects()
 	objects[0] = { 0, 0, 4415, 127 };
 	objects[1] = { 1792, 128, 128, 128};
 	objects[2] = { 2432, 128, 128, 192};
+	objects[3] = { 1280, 321, 63, 63 };
+	objects[4] = { 1024, 321, 63, 63 };
+	objects[5] = { 1344, 321, 63, 63 };
+	objects[6] = { 1408, 321, 63, 63 };
+	objects[7] = { 1472, 321, 63, 63 };
+	objects[8] = { 1536, 321, 63, 63 };
+	objects[9] = { 1408, 577, 63, 63 };
+	objects[10] = { 2944, 129, 127, 255 };
+	objects[11] = { 3648, 129, 127, 255 };
+
 }
 bool aabbCollisionMario(int a,int x,int y)
 {
@@ -347,7 +357,7 @@ int main()
 {
 	setObjects();
 	setInput();
-	iSetTimer(70, change);
+	iSetTimer(100, change);
 	iSetTimer(1, winInput);
 	iSetTimer(8, checkInput);
 	iSetTimer(16, gravity);
