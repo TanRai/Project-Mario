@@ -12,11 +12,14 @@ void winInput();
 void checkInput();
 void gravity();
 void marioLevelBound(int x, int y);
-void marioCollision(int x,int y);
+bool marioCollision(int x,int y);
 bool detectCollision(int x,int y);
 void setObjects();
 bool ground();
 bool aabbCollisionMario(int a, int x,int y);
+void levelScroll();
+bool detectCollisionObjects(int x, int y, int e);
+bool aabbCollisionObjects(int x, int y, int e, int i);
 //*******************************************************************Variables*********************************************************************//
 struct keyState
 {
@@ -31,12 +34,24 @@ struct levelObjects
 	int width;
 	int height;
 }objects[80];
+struct enemy
+{
+	int x;
+	int y;
+	int levelX;
+	int levelY;
+	int width;
+	int height;
+	int velocity;
+	bool alive;
+}enemyObjects[10];
 bool jumpUp = false;
 bool jump = false;
 int jumpLimit = 300;
+bool pos = false;
 int objectCount = 78;
 int marioHeight = 64;
-int marioWidth = 60;
+int marioWidth = 48;
 bool marioMove = false;
 int marioIndex = 0;
 short m_keyOldState[256] = { 0 };
@@ -47,19 +62,29 @@ int loadFlag = 1;
 int marioTrueX = 200;
 int marioX = 200;
 int marioY = 128; //default 128
-int screenWidth = 1024;
+int screenWidth = 1024;// default 1024
 int screenHeight = 960;
 int jumpDistance = 0;
+int enemyCount = 2;
+int gameState = 1;
 
 unsigned int  levelTexture;
 char Mario[7][25] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Mario\\A7.bmp" };
+char goomba[3][35] = { "Characters\\Goomba\\g1.bmp", "Characters\\Goomba\\g2.bmp", "Characters\\Goomba\\g3.bmp" };
 //*******************************************************************iDraw***********************************************************************//
 void iDraw()
 {
 	iClear();
-	loadLevel();
+
 	iShowImage(levelX, levelY, 13504, 960, levelTexture);
 	iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
+	for (int i = 0; i < enemyCount; i++)
+	{
+		if (enemyObjects[i].alive == true)
+		{
+			iShowBMP2(enemyObjects[i].x, enemyObjects[i].y, goomba[0], 255);
+		}
+	}
 }
 //*******************************************************************iMouseMove***********************************************************************//
 void iMouseMove(int mx, int my)
@@ -123,8 +148,8 @@ void setObjects()
 	objects[0] = { 0, 0, 4415, 127 };
 	objects[1] = { 1792, 128, 128, 128};
 	objects[2] = { 2432, 128, 128, 192};
-	objects[3] = { 1280, 321, 63, 63 };
-	objects[4] = { 1024, 321, 63, 63 };
+	objects[3] = { 1024, 321, 63, 63 };
+	objects[4] = { 1280, 321, 63, 63 };
 	objects[5] = { 1344, 321, 63, 63 };
 	objects[6] = { 1408, 321, 63, 63 };
 	objects[7] = { 1472, 321, 63, 63 };
@@ -200,6 +225,72 @@ void setObjects()
 	objects[77] = { 12672, 128, 63, 63 };
 
 }
+void setEnemy()
+{
+	enemyObjects[0] = { 1332, 385, 1332, 385, 63, 63, 1, true };
+	enemyObjects[1] = { 1422, 385, 1422, 385, 63, 63, 1, true };
+}
+void enemyCollision()
+{
+	for (int e = 0; e < enemyCount; e++)
+	{
+		//cout << "hello" << endl;
+		if (!detectCollisionObjects(-1, 0, e))
+	{
+		enemyObjects[e].x = enemyObjects[e].x - 1;
+		enemyObjects[e].levelX = enemyObjects[e].levelX - 1;
+	}
+	if (!detectCollisionObjects(0, -1, e))
+	{
+		enemyObjects[e].y = enemyObjects[e].y - 1;
+		enemyObjects[e].levelY = enemyObjects[e].levelY - 1;
+	}
+	}
+}
+bool detectCollisionObjects(int x, int y,int e)
+{
+	for (int i = 0; i < objectCount; i++)
+	{
+		if (aabbCollisionObjects(x, y, e, i))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool aabbCollisionObjects(int x, int y, int e,int i)
+{
+
+	//cout << "e = " << e << " i = " << i << endl;
+	if (objects[i].x > (enemyObjects[e].levelX + enemyObjects[e].width + x))//enemyObjects[o].x + enemyObjects[o].width
+	{
+		//cout << "error 1" << endl;
+		return false;
+	}
+	//cout << "Failed first check" << endl;
+	if ((objects[i].x + objects[i].width) < (enemyObjects[e].levelX + x))//enemyObjects[o].x
+	{
+		//cout << "error 2" << endl;
+		return false;
+	}
+	//cout << "Failed second check" << endl;
+	if (objects[i].y > (enemyObjects[e].levelY + enemyObjects[e].height + y))//enemyObjects[o].y + enemyObjects[o].height
+	{
+		//cout << "error 3" << endl;
+		return false;
+	}
+	//cout << "Failed third check" << endl;
+	if ((objects[i].y + objects[i].height) < (enemyObjects[e].levelY + y))//enemyObjects[o].y
+	{
+		return false;
+		//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " e = " << e << " enemyobjects[i].y = " << enemyObjects[e].y << " enemyobjects[i].height = " << enemyObjects[e].height << " y = " << y << endl;
+	}
+	//cout << "Failed fourth check" << endl;
+	//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " enemyobjects[e].levelY = " << enemyObjects[e].levelY <<" y = " << y << endl;
+	//cout << "colliding" << endl;
+	return true;
+
+}
 bool aabbCollisionMario(int a,int x,int y)
 {
 	if (objects[a].x > x + marioWidth)
@@ -214,18 +305,18 @@ bool aabbCollisionMario(int a,int x,int y)
 }
 void marioLevelBound(int x, int y)
 {
-	if (marioX + x >= 0 && marioX + x < 312)
-	{	
+	if (marioX + x >= 0 && marioX + x <=312)
+	{
 		marioX = marioX + x;
 		marioTrueX += x;
 	}
-	else if (marioX + x >= 312)
+	else if (marioX + x == 313)
 	{
-		marioX = 312;
-		if (13504 + levelX - screenWidth - x >=0)
-		{	
+		if (13504 + levelX - screenWidth - x >= 0)
+		{
 			levelX = levelX - x;
 			marioTrueX += x;
+			levelScroll();
 		}
 	}
 	if (marioY + y >= 0 && marioY + y <= 856)
@@ -233,6 +324,14 @@ void marioLevelBound(int x, int y)
 		marioY += y;
 	}
 }
+void levelScroll()
+{
+	for (int i = 0; i < enemyCount; i++)
+	{
+		enemyObjects[i].x--;
+	}
+}
+
 void winInput()
 {
 	for (int i = 0; i < 256; i++)
@@ -282,6 +381,14 @@ void checkInput()
 	{
 		marioCollision(-7, 0);
 	}
+	if (m_keys[0x4C].bHeld == true)
+	{
+		enemyObjects[0].alive = false;
+	}
+	if (m_keys[0x4A].bHeld == true)
+	{
+		marioCollision(-1, 0);
+	}
 	if (m_keys[0x57].bHeld == true)
 	{
 		marioCollision(0, 10);
@@ -305,7 +412,7 @@ void checkInput()
 	}
 	
 }
-void marioCollision(int x,int y)                                        // Requested position of Mario first comes here. It is generally called wtih either x or y but not both. It exectues the first for loop if the movement is in x direction and the second if it is in y direction.It calls another function to check for collision. The purpose of this function is to check collision by moving 1 unit at a time.
+bool marioCollision(int x,int y)                                        // Requested position of Mario first comes here. It is generally called wtih either x or y but not both. It exectues the first for loop if the movement is in x direction and the second if it is in y direction.It calls another function to check for collision. The purpose of this function is to check collision by moving 1 unit at a time.
 {
 	int i,k,l;
 	if (x > 0)
@@ -330,6 +437,10 @@ void marioCollision(int x,int y)                                        // Reque
 		{
 			marioLevelBound(k, 0);
 		}
+		else
+		{
+			return false;
+		}
 	}
 	for (i = 1; i <= abs(y); i++)
 	{
@@ -337,7 +448,12 @@ void marioCollision(int x,int y)                                        // Reque
 		{
 			marioLevelBound(0, l);
 		}
+		else
+		{
+			return false;
+		}
 	}
+	return true;
 }
 bool detectCollision(int x, int y)
 {
@@ -346,6 +462,7 @@ bool detectCollision(int x, int y)
 	{
 		if (aabbCollisionMario(i,x,y))                                  
 		{
+			cout << "mario colliding" << endl;
 			return true;
 		}
 	}
@@ -377,13 +494,23 @@ void change(){
 		{
 			marioIndex = 3;
 		}
-		else if (marioIndex < 3)
+		else if (marioIndex == 2 && pos == true)
 		{
 			marioIndex++;
 		}
-		else
+		else if (marioIndex == 2 && pos == false)
 		{
-			marioIndex = 1;
+			marioIndex--;
+		}
+		else if (marioIndex == 3)
+		{
+			pos = false;
+			marioIndex--;
+		}
+		else if (marioIndex == 1)
+		{
+			pos = true;
+			marioIndex++;
 		}
 	}
 	else if (jump == false)
@@ -398,8 +525,10 @@ void gravity()
 		if (jumpDistance + 10 <= jumpLimit && jumpUp)
 		{
 			jumpDistance += 10;
-			cout << "gg" << endl;
-			marioCollision(0, 10);
+			if (!marioCollision(0, 10))
+			{
+				jumpUp = false;
+			}
 		}
 		else
 		{
@@ -423,11 +552,14 @@ int main()
 {
 	setObjects();
 	setInput();
+	setEnemy();
 	iSetTimer(100, change);
 	iSetTimer(1, winInput);
 	iSetTimer(8, checkInput);
 	iSetTimer(16, gravity);
+	iSetTimer(10, enemyCollision);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
+	loadLevel();
 	iStart();
 	return 0;
 }
