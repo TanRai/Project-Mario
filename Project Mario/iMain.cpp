@@ -20,6 +20,8 @@ bool aabbCollisionMario(int a, int x,int y);
 void levelScroll();
 bool detectCollisionObjects(int x, int y, int e);
 bool aabbCollisionObjects(int x, int y, int e, int i);
+void loadLevel1();
+void objectCollsionCheck(int y);
 //*******************************************************************Variables*********************************************************************//
 struct keyState
 {
@@ -33,6 +35,8 @@ struct levelObjects
 	int y;
 	int width;
 	int height;
+	string type;
+	bool show;
 }objects[80];
 struct enemy
 {
@@ -71,18 +75,26 @@ int gameState = 1;
 unsigned int  levelTexture;
 char Mario[7][25] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Mario\\A7.bmp" };
 char goomba[3][35] = { "Characters\\Goomba\\g1.bmp", "Characters\\Goomba\\g2.bmp", "Characters\\Goomba\\g3.bmp" };
+char mainMenu[1][40] = {" "};
+char mushroom[1][40] = {"Objects\\Mushroom\\mushroom.bmp"};
 //*******************************************************************iDraw***********************************************************************//
 void iDraw()
 {
 	iClear();
-
-	iShowImage(levelX, levelY, 13504, 960, levelTexture);
-	iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
-	for (int i = 0; i < enemyCount; i++)
+	if (gameState == 1)
 	{
-		if (enemyObjects[i].alive == true)
+		iShowBMP(0, 0, "Levels\\Main Menu\\Main-menu.bmp");
+	}
+	else if (gameState == 2)
+	{
+		iShowImage(levelX, levelY, 13504, 960, levelTexture);
+		iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
+		for (int i = 0; i < enemyCount; i++)
 		{
-			iShowBMP2(enemyObjects[i].x, enemyObjects[i].y, goomba[0], 255);
+			if (enemyObjects[i].alive == true)
+			{
+				iShowBMP2(enemyObjects[i].x, enemyObjects[i].y, goomba[0], 255);
+			}
 		}
 	}
 }
@@ -145,84 +157,84 @@ void iSpecialKeyboard(unsigned char key)
 //*******************************************************************My Functions***********************************************************************//
 void setObjects()
 {
-	objects[0] = { 0, 0, 4415, 127 };
-	objects[1] = { 1792, 128, 128, 128};
-	objects[2] = { 2432, 128, 128, 192};
-	objects[3] = { 1024, 321, 63, 63 };
-	objects[4] = { 1280, 321, 63, 63 };
-	objects[5] = { 1344, 321, 63, 63 };
-	objects[6] = { 1408, 321, 63, 63 };
-	objects[7] = { 1472, 321, 63, 63 };
-	objects[8] = { 1536, 321, 63, 63 };
-	objects[9] = { 1408, 577, 63, 63 };
-	objects[10] = { 2944, 129, 127, 255 };
-	objects[11] = { 3648, 129, 127, 255 };
-	objects[12] = { 5696, 0, 4095, 127 };
-	objects[13] = { 4544, 0, 959, 127 };
-	objects[14] = { 4928, 321, 63, 63 };
-	objects[15] = { 4992, 321, 63, 63 };
-	objects[16] = { 5056, 321, 63, 63 };
-	objects[17] = { 5120, 577, 63, 63 };
-	objects[18] = { 5184, 577, 63, 63 };
-	objects[19] = { 5248, 577, 63, 63 };
-	objects[20] = { 5312, 577, 63, 63 };
-	objects[21] = { 5376, 577, 63, 63 };
-	objects[22] = { 5440, 577, 63, 63 };
-	objects[23] = { 5504, 577, 63, 63 };
-	objects[24] = { 5568, 577, 63, 63 };
-	objects[25] = { 5824, 577, 63, 63 };
-	objects[26] = { 5888, 577, 63, 63 };
-	objects[27] = { 5952, 577, 63, 63 };
-	objects[28] = { 6016, 577, 63, 63 };
-	objects[29] = { 6016, 321, 63, 63 };
-	objects[30] = { 6400, 321, 63, 63 };
-	objects[31] = { 6464, 321, 63, 63 };
-	objects[32] = { 6784, 321, 63, 63 };
-	objects[33] = { 6976, 321, 63, 63 };
-	objects[34] = { 7168, 321, 63, 63 };
-	objects[35] = { 7552, 321, 63, 63 };
-	objects[36] = { 6976, 577, 63, 63 };
-	objects[37] = { 7744, 577, 63, 63 };
-	objects[38] = { 7808, 577, 63, 63 };
-	objects[39] = { 7872, 577, 63, 63 };
-	objects[40] = { 8256, 321, 63, 63 };
-	objects[41] = { 8320, 321, 63, 63 };
-	objects[42] = { 8192, 577, 63, 63 };
-	objects[43] = { 8256, 577, 63, 63 };
-	objects[44] = { 8320, 577, 63, 63 };
-	objects[45] = { 8384, 577, 63, 63 };
-	objects[46] = { 9920, 0, 3583, 127 };
-	objects[47] = { 8576, 128, 63, 63 };
-	objects[48] = { 8640, 128, 191, 127 };
-	objects[49] = { 8704, 256, 127, 63 };
-	objects[50] = { 8768, 320, 63, 63 };
-	objects[51] = { 8960, 320, 63, 63 };
-	objects[52] = { 8960, 256, 127, 63 };
-	objects[53] = { 8960, 128, 191, 127 };
-	objects[54] = { 9152, 128, 63, 63 };
-	objects[55] = { 9472, 128, 63, 63 };
-	objects[56] = { 9536, 128, 63, 127 };
-	objects[57] = { 9600, 128, 191, 191 };
-	objects[58] = { 9664, 320, 127, 63 };
-	objects[59] = { 9920, 128, 191, 127 };
-	objects[60] = { 9920, 256, 127, 63 };
-	objects[61] = { 9920, 320, 63, 63 };
-	objects[62] = { 10112, 128, 63, 63 };
-	objects[63] = { 10432, 128, 127, 127 };
-	objects[64] = { 11456, 128, 127, 127 };
-	objects[65] = { 11584, 128, 63, 63 };
-	objects[66] = { 11648, 128, 191, 127 };
-	objects[67] = { 11712, 256, 127, 63 };
-	objects[68] = { 11776, 320, 63, 63 };
-	objects[69] = { 11840, 128, 319, 319 };
-	objects[70] = { 12032, 448, 127, 191 };
-	objects[71] = { 11968, 512, 63, 63 };
-	objects[72] = { 11904, 448, 127, 63 };
-	objects[73] = { 10752, 320, 63, 63 };
-	objects[74] = { 10816, 320, 63, 63 };
-	objects[75] = { 10880, 320, 63, 63 };
-	objects[76] = { 10944, 320, 63, 63 };
-	objects[77] = { 12672, 128, 63, 63 };
+	objects[0] = { 0, 0, 4415, 127,"brick", true };
+	objects[1] = { 1792, 128, 128, 128, "brick", true };
+	objects[2] = { 2432, 128, 128, 192, "brick", true };
+	objects[3] = { 1024, 321, 63, 63, "brick", true };
+	objects[4] = { 1280, 321, 63, 63, "brick", true };
+	objects[5] = { 1344, 321, 63, 63, "power", true };
+	objects[6] = { 1408, 321, 63, 63, "brick", true };
+	objects[7] = { 1472, 321, 63, 63, "brick", true };
+	objects[8] = { 1536, 321, 63, 63, "brick", true };
+	objects[9] = { 1408, 577, 63, 63, "brick", true };
+	objects[10] = { 2944, 129, 127, 255, "brick", true };
+	objects[11] = { 3648, 129, 127, 255, "brick", true };
+	objects[12] = { 5696, 0, 4095, 127, "brick", true };
+	objects[13] = { 4544, 0, 959, 127, "brick", true };
+	objects[14] = { 4928, 321, 63, 63, "brick", true };
+	objects[15] = { 4992, 321, 63, 63, "brick", true };
+	objects[16] = { 5056, 321, 63, 63, "brick", true };
+	objects[17] = { 5120, 577, 63, 63, "brick", true };
+	objects[18] = { 5184, 577, 63, 63, "brick", true };
+	objects[19] = { 5248, 577, 63, 63, "brick", true };
+	objects[20] = { 5312, 577, 63, 63, "brick", true };
+	objects[21] = { 5376, 577, 63, 63, "brick", true };
+	objects[22] = { 5440, 577, 63, 63, "brick", true };
+	objects[23] = { 5504, 577, 63, 63, "brick", true };
+	objects[24] = { 5568, 577, 63, 63, "brick", true };
+	objects[25] = { 5824, 577, 63, 63, "brick", true };
+	objects[26] = { 5888, 577, 63, 63, "brick", true };
+	objects[27] = { 5952, 577, 63, 63, "brick", true };
+	objects[28] = { 6016, 577, 63, 63, "brick", true };
+	objects[29] = { 6016, 321, 63, 63, "brick", true };
+	objects[30] = { 6400, 321, 63, 63, "brick", true };
+	objects[31] = { 6464, 321, 63, 63, "brick", true };
+	objects[32] = { 6784, 321, 63, 63, "brick", true };
+	objects[33] = { 6976, 321, 63, 63, "brick", true };
+	objects[34] = { 7168, 321, 63, 63, "brick", true };
+	objects[35] = { 7552, 321, 63, 63, "brick", true };
+	objects[36] = { 6976, 577, 63, 63, "brick", true };
+	objects[37] = { 7744, 577, 63, 63, "brick", true };
+	objects[38] = { 7808, 577, 63, 63, "brick", true };
+	objects[39] = { 7872, 577, 63, 63, "brick", true };
+	objects[40] = { 8256, 321, 63, 63, "brick", true };
+	objects[41] = { 8320, 321, 63, 63, "brick", true };
+	objects[42] = { 8192, 577, 63, 63, "brick", true };
+	objects[43] = { 8256, 577, 63, 63, "brick", true };
+	objects[44] = { 8320, 577, 63, 63, "brick", true };
+	objects[45] = { 8384, 577, 63, 63, "brick", true };
+	objects[46] = { 9920, 0, 3583, 127, "brick", true };
+	objects[47] = { 8576, 128, 63, 63, "brick", true };
+	objects[48] = { 8640, 128, 191, 127, "brick", true };
+	objects[49] = { 8704, 256, 127, 63, "brick", true };
+	objects[50] = { 8768, 320, 63, 63, "brick", true };
+	objects[51] = { 8960, 320, 63, 63, "brick", true };
+	objects[52] = { 8960, 256, 127, 63, "brick", true };
+	objects[53] = { 8960, 128, 191, 127, "brick", true };
+	objects[54] = { 9152, 128, 63, 63, "brick", true };
+	objects[55] = { 9472, 128, 63, 63, "brick", true };
+	objects[56] = { 9536, 128, 63, 127, "brick", true };
+	objects[57] = { 9600, 128, 191, 191, "brick", true };
+	objects[58] = { 9664, 320, 127, 63, "brick", true };
+	objects[59] = { 9920, 128, 191, 127, "brick", true };
+	objects[60] = { 9920, 256, 127, 63, "brick", true };
+	objects[61] = { 9920, 320, 63, 63, "brick", true };
+	objects[62] = { 10112, 128, 63, 63, "brick", true };
+	objects[63] = { 10432, 128, 127, 127, "brick", true };
+	objects[64] = { 11456, 128, 127, 127, "brick", true };
+	objects[65] = { 11584, 128, 63, 63, "brick", true };
+	objects[66] = { 11648, 128, 191, 127, "brick", true };
+	objects[67] = { 11712, 256, 127, 63, "brick", true };
+	objects[68] = { 11776, 320, 63, 63, "brick", true };
+	objects[69] = { 11840, 128, 319, 319, "brick", true };
+	objects[70] = { 12032, 448, 127, 191, "brick", true };
+	objects[71] = { 11968, 512, 63, 63, "brick", true };
+	objects[72] = { 11904, 448, 127, 63, "brick", true };
+	objects[73] = { 10752, 320, 63, 63, "brick", true };
+	objects[74] = { 10816, 320, 63, 63, "brick", true };
+	objects[75] = { 10880, 320, 63, 63, "brick", true };
+	objects[76] = { 10944, 320, 63, 63, "brick", true };
+	objects[77] = { 12672, 128, 63, 63, "brick", true };
 
 }
 void setEnemy()
@@ -289,7 +301,6 @@ bool aabbCollisionObjects(int x, int y, int e,int i)
 	//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " enemyobjects[e].levelY = " << enemyObjects[e].levelY <<" y = " << y << endl;
 	//cout << "colliding" << endl;
 	return true;
-
 }
 bool aabbCollisionMario(int a,int x,int y)
 {
@@ -302,6 +313,23 @@ bool aabbCollisionMario(int a,int x,int y)
 	if (objects[a].y + objects[a].height < y)
 		return false;
 	return true;
+}
+void objectCollsionCheck(int y)
+{
+	if (jumpUp == true)
+	{
+		for (int i = 0; i < objectCount; i++)
+		{
+			if (objects[i].type == "power")
+			{
+				cout << "loba" << endl;
+				if (aabbCollisionMario(i, marioTrueX, marioY + y))
+				{
+					cout << "nigga" << endl;
+				}
+			}
+		}
+	}
 }
 void marioLevelBound(int x, int y)
 {
@@ -368,49 +396,60 @@ void loadLevel()
 }
 void checkInput()
 {
-	if (m_keys[0x44].bHeld == true)
+	if (gameState == 1)
 	{
-		marioCollision(7, 0);
-		marioMove = true;
-	}
-	if (m_keys[0x44].bReleased == true)
-	{
-		marioMove = false;
-	}
-	if (m_keys[0x41].bHeld == true)
-	{
-		marioCollision(-7, 0);
-	}
-	if (m_keys[0x4C].bHeld == true)
-	{
-		enemyObjects[0].alive = false;
-	}
-	if (m_keys[0x4A].bHeld == true)
-	{
-		marioCollision(-1, 0);
-	}
-	if (m_keys[0x57].bHeld == true)
-	{
-		marioCollision(0, 10);
-	}
-	if (m_keys[0x53].bHeld == true)
-	{
-		marioCollision(0, -10);
-	}
-	
-	if (m_keys[0x20].bPressed == true)
-	{
-		if (!jump)
+		if (m_keys[0x0D].bPressed == true)
 		{
-			if (ground())
+			cout << "Entering" << endl;
+			gameState = 2;
+			loadLevel1();
+		}
+	}
+	if (gameState == 2)
+	{
+		if (m_keys[0x44].bHeld == true)
+		{
+			marioCollision(7, 0);
+			marioMove = true;
+		}
+		if (m_keys[0x44].bReleased == true)
+		{
+			marioMove = false;
+		}
+		if (m_keys[0x41].bHeld == true)
+		{
+			marioCollision(-7, 0);
+		}
+		if (m_keys[0x4C].bHeld == true)
+		{
+			enemyObjects[0].alive = false;
+		}
+		if (m_keys[0x4A].bHeld == true)
+		{
+			marioCollision(-1, 0);
+		}
+		if (m_keys[0x57].bHeld == true)
+		{
+			marioCollision(0, 10);
+		}
+		if (m_keys[0x53].bHeld == true)
+		{
+			marioCollision(0, -10);
+		}
+
+		if (m_keys[0x20].bPressed == true)
+		{
+			if (!jump)
 			{
-				jump = true;
-				jumpUp = true;
-				marioIndex = 5;
+				if (ground())
+				{
+					jump = true;
+					jumpUp = true;
+					marioIndex = 5;
+				}
 			}
 		}
 	}
-	
 }
 bool marioCollision(int x,int y)                                        // Requested position of Mario first comes here. It is generally called wtih either x or y but not both. It exectues the first for loop if the movement is in x direction and the second if it is in y direction.It calls another function to check for collision. The purpose of this function is to check collision by moving 1 unit at a time.
 {
@@ -462,7 +501,6 @@ bool detectCollision(int x, int y)
 	{
 		if (aabbCollisionMario(i,x,y))                                  
 		{
-			cout << "mario colliding" << endl;
 			return true;
 		}
 	}
@@ -527,6 +565,7 @@ void gravity()
 			jumpDistance += 10;
 			if (!marioCollision(0, 10))
 			{
+				objectCollsionCheck(10);
 				jumpUp = false;
 			}
 		}
@@ -547,17 +586,19 @@ void gravity()
 		marioCollision(0, -10);
 	}
 }
+void loadLevel1(){
+	setObjects();
+	setEnemy();
+	iSetTimer(100, change);
+	iSetTimer(16, gravity);
+	iSetTimer(10, enemyCollision);
+}
 //*******************************************************************main***********************************************************************//
 int main()
 {
-	setObjects();
 	setInput();
-	setEnemy();
-	iSetTimer(100, change);
 	iSetTimer(1, winInput);
 	iSetTimer(8, checkInput);
-	iSetTimer(16, gravity);
-	iSetTimer(10, enemyCollision);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
 	loadLevel();
 	iStart();
