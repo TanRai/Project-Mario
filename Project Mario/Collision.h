@@ -46,22 +46,25 @@ bool detectCollision(int x, int y)
 	int i;
 	for (i = 0; i < objectCount; i++)
 	{
-		if (aabbCollisionMario(i, x, y))
+		if (objects[i].show == true)
 		{
-			return true;
+			if (aabbCollisionMario(i, x, y))
+			{
+				return true;
+			}
 		}
 	}
 	return false;
 }
 bool aabbCollisionMario(int a, int x, int y)
 {
-	if (objects[a].x > x + marioWidth)
+	if (objects[a].levelX > x + marioWidth)
 		return false;
-	if (objects[a].x + objects[a].width < x)
+	if (objects[a].levelX + objects[a].width < x)
 		return false;
-	if (objects[a].y > y + marioHeight)
+	if (objects[a].levelY > y + marioHeight)
 		return false;
-	if (objects[a].y + objects[a].height < y)
+	if (objects[a].levelY + objects[a].height < y)
 		return false;
 	return true;
 }

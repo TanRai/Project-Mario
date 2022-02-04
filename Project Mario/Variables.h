@@ -9,10 +9,13 @@ struct levelObjects
 {
 	int x;
 	int y;
+	int levelX;
+	int levelY;
 	int width;
 	int height;
 	string type;
 	bool show;
+	int linkedObject;
 }objects[80];
 struct powerObjects{
 	int x;
@@ -24,7 +27,7 @@ struct powerObjects{
 	int maxHeight;
 	int velocityX;
 	bool show;
-}npc[10];
+}npc[13];
 struct enemy
 {
 	int x;
@@ -58,10 +61,13 @@ int screenHeight = 960;
 int jumpDistance = 0;
 int enemyCount = 2;
 int gameState = 1;
-int npcCount = 1;
+int npcCount = 13;
 int marioPowerState = 0;
 
 unsigned int  levelTexture;
+unsigned int  brickTexture;
+unsigned int  powerTexture;
+unsigned int  doneTexture;
 char Mario[7][25] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Mario\\A7.bmp" };
 char goomba[3][35] = { "Characters\\Goomba\\g1.bmp", "Characters\\Goomba\\g2.bmp", "Characters\\Goomba\\g3.bmp" };
 char mainMenu[1][40] = { " " };

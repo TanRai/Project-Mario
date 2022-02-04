@@ -30,7 +30,26 @@ void iDraw()
 		{
 			if (npc[i].show == true)
 			{
+				cout <<"Showing NPC = "<< i << endl;
 				iShowBMP2(npc[i].x, npc[i].y, mushroom[0], 0);
+			}
+		}
+		for (int i = 0; i < objectCount; i++)
+		{
+			if (objects[i].show == true)
+			{
+				if (objects[i].type == "brick")
+				{
+					iShowImage(objects[i].x, objects[i].y, 64, 64, brickTexture);
+				}
+				else if (objects[i].type == "power")
+				{
+					iShowImage(objects[i].x, objects[i].y, 64, 64, powerTexture);
+				}
+				else if (objects[i].type == "done")
+				{
+					iShowImage(objects[i].x, objects[i].y, 64, 64, doneTexture);
+				}
 			}
 		}
 	}
@@ -60,84 +79,84 @@ void iSpecialKeyboard(unsigned char key)
 //*******************************************************************My Functions***********************************************************************//
 void setObjects()
 {
-	objects[0] = { 0, 0, 4415, 127,"floor", true };
-	objects[1] = { 1792, 128, 128, 128, "pipe", true };
-	objects[2] = { 2432, 128, 128, 192, "pipe", true };
-	objects[3] = { 1024, 321, 63, 63, "power", true };
-	objects[4] = { 1280, 321, 63, 63, "brick", true };
-	objects[5] = { 1344, 321, 63, 63, "power", true };
-	objects[6] = { 1408, 321, 63, 63, "brick", true };
-	objects[7] = { 1472, 321, 63, 63, "power", true };
-	objects[8] = { 1536, 321, 63, 63, "brick", true };
-	objects[9] = { 1408, 577, 63, 63, "power", true };
-	objects[10] = { 2944, 129, 127, 255, "pipe", true };
-	objects[11] = { 3648, 129, 127, 255, "pipe", true };
-	objects[12] = { 5696, 0, 4095, 127, "floor", true };
-	objects[13] = { 4544, 0, 959, 127, "floor", true };
-	objects[14] = { 4928, 321, 63, 63, "brick", true };
-	objects[15] = { 4992, 321, 63, 63, "power", true };
-	objects[16] = { 5056, 321, 63, 63, "brick", true };
-	objects[17] = { 5120, 577, 63, 63, "brick", true };
-	objects[18] = { 5184, 577, 63, 63, "brick", true };
-	objects[19] = { 5248, 577, 63, 63, "brick", true };
-	objects[20] = { 5312, 577, 63, 63, "brick", true };
-	objects[21] = { 5376, 577, 63, 63, "brick", true };
-	objects[22] = { 5440, 577, 63, 63, "brick", true };
-	objects[23] = { 5504, 577, 63, 63, "brick", true };
-	objects[24] = { 5568, 577, 63, 63, "brick", true };
-	objects[25] = { 5824, 577, 63, 63, "brick", true };
-	objects[26] = { 5888, 577, 63, 63, "brick", true };
-	objects[27] = { 5952, 577, 63, 63, "brick", true };
-	objects[28] = { 6016, 577, 63, 63, "power", true };
-	objects[29] = { 6016, 321, 63, 63, "brick", true };
-	objects[30] = { 6400, 321, 63, 63, "brick", true };
-	objects[31] = { 6464, 321, 63, 63, "brick", true };
-	objects[32] = { 6784, 321, 63, 63, "power", true };
-	objects[33] = { 6976, 321, 63, 63, "power", true };
-	objects[34] = { 7168, 321, 63, 63, "power", true };
-	objects[35] = { 7552, 321, 63, 63, "brick", true };
-	objects[36] = { 6976, 577, 63, 63, "power", true };
-	objects[37] = { 7744, 577, 63, 63, "brick", true };
-	objects[38] = { 7808, 577, 63, 63, "brick", true };
-	objects[39] = { 7872, 577, 63, 63, "brick", true };
-	objects[40] = { 8256, 321, 63, 63, "brick", true };
-	objects[41] = { 8320, 321, 63, 63, "brick", true };
-	objects[42] = { 8192, 577, 63, 63, "brick", true };
-	objects[43] = { 8256, 577, 63, 63, "power", true };
-	objects[44] = { 8320, 577, 63, 63, "power", true };
-	objects[45] = { 8384, 577, 63, 63, "brick", true };
-	objects[46] = { 9920, 0, 3583, 127, "floor", true };
-	objects[47] = { 8576, 128, 63, 63, "rock", true };
-	objects[48] = { 8640, 128, 191, 127, "rock", true };
-	objects[49] = { 8704, 256, 127, 63, "rock", true };
-	objects[50] = { 8768, 320, 63, 63, "rock", true };
-	objects[51] = { 8960, 320, 63, 63, "rock", true };
-	objects[52] = { 8960, 256, 127, 63, "rock", true };
-	objects[53] = { 8960, 128, 191, 127, "rock", true };
-	objects[54] = { 9152, 128, 63, 63, "rock", true };
-	objects[55] = { 9472, 128, 63, 63, "rock", true };
-	objects[56] = { 9536, 128, 63, 127, "rock", true };
-	objects[57] = { 9600, 128, 191, 191, "rock", true };
-	objects[58] = { 9664, 320, 127, 63, "rock", true };
-	objects[59] = { 9920, 128, 191, 127, "rock", true };
-	objects[60] = { 9920, 256, 127, 63, "rock", true };
-	objects[61] = { 9920, 320, 63, 63, "rock", true };
-	objects[62] = { 10112, 128, 63, 63, "rock", true };
-	objects[63] = { 10432, 128, 127, 127, "pipe", true };
-	objects[64] = { 11456, 128, 127, 127, "pipe", true };
-	objects[65] = { 11584, 128, 63, 63, "rock", true };
-	objects[66] = { 11648, 128, 191, 127, "rock", true };
-	objects[67] = { 11712, 256, 127, 63, "rock", true };
-	objects[68] = { 11776, 320, 63, 63, "rock", true };
-	objects[69] = { 11840, 128, 319, 319, "rock", true };
-	objects[70] = { 12032, 448, 127, 191, "rock", true };
-	objects[71] = { 11968, 512, 63, 63, "rock", true };
-	objects[72] = { 11904, 448, 127, 63, "rock", true };
-	objects[73] = { 10752, 320, 63, 63, "brick", true };
-	objects[74] = { 10816, 320, 63, 63, "brick", true };
-	objects[75] = { 10880, 320, 63, 63, "power", true };
-	objects[76] = { 10944, 320, 63, 63, "brick", true };
-	objects[77] = { 12672, 128, 63, 63, "rock", true };
+	objects[0] = { 0, 0, 0, 0, 4415, 127, "floor", true ,-1};
+	objects[1] = { 1792, 128, 1792, 128, 128, 128, "pipe", true, -1 };
+	objects[2] = { 2432, 128, 2432, 128, 128, 192, "pipe", true, -1 };
+	objects[3] = { 1024, 321, 1024, 321, 63, 63, "power", true, 0 };
+	objects[4] = { 1280, 321, 1280, 321, 63, 63, "brick", true, -1 };
+	objects[5] = { 1344, 321, 1344, 321, 63, 63, "power", true, 1 };
+	objects[6] = { 1408, 321, 1408, 321, 63, 63, "brick", true, -1 };
+	objects[7] = { 1472, 321, 1472, 321, 63, 63, "power", true, 2 };
+	objects[8] = { 1536, 321, 1536, 321, 63, 63, "brick", true, -1 };
+	objects[9] = { 1408, 577, 1408, 577, 63, 63, "power", true, 3 };
+	objects[10] = { 2944, 129, 2944, 129, 127, 255, "pipe", true, -1 };
+	objects[11] = { 3648, 129, 3648, 129, 127, 255, "pipe", true, -1 };
+	objects[12] = { 5696, 0, 5696, 0, 4095, 127, "floor", true, -1 };
+	objects[13] = { 4544, 0, 4544, 0, 959, 127, "floor", true, -1 };
+	objects[14] = { 4928, 321, 4928, 321, 63, 63, "brick", true, -1 };
+	objects[15] = { 4992, 321, 4992, 321, 63, 63, "power", true, 4 };
+	objects[16] = { 5056, 321, 5056, 321, 63, 63, "brick", true, -1 };
+	objects[17] = { 5120, 577, 5120, 577, 63, 63, "brick", true, -1 };
+	objects[18] = { 5184, 577, 5184, 577, 63, 63, "brick", true, -1 };
+	objects[19] = { 5248, 577, 5248, 577, 63, 63, "brick", true, -1 };
+	objects[20] = { 5312, 577, 5312, 577, 63, 63, "brick", true, -1 };
+	objects[21] = { 5376, 577, 5376, 577, 63, 63, "brick", true, -1 };
+	objects[22] = { 5440, 577, 5440, 577, 63, 63, "brick", true, -1 };
+	objects[23] = { 5504, 577, 5504, 577, 63, 63, "brick", true, -1 };
+	objects[24] = { 5568, 577, 5568, 577, 63, 63, "brick", true, -1 };
+	objects[25] = { 5824, 577, 5824, 577, 63, 63, "brick", true, -1 };
+	objects[26] = { 5888, 577, 5888, 577, 63, 63, "brick", true, -1 };
+	objects[27] = { 5952, 577, 5952, 577, 63, 63, "brick", true, -1 };
+	objects[28] = { 6016, 577, 6016, 577, 63, 63, "power", true, 5 };
+	objects[29] = { 6016, 321, 6016, 321, 63, 63, "brick", true, -1 };
+	objects[30] = { 6400, 321, 6400, 321, 63, 63, "brick", true, -1 };
+	objects[31] = { 6464, 321, 6464, 321, 63, 63, "brick", true, -1 };
+	objects[32] = { 6784, 321, 6784, 321, 63, 63, "power", true, 6 };
+	objects[33] = { 6976, 321, 6976, 321, 63, 63, "power", true, 7 };
+	objects[34] = { 7168, 321, 7168, 321, 63, 63, "power", true, 8 };
+	objects[35] = { 7552, 321, 7552, 321, 63, 63, "brick", true, -1 };
+	objects[36] = { 6976, 577, 6976, 577, 63, 63, "power", true, 9 };
+	objects[37] = { 7744, 577, 7744, 577, 63, 63, "brick", true, -1 };
+	objects[38] = { 7808, 577, 7808, 577, 63, 63, "brick", true, -1 };
+	objects[39] = { 7872, 577, 7872, 577, 63, 63, "brick", true, -1 };
+	objects[40] = { 8256, 321, 8256, 321, 63, 63, "brick", true, -1 };
+	objects[41] = { 8320, 321, 8320, 321, 63, 63, "brick", true, -1 };
+	objects[42] = { 8192, 577, 8192, 577, 63, 63, "brick", true, -1 };
+	objects[43] = { 8256, 577, 8256, 577, 63, 63, "power", true, 10 };
+	objects[44] = { 8320, 577, 8320, 577, 63, 63, "power", true, 11 };
+	objects[45] = { 8384, 577, 8384, 577, 63, 63, "brick", true, -1 };
+	objects[46] = { 9920, 0, 9920, 0, 3583, 127, "floor", true, -1 };
+	objects[47] = { 8576, 128, 8576, 128, 63, 63, "rock", true, -1 };
+	objects[48] = { 8640, 128, 8640, 128, 191, 127, "rock", true, -1 };
+	objects[49] = { 8704, 256, 8704, 256, 127, 63, "rock", true, -1 };
+	objects[50] = { 8768, 320, 8768, 320, 63, 63, "rock", true, -1 };
+	objects[51] = { 8960, 320, 8960, 320, 63, 63, "rock", true, -1 };
+	objects[52] = { 8960, 256, 8960, 256, 127, 63, "rock", true, -1 };
+	objects[53] = { 8960, 128, 8960, 128, 191, 127, "rock", true, -1 };
+	objects[54] = { 9152, 128, 9152, 128, 63, 63, "rock", true, -1 };
+	objects[55] = { 9472, 128, 9472, 128, 63, 63, "rock", true, -1 };
+	objects[56] = { 9536, 128, 9536, 128, 63, 127, "rock", true, -1 };
+	objects[57] = { 9600, 128, 9600, 128, 191, 191, "rock", true, -1 };
+	objects[58] = { 9664, 320, 9664, 320, 127, 63, "rock", true, -1 };
+	objects[59] = { 9920, 128, 9920, 128, 191, 127, "rock", true, -1 };
+	objects[60] = { 9920, 256, 9920, 256, 127, 63, "rock", true, -1 };
+	objects[61] = { 9920, 320, 9920, 320, 63, 63, "rock", true, -1 };
+	objects[62] = { 10112, 128, 10112, 128, 63, 63, "rock", true, -1 };
+	objects[63] = { 10432, 128, 10432, 128, 127, 127, "pipe", true, -1 };
+	objects[64] = { 11456, 128, 11456, 128, 127, 127, "pipe", true, -1 };
+	objects[65] = { 11584, 128, 11584, 128, 63, 63, "rock", true, -1 };
+	objects[66] = { 11648, 128, 11648, 128, 191, 127, "rock", true, -1 };
+	objects[67] = { 11712, 256, 11712, 256, 127, 63, "rock", true, -1 };
+	objects[68] = { 11776, 320, 11776, 320, 63, 63, "rock", true, -1 };
+	objects[69] = { 11840, 128, 11840, 128, 319, 319, "rock", true, -1 };
+	objects[70] = { 12032, 448, 12032, 448, 127, 191, "rock", true, -1 };
+	objects[71] = { 11968, 512, 11968, 512, 63, 63, "rock", true, -1 };
+	objects[72] = { 11904, 448, 11904, 448, 127, 63, "rock", true, -1 };
+	objects[73] = { 10752, 320, 10752, 320, 63, 63, "brick", true, -1 };
+	objects[74] = { 10816, 320, 10816, 320, 63, 63, "brick", true, -1 };
+	objects[75] = { 10880, 320, 10880, 320, 63, 63, "power", true, 12 };
+	objects[76] = { 10944, 320, 10944, 320, 63, 63, "brick", true, -1 };
+	objects[77] = { 12672, 128, 12672, 128, 63, 63, "rock", true, -1 };
 }
 void setEnemy()
 {
@@ -146,7 +165,19 @@ void setEnemy()
 }
 void setNpc()
 {
-	npc[0] = { 1344, 321, 1344, 321, 63, 63,0, 3, false };
+	npc[0] = { 1024, 321, 1024, 321, 61, 61,0, 3, false };
+	npc[1] = { 1344, 321, 1344, 321, 61, 61, 0, 3, false };
+	npc[2] = { 1472, 321, 1472, 321, 61, 61, 0, 3, false };
+	npc[3] = { 1408, 577, 1408, 577, 61, 61, 0, 3, false };
+	npc[4] = { 4992, 321, 4992, 321, 61, 61, 0, 3, false };
+	npc[5] = { 6016, 577, 6016, 577, 61, 61, 0, 3, false };
+	npc[6] = { 6784, 321, 6784, 321, 61, 61, 0, 3, false };
+	npc[7] = { 6976, 321, 6976, 321, 61, 61, 0, 3, false };
+	npc[8] = { 7168, 321, 7168, 321, 61, 61, 0, 3, false };
+	npc[9] = { 6976, 577, 6976, 577, 61, 61, 0, 3, false };
+	npc[10] = { 8256, 577, 8256, 577, 61, 61, 0, 3, false };
+	npc[11] = { 8320, 577, 8320, 577, 61, 61, 0, 3, false };
+	npc[12] = { 10880, 320, 10880, 320, 61, 61, 0, 3, false };
 }
 void npcCollision()         ///version 3
 {
@@ -180,10 +211,12 @@ void npcCollision()         ///version 3
 					int flag = 0;
 					for (int o = 0; o < objectCount; o++)
 					{
-
-						if (aabbCollisionNpc(i, o, k, 0))
+						if (objects[o].show == true)
 						{
-							flag = 1;
+							if (aabbCollisionNpc(i, o, k, 0))
+							{
+								flag = 1;
+							}
 						}
 					}
 					if (flag == 0)
@@ -205,10 +238,12 @@ void npcCollision()         ///version 3
 					int flag = 0;
 					for (int o = 0; o < objectCount; o++)
 					{
-
-						if (aabbCollisionNpc(i, o, 0, l))
+						if (objects[o].show == true)
 						{
-							flag = 1;
+							if (aabbCollisionNpc(i, o, 0, l))
+							{
+								flag = 1;
+							}
 						}
 					}
 					if (flag == 0)
@@ -345,19 +380,19 @@ void npcCollision()         ///version 3
 bool aabbCollisionNpc(int i,int o,int x,int y)
 {
 	//cout << o << endl;
-	if (objects[o].x > (npc[i].levelX + npc[i].width + x))//enemyObjects[o].x + enemyObjects[o].width
+	if (objects[o].levelX > (npc[i].levelX + npc[i].width + x))//enemyObjects[o].x + enemyObjects[o].width
 	{
 		return false;
 	}
-	if ((objects[o].x + objects[o].width) < (npc[i].levelX + x))//enemyObjects[o].x
+	if ((objects[o].levelX + objects[o].width) < (npc[i].levelX + x))//enemyObjects[o].x
 	{
 		return false;
 	}
-	if (objects[o].y > (npc[i].levelY + npc[i].height + y))//enemyObjects[o].y + enemyObjects[o].height
+	if (objects[o].levelY > (npc[i].levelY + npc[i].height + y))//enemyObjects[o].y + enemyObjects[o].height
 	{
 		return false;
 	}
-	if ((objects[o].y + objects[o].height) < (npc[i].levelY + y))//enemyObjects[o].y
+	if ((objects[o].levelY + objects[o].height) < (npc[i].levelY + y))//enemyObjects[o].y
 	{
 		return false;
 	}
@@ -387,10 +422,12 @@ void enemyCollision()
 				int flag = 0;
 				for (int o = 0; o < objectCount; o++)
 				{
-
-					if (aabbCollisionEnemy(i, o, k, 0))
+					if (objects[o].show == true)
 					{
-						flag = 1;
+						if (aabbCollisionEnemy(i, o, k, 0))
+						{
+							flag = 1;
+						}
 					}
 				}
 				if (flag == 0)
@@ -412,9 +449,12 @@ void enemyCollision()
 				int flag = 0;
 				for (int o = 0; o < objectCount; o++)
 				{
-					if (aabbCollisionEnemy(i, o, 0, l))
+					if (objects[o].show == true)
 					{
-						flag = 1;
+						if (aabbCollisionEnemy(i, o, 0, l))
+						{
+							flag = 1;
+						}
 					}
 				}
 				if (flag == 0)
@@ -434,25 +474,25 @@ bool aabbCollisionEnemy(int e,int o,int x,int y)
 {
 
 	//cout << "e = " << e << " i = " << i << endl;
-	if (objects[o].x > (enemyObjects[e].levelX + enemyObjects[e].width + x))//enemyObjects[o].x + enemyObjects[o].width
+	if (objects[o].levelX > (enemyObjects[e].levelX + enemyObjects[e].width + x))//enemyObjects[o].x + enemyObjects[o].width
 	{
 		//cout << "error 1" << endl;
 		return false;
 	}
 	//cout << "Failed first check" << endl;
-	if ((objects[o].x + objects[o].width) < (enemyObjects[e].levelX + x))//enemyObjects[o].x
+	if ((objects[o].levelX + objects[o].width) < (enemyObjects[e].levelX + x))//enemyObjects[o].x
 	{
 		//cout << "error 2" << endl;
 		return false;
 	}
 	//cout << "Failed second check" << endl;
-	if (objects[o].y > (enemyObjects[e].levelY + enemyObjects[e].height + y))//enemyObjects[o].y + enemyObjects[o].height
+	if (objects[o].levelY > (enemyObjects[e].levelY + enemyObjects[e].height + y))//enemyObjects[o].y + enemyObjects[o].height
 	{
 		//cout << "error 3" << endl;
 		return false;
 	}
 	//cout << "Failed third check" << endl;
-	if ((objects[o].y + objects[o].height) < (enemyObjects[e].levelY + y))//enemyObjects[o].y
+	if ((objects[o].levelY + objects[o].height) < (enemyObjects[e].levelY + y))//enemyObjects[o].y
 	{
 		return false;
 		//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " e = " << e << " enemyobjects[i].y = " << enemyObjects[e].y << " enemyobjects[i].height = " << enemyObjects[e].height << " y = " << y << endl;
@@ -537,7 +577,16 @@ void objectCollsionCheck(int y)
 			{
 				if (aabbCollisionMario(i, marioTrueX, marioY + y))
 				{
-					npc[0].show = true;
+					cout << "colliding with power = " << i << endl;
+					npc[objects[i].linkedObject].show = true;
+					objects[i].type = "done";
+				}
+			}
+			if (objects[i].type == "brick")
+			{
+				if (aabbCollisionMario(i, marioTrueX, marioY + y))
+				{
+					objects[i].show = false;
 				}
 			}
 		}
@@ -553,6 +602,10 @@ void levelScroll()
 	{
 		npc[i].x--;
 	}
+	for (int i = 0; i < objectCount;i++)
+	{
+		objects[i].x--;
+	}
 }
 void loadLevel()
 {
@@ -561,6 +614,9 @@ void loadLevel()
 		levelTexture = iLoadImage("Levels\\World 1-1\\Background.png");
 		loadFlag = 0;
 	}
+	brickTexture = iLoadImage("Objects\\Brick\\brick.bmp");
+	powerTexture = iLoadImage("Objects\\Brick\\power.bmp");
+	doneTexture = iLoadImage("Objects\\Brick\\done.bmp");
 }
 
 bool ground()
@@ -649,7 +705,7 @@ void loadLevel1(){
 	setNpc();
 	iSetTimer(100, change);
 	iSetTimer(16, gravity);
-	iSetTimer(10, enemyCollision);
+	iSetTimer(100, enemyCollision);
 	iSetTimer(4, fourms);
 }
 void fourms(){
