@@ -75,7 +75,19 @@ void checkInput()
 				{
 					jump = true;
 					jumpUp = true;
-					marioIndex = 5;
+					//marioIndex = 4;
+				}
+			}
+		}
+		if (m_keys[0x4D].bPressed == true)
+		{
+			if (marioPowerState == 2)
+			{
+				if (fired == false)
+				{
+					cout << "firing" << endl;
+					fireStart(marioX + 64, marioY+64, marioTrueX + 64, marioY+64);
+					fired = true;
 				}
 			}
 		}

@@ -27,7 +27,30 @@ struct powerObjects{
 	int maxHeight;
 	int velocityX;
 	bool show;
+	string objectType;
 }npc[13];
+struct fire
+{
+	int x;
+	int y;
+	int levelX;
+	int levelY;
+	int maxHeight = 0;
+	int velocityX = 15;
+	int velocityY = -15;
+	bool status = true;
+	fire()
+	{
+
+	}
+	fire(int _x,int _y,int _levelX,int _levelY)
+	{
+		x = _x;
+		y = _y;
+		levelX = _levelX;
+		levelY = _levelY;
+	}
+}fireObjects[1000];
 struct enemy
 {
 	int x;
@@ -63,12 +86,30 @@ int enemyCount = 2;
 int gameState = 1;
 int npcCount = 13;
 int marioPowerState = 0;
+int checkInputTimer;
+int changeTimer;
+int gravityTimer;
+int enemyCollisionTimer;
+int fourmsTimer;
+bool fired = false;
+int fireCount = 0;
+
+
+
+
+
 
 unsigned int  levelTexture;
 unsigned int  brickTexture;
 unsigned int  powerTexture;
 unsigned int  doneTexture;
-char Mario[7][25] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Mario\\A7.bmp" };
+
+
+
+
+char Mario[16][40] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Big Mario\\A15.bmp", "Characters\\Big Mario\\A16.bmp", "Characters\\Big Mario\\A17.bmp", "Characters\\Big Mario\\A18.bmp", "Characters\\Big Mario\\A19.bmp","Characters\\Fire Mario\\1.bmp","Characters\\Fire Mario\\2.bmp","Characters\\Fire Mario\\3.bmp","Characters\\Fire Mario\\4.bmp","Characters\\Fire Mario\\5.bmp" };
 char goomba[3][35] = { "Characters\\Goomba\\g1.bmp", "Characters\\Goomba\\g2.bmp", "Characters\\Goomba\\g3.bmp" };
 char mainMenu[1][40] = { " " };
 char mushroom[1][40] = { "Objects\\Mushroom\\mushroom.bmp" };
+char coin[1][40] = { "Objects\\Coin\\coin.bmp" };
+char fire[1][40] = { "Objects\\Fire\\fire.bmp" };

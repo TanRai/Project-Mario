@@ -30,8 +30,16 @@ void iDraw()
 		{
 			if (npc[i].show == true)
 			{
-				cout <<"Showing NPC = "<< i << endl;
-				iShowBMP2(npc[i].x, npc[i].y, mushroom[0], 0);
+				//cout <<"Showing NPC = "<< i << endl;
+				if (npc[i].objectType == "mushroom")
+				{
+					iShowBMP2(npc[i].x, npc[i].y, mushroom[0], 0);
+				}
+				else if (npc[i].objectType == "coin")
+				{
+					iShowBMP2(npc[i].x, npc[i].y, coin[0], 0);
+				}
+				
 			}
 		}
 		for (int i = 0; i < objectCount; i++)
@@ -50,6 +58,15 @@ void iDraw()
 				{
 					iShowImage(objects[i].x, objects[i].y, 64, 64, doneTexture);
 				}
+			}
+		}
+		for (int i = 0; i < fireCount; i++)
+		{
+			//cout << "value = " << i << "        " << fireObjects[i].status << endl;
+			if (fireObjects[i].status == true)
+			{
+				//cout << "displaying fire" << endl;
+				iShowBMP2(fireObjects[i].x, fireObjects[i].y, fire[0], 0);
 			}
 		}
 	}
@@ -165,19 +182,19 @@ void setEnemy()
 }
 void setNpc()
 {
-	npc[0] = { 1024, 321, 1024, 321, 61, 61,0, 3, false };
-	npc[1] = { 1344, 321, 1344, 321, 61, 61, 0, 3, false };
-	npc[2] = { 1472, 321, 1472, 321, 61, 61, 0, 3, false };
-	npc[3] = { 1408, 577, 1408, 577, 61, 61, 0, 3, false };
-	npc[4] = { 4992, 321, 4992, 321, 61, 61, 0, 3, false };
-	npc[5] = { 6016, 577, 6016, 577, 61, 61, 0, 3, false };
-	npc[6] = { 6784, 321, 6784, 321, 61, 61, 0, 3, false };
-	npc[7] = { 6976, 321, 6976, 321, 61, 61, 0, 3, false };
-	npc[8] = { 7168, 321, 7168, 321, 61, 61, 0, 3, false };
-	npc[9] = { 6976, 577, 6976, 577, 61, 61, 0, 3, false };
-	npc[10] = { 8256, 577, 8256, 577, 61, 61, 0, 3, false };
-	npc[11] = { 8320, 577, 8320, 577, 61, 61, 0, 3, false };
-	npc[12] = { 10880, 320, 10880, 320, 61, 61, 0, 3, false };
+	npc[0] = { 1024, 321, 1024, 321, 61, 61, 0, 3, false, "coin" };
+	npc[1] = { 1344, 321, 1344, 321, 61, 61, 0, 3, false, "mushroom" };
+	npc[2] = { 1472, 321, 1472, 321, 61, 61, 0, 3, false, "coin" };
+	npc[3] = { 1408, 577, 1408, 577, 61, 61, 0, 3, false, "coin" };
+	npc[4] = { 4992, 321, 4992, 321, 61, 61, 0, 3, false, "mushroom" };
+	npc[5] = { 6016, 577, 6016, 577, 61, 61, 0, 3, false, "coin" };
+	npc[6] = { 6784, 321, 6784, 321, 61, 61, 0, 3, false, "coin" };
+	npc[7] = { 6976, 321, 6976, 321, 61, 61, 0, 3, false, "coin" };
+	npc[8] = { 7168, 321, 7168, 321, 61, 61, 0, 3, false, "coin" };
+	npc[9] = { 6976, 577, 6976, 577, 61, 61, 0, 3, false, "mushroom" };
+	npc[10] = { 8256, 577, 8256, 577, 61, 61, 0, 3, false, "coin" };
+	npc[11] = { 8320, 577, 8320, 577, 61, 61, 0, 3, false, "coin" };
+	npc[12] = { 10880, 320, 10880, 320, 61, 61, 0, 3, false, "coin" };
 }
 void npcCollision()         ///version 3
 {
@@ -196,207 +213,116 @@ void npcCollision()         ///version 3
 		l = -1;
 		if (npc[i].show == true)
 		{
-			if (npc[i].maxHeight < 64)
+			if (npc[i].objectType == "mushroom")
 			{
-				npc[i].y += 8;
-				npc[i].levelY += 8;
-				npc[i].maxHeight += 8;
-				cout << npc[i].maxHeight << endl;
-			}
-			else
-			{
-				flag2 = 0;
-				for (j = 1; j <= abs(npc[i].velocityX); j++)
+				if (npc[i].maxHeight < 64)
 				{
-					int flag = 0;
-					for (int o = 0; o < objectCount; o++)
+					npc[i].y += 8;
+					npc[i].levelY += 8;
+					npc[i].maxHeight += 8;
+					//cout << npc[i].maxHeight << endl;
+				}
+				else
+				{
+					flag2 = 0;
+					for (j = 1; j <= abs(npc[i].velocityX); j++)
 					{
-						if (objects[o].show == true)
+						int flag = 0;
+						for (int o = 0; o < objectCount; o++)
 						{
-							if (aabbCollisionNpc(i, o, k, 0))
+							if (objects[o].show == true)
 							{
-								flag = 1;
+								if (aabbCollisionNpc(i, o, k, 0))
+								{
+									flag = 1;
+								}
 							}
 						}
-					}
-					if (flag == 0)
-					{
-						npc[i].x += k;
-						npc[i].levelX += k;
-					}
-					else
-					{
-						flag2 = 1;
-					}
-				}
-				if (flag2 == 1)
-				{
-					npc[i].velocityX *= -1;
-				}
-				for (j = 1; j <= 10; j++)
-				{
-					int flag = 0;
-					for (int o = 0; o < objectCount; o++)
-					{
-						if (objects[o].show == true)
+						if (flag == 0)
 						{
-							if (aabbCollisionNpc(i, o, 0, l))
-							{
-								flag = 1;
-							}
+							npc[i].x += k;
+							npc[i].levelX += k;
+						}
+						else
+						{
+							flag2 = 1;
 						}
 					}
-					if (flag == 0)
+					if (flag2 == 1)
 					{
-						npc[i].y += l;
-						npc[i].levelY += l;
+						npc[i].velocityX *= -1;
 					}
+					for (j = 1; j <= 10; j++)
+					{
+						int flag = 0;
+						for (int o = 0; o < objectCount; o++)
+						{
+							if (objects[o].show == true)
+							{
+								if (aabbCollisionNpc(i, o, 0, l))
+								{
+									flag = 1;
+								}
+							}
+						}
+						if (flag == 0)
+						{
+							npc[i].y += l;
+							npc[i].levelY += l;
+						}
 
+					}
+				}
+				if (!((npc[i].levelX > marioTrueX + marioWidth) || (npc[i].levelX + npc[i].width < marioTrueX) || (npc[i].levelY > marioY + marioHeight) || (npc[i].levelY + npc[i].height < marioY)))
+				{
+					if (marioPowerState < 2)
+					{
+						if (marioPowerState == 0)
+						{
+							marioHeight += 64;
+						}
+						marioPowerState += 1;
+					}
+					cout << "Power!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+					npc[i].show = false;
 				}
 			}
-			if (!((npc[i].levelX > marioTrueX + marioWidth) || (npc[i].levelX + npc[i].width < marioTrueX) || (npc[i].levelY > marioY + marioHeight) || (npc[i].levelY + npc[i].height < marioY)))////////////////////here////////////////////////////////////
+			else if (npc[i].objectType == "coin")
 			{
-				marioPowerState = 1;
-				cout << "Power!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-				npc[i].show = false;
+				if (npc[i].maxHeight < 128)
+				{
+					npc[i].y += 8;
+					npc[i].levelY += 8;
+					npc[i].maxHeight += 8;
+					//cout << npc[i].maxHeight << endl;
+				}
+				else
+				{
+					npc[i].show = false;
+				}
 			}
 		}
 
 	}
 }
-/*void npcCollision(int x, int y)         ///version 2
-{
-	int j, k, l;
-	if (x > 0)
-	{
-		k = 1;
-	}
-	else if (x < 0)
-	{
-		k = -1;
-	}
-	if (y > 0)
-	{
-		l = 1;
-	}
-	else if (y<0)
-	{
-		l = -1;
-	}
-	for (int i = 0; i < npcCount; i++)
-	{
-		if (npc[i].show == true)
-		{
-			if (npc[i].maxHeight < 64)
-			{
-				npc[i].y += 8;
-				npc[i].levelY += 8;
-				npc[i].maxHeight += 8;
-				cout << npc[i].maxHeight << endl;
-			}
-			else
-			{
-				for (j = 1; j <= abs(x); j++)
-				{
-					int flag = 0;
-					for (int o = 0; o < objectCount; o++)
-					{
-
-						if (aabbCollisionNpc(i, o, k, 0))
-						{
-							flag = 1;
-						}
-					}
-					if (flag == 0)
-					{
-						npc[i].x += k;
-						npc[i].levelX += k;
-					}
-				}
-				for (j = 1; j <= abs(y); j++)
-				{
-					int flag = 0;
-					for (int o = 0; o < objectCount; o++)
-					{
-
-						if (aabbCollisionNpc(i, o, 0, l))
-						{
-							flag = 1;
-						}
-					}
-					if (flag == 0)
-					{
-						npc[i].y += l;
-						npc[i].levelY += l;
-					}
-
-				}
-			}
-		}
-	}
-}*/
-/*void npcCollision(int x,int y) /////version 1
-{
-	for (int i = 0; i < npcCount; i++)
-	{
-		if (npc[i].show == true)
-		{
-			if (npc[i].maxHeight < 72)
-			{
-				npc[i].y += 8;
-				npc[i].levelY += 8;
-				npc[i].maxHeight += 8;
-				cout << npc[i].maxHeight << endl;
-			}
-			else
-			{
-				int flag = 0;
-				for (int o = 0; o < objectCount; o++)
-				{
-					
-					if (aabbCollisionNpc(i,o,x,y))
-					{
-						flag = 1;
-					}
-				}
-				if (flag == 0)
-				{
-					if (x)
-					{
-						npc[i].x += x;
-						npc[i].levelX += x;
-					}
-					if (y)
-					{
-						npc[i].y += y;
-						npc[i].levelY += y;
-					}
-				}
-
-			}
-		}
-	}
-}*/
 bool aabbCollisionNpc(int i,int o,int x,int y)
 {
-	//cout << o << endl;
-	if (objects[o].levelX > (npc[i].levelX + npc[i].width + x))//enemyObjects[o].x + enemyObjects[o].width
+	if (objects[o].levelX > (npc[i].levelX + npc[i].width + x))
 	{
 		return false;
 	}
-	if ((objects[o].levelX + objects[o].width) < (npc[i].levelX + x))//enemyObjects[o].x
+	if ((objects[o].levelX + objects[o].width) < (npc[i].levelX + x))
 	{
 		return false;
 	}
-	if (objects[o].levelY > (npc[i].levelY + npc[i].height + y))//enemyObjects[o].y + enemyObjects[o].height
+	if (objects[o].levelY > (npc[i].levelY + npc[i].height + y))
 	{
 		return false;
 	}
-	if ((objects[o].levelY + objects[o].height) < (npc[i].levelY + y))//enemyObjects[o].y
+	if ((objects[o].levelY + objects[o].height) < (npc[i].levelY + y))
 	{
 		return false;
 	}
-	//cout << "culprit" << endl;
 	return true;
 }
 void enemyCollision()
@@ -466,107 +392,41 @@ void enemyCollision()
 		}
 		if (!((enemyObjects[i].levelX > marioTrueX + marioWidth) || (enemyObjects[i].levelX + enemyObjects[i].width < marioTrueX) || (enemyObjects[i].levelY > marioY + marioHeight) || (enemyObjects[i].levelY + enemyObjects[i].height < marioY)))////////////////////here////////////////////////////////////
 		{
-			cout << "DEATH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+			if (enemyObjects[i].alive == true)
+			{
+				if (enemyObjects[i].levelY + 40 < marioY)
+				{
+					enemyObjects[i].alive = false;
+				}
+				else
+				{
+					cout << "Death !!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+					death();
+				}
+			}
 		}
 	}
 }
 bool aabbCollisionEnemy(int e,int o,int x,int y)
 {
-
-	//cout << "e = " << e << " i = " << i << endl;
 	if (objects[o].levelX > (enemyObjects[e].levelX + enemyObjects[e].width + x))//enemyObjects[o].x + enemyObjects[o].width
 	{
-		//cout << "error 1" << endl;
 		return false;
 	}
-	//cout << "Failed first check" << endl;
 	if ((objects[o].levelX + objects[o].width) < (enemyObjects[e].levelX + x))//enemyObjects[o].x
 	{
-		//cout << "error 2" << endl;
 		return false;
 	}
-	//cout << "Failed second check" << endl;
 	if (objects[o].levelY > (enemyObjects[e].levelY + enemyObjects[e].height + y))//enemyObjects[o].y + enemyObjects[o].height
 	{
-		//cout << "error 3" << endl;
 		return false;
 	}
-	//cout << "Failed third check" << endl;
 	if ((objects[o].levelY + objects[o].height) < (enemyObjects[e].levelY + y))//enemyObjects[o].y
 	{
 		return false;
-		//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " e = " << e << " enemyobjects[i].y = " << enemyObjects[e].y << " enemyobjects[i].height = " << enemyObjects[e].height << " y = " << y << endl;
 	}
-	//cout << "Failed fourth check" << endl;
-	//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " enemyobjects[e].levelY = " << enemyObjects[e].levelY <<" y = " << y << endl;
-	//cout << "colliding" << endl;
 	return true;
 }
-/*void enemyCollision()
-{
-	for (int e = 0; e < enemyCount; e++)
-	{
-		//cout << "hello" << endl;
-		if (!detectCollisionObjects(-1, 0, e))
-		{
-			enemyObjects[e].x = enemyObjects[e].x - 1;
-			enemyObjects[e].levelX = enemyObjects[e].levelX - 1;
-		}
-		if (!detectCollisionObjects(0, -1, e))
-		{
-			enemyObjects[e].y = enemyObjects[e].y - 1;
-			enemyObjects[e].levelY = enemyObjects[e].levelY - 1;
-		}
-		if (!((enemyObjects[e].levelX > marioTrueX + marioWidth) || (enemyObjects[e].levelX + enemyObjects[e].width < marioTrueX) || (enemyObjects[e].levelY > marioY + marioHeight) || (enemyObjects[e].levelY + enemyObjects[e].height < marioY)))////////////////////here////////////////////////////////////
-		{
-			cout << "DEATH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-
-		}
-	}
-}
-bool detectCollisionObjects(int x, int y,int e)
-{
-	for (int i = 0; i < objectCount; i++)
-	{
-		if (aabbCollisionObjects(x, y, e, i))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-bool aabbCollisionObjects(int x, int y, int e,int i)
-{
-
-	//cout << "e = " << e << " i = " << i << endl;
-	if (objects[i].x > (enemyObjects[e].levelX + enemyObjects[e].width + x))//enemyObjects[o].x + enemyObjects[o].width
-	{
-		//cout << "error 1" << endl;
-		return false;
-	}
-	//cout << "Failed first check" << endl;
-	if ((objects[i].x + objects[i].width) < (enemyObjects[e].levelX + x))//enemyObjects[o].x
-	{
-		//cout << "error 2" << endl;
-		return false;
-	}
-	//cout << "Failed second check" << endl;
-	if (objects[i].y > (enemyObjects[e].levelY + enemyObjects[e].height + y))//enemyObjects[o].y + enemyObjects[o].height
-	{
-		//cout << "error 3" << endl;
-		return false;
-	}
-	//cout << "Failed third check" << endl;
-	if ((objects[i].y + objects[i].height) < (enemyObjects[e].levelY + y))//enemyObjects[o].y
-	{
-		return false;
-		//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " e = " << e << " enemyobjects[i].y = " << enemyObjects[e].y << " enemyobjects[i].height = " << enemyObjects[e].height << " y = " << y << endl;
-	}
-	//cout << "Failed fourth check" << endl;
-	//cout << "i = " << i << " objects[i].y = " << objects[i].y << " objects[i].height = " << objects[i].height << " enemyobjects[e].levelY = " << enemyObjects[e].levelY <<" y = " << y << endl;
-	//cout << "colliding" << endl;
-	return true;
-}*/
 void objectCollsionCheck(int y)
 {
 	if (jumpUp == true)
@@ -577,7 +437,7 @@ void objectCollsionCheck(int y)
 			{
 				if (aabbCollisionMario(i, marioTrueX, marioY + y))
 				{
-					cout << "colliding with power = " << i << endl;
+					//cout << "colliding with power = " << i << endl;
 					npc[objects[i].linkedObject].show = true;
 					objects[i].type = "done";
 				}
@@ -605,6 +465,10 @@ void levelScroll()
 	for (int i = 0; i < objectCount;i++)
 	{
 		objects[i].x--;
+	}
+	for (int i = 0; i < fireCount; i++)
+	{
+		fireObjects[i].x--;
 	}
 }
 void loadLevel()
@@ -639,34 +503,113 @@ void setInput()
 	keyState *m_keys = new keyState[256];
 }
 void change(){
-	if (marioMove == true  && jump == false)
+	if (marioPowerState == 0)
 	{
-		if (marioIndex == 0)
+		if (marioMove == true && jump == false)
 		{
-			marioIndex = 3;
+			if (marioIndex == 0)
+			{
+				marioIndex = 3;
+			}
+			else if (marioIndex == 2 && pos == true)
+			{
+				marioIndex++;
+			}
+			else if (marioIndex == 2 && pos == false)
+			{
+				marioIndex--;
+			}
+			else if (marioIndex == 3)
+			{
+				pos = false;
+				marioIndex--;
+			}
+			else if (marioIndex == 1)
+			{
+				pos = true;
+				marioIndex++;
+			}
 		}
-		else if (marioIndex == 2 && pos == true)
+		else if (jump == false)
 		{
-			marioIndex++;
+			marioIndex = 0;
 		}
-		else if (marioIndex == 2 && pos == false)
+		else if (jump == true)
 		{
-			marioIndex--;
-		}
-		else if (marioIndex == 3)
-		{
-			pos = false;
-			marioIndex--;
-		}
-		else if (marioIndex == 1)
-		{
-			pos = true;
-			marioIndex++;
+			marioIndex = 4;
 		}
 	}
-	else if (jump == false)
+	else if (marioPowerState == 1)
 	{
-		marioIndex = 0;
+		if (marioMove == true && jump == false)
+		{
+			if (marioIndex == 6)
+			{
+				marioIndex = 9;
+			}
+			else if (marioIndex == 8 && pos == true)
+			{
+				marioIndex++;
+			}
+			else if (marioIndex == 8 && pos == false)
+			{
+				marioIndex--;
+			}
+			else if (marioIndex == 9)
+			{
+				pos = false;
+				marioIndex--;
+			}
+			else if (marioIndex == 7)
+			{
+				pos = true;
+				marioIndex++;
+			}
+		}
+		else if (jump == false)
+		{
+			marioIndex = 6;
+		}
+		else if (jump == true)
+		{
+			marioIndex = 10;
+		}
+	}
+	else if (marioPowerState == 2)
+	{
+		if (marioMove == true && jump == false)
+		{
+			if (marioIndex == 11)
+			{
+				marioIndex = 14;
+			}
+			else if (marioIndex == 13 && pos == true)
+			{
+				marioIndex++;
+			}
+			else if (marioIndex == 13 && pos == false)
+			{
+				marioIndex--;
+			}
+			else if (marioIndex == 14)
+			{
+				pos = false;
+				marioIndex--;
+			}
+			else if (marioIndex == 12)
+			{
+				pos = true;
+				marioIndex++;
+			}
+		}
+		else if (jump == false)
+		{
+			marioIndex = 11;
+		}
+		else if (jump == true)
+		{
+			marioIndex = 15;
+		}
 	}
 }
 void gravity()
@@ -690,7 +633,7 @@ void gravity()
 			if (ground())
 			{
 				jump = false;
-				marioIndex = 0;
+				//marioIndex = 0;
 			}
 		}
 	}
@@ -703,21 +646,178 @@ void loadLevel1(){
 	setObjects();
 	setEnemy();
 	setNpc();
-	iSetTimer(100, change);
-	iSetTimer(16, gravity);
-	iSetTimer(100, enemyCollision);
-	iSetTimer(4, fourms);
+	changeTimer = iSetTimer(100, change);
+	gravityTimer = iSetTimer(16, gravity);
+	fourmsTimer = iSetTimer(4, fourms);
+	iSetTimer(500, fireCheck);
 }
 void fourms(){
 	npcCollision();
-
+	fireCollision();
+	enemyCollision();
+}
+void fireCollision()
+{
+	int flag2;
+	for (int i = 0; i < fireCount; i++)
+	{
+		int j, k, l;
+		if (fireObjects[i].velocityX > 0)
+		{
+			k = 1;
+		}
+		else if (fireObjects[i].velocityX < 0)
+		{
+			k = -1;
+		}
+		if (fireObjects[i].velocityY > 0)
+		{
+			l = 1;
+		}
+		else if (fireObjects[i].velocityY < 0)
+		{
+			l = -1;
+		}
+		if (fireObjects[i].status == true)
+		{
+			flag2 = 0;
+			for (j = 1; j <= abs(fireObjects[i].velocityX); j++)
+			{
+				int flag = 0;
+				for (int o = 0; o < objectCount; o++)
+				{
+					if (objects[o].show == true)
+					{
+						if (aabbCollisionFireObjects(i, o, k, 0))
+						{
+							flag = 1;
+						}
+					}
+				}
+				if (flag == 0)
+				{
+					fireObjects[i].x += k;
+					fireObjects[i].levelX += k;
+				}
+				else
+				{
+					flag2 = 1;
+				}
+			}
+			if (flag2 == 1)
+			{
+				fireObjects[i].status = false;
+			}
+			for (j = 1; j <= abs(fireObjects[i].velocityY); j++)
+			{
+				int flag = 0;
+				for (int o = 0; o < objectCount; o++)
+				{
+					if (objects[o].show == true)
+					{
+						if (aabbCollisionFireObjects(i, o, 0, l))
+						{
+							flag = 1;
+						}
+					}
+				}
+				if (flag == 0)
+				{
+					fireObjects[i].y += l;
+					fireObjects[i].levelY += l;
+					fireObjects[i].maxHeight += l;
+				}
+				else
+				{
+					flag2 = 1;
+				}
+			}
+			if (flag2 == 1)
+			{
+				fireObjects[i].velocityY *= -1;
+			}
+			else if (fireObjects[i].maxHeight > 48)
+			{
+				fireObjects[i].velocityY *= -1;
+			}
+		}
+		for (int e = 0; e < enemyCount; e++)
+		{
+			if (aabbCollisionFireEnemy(i,e))
+			{
+				fireObjects[i].status = false;
+				enemyObjects[e].alive = false;
+			}
+		}
+	}
+}
+bool aabbCollisionFireObjects(int f, int o, int x, int y)
+{
+	if (objects[o].levelX > (fireObjects[f].levelX + 32 + x))
+	{
+		return false;
+	}
+	if ((objects[o].levelX + objects[o].width) < (fireObjects[f].levelX + x))
+	{
+		return false;
+	}
+	if (objects[o].levelY > (fireObjects[f].levelY + 32 + y))
+	{
+		return false;
+	}
+	if ((objects[o].levelY + objects[o].height) < (fireObjects[f].levelY + y))
+	{
+		return false;
+	}
+	return true;
+}
+bool aabbCollisionFireEnemy(int f, int e)
+{
+	if (enemyObjects[e].levelX > (fireObjects[f].levelX + 32))
+	{
+		return false;
+	}
+	if ((enemyObjects[e].levelX + enemyObjects[e].width) < (fireObjects[f].levelX))
+	{
+		return false;
+	}
+	if (enemyObjects[e].levelY > (fireObjects[f].levelY + 32))
+	{
+		return false;
+	}
+	if ((enemyObjects[e].levelY + enemyObjects[e].height) < (fireObjects[f].levelY))
+	{
+		return false;
+	}
+	return true;
+}
+void fireStart(int x,int y,int levelX,int levelY)
+{
+	//cout << "in FireStart" << endl;
+	fireObjects[fireCount].x = x;
+	fireObjects[fireCount].y = y;
+	fireObjects[fireCount].levelX = levelX;
+	fireObjects[fireCount].levelY = levelY;
+	//cout << fireObjects[fireCount].x << "                  " << fireObjects[fireCount].y << endl;
+	fireCount++;
+}
+void fireCheck()
+{
+	fired = false;
+}
+void death()
+{
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(gravityTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
 }
 //*******************************************************************main***********************************************************************//
 int main()
 {
 	setInput();
 	iSetTimer(1, winInput);
-	iSetTimer(8, checkInput);
+	checkInputTimer = iSetTimer(8, checkInput);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
 	loadLevel();
 	iStart();

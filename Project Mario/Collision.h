@@ -1,4 +1,4 @@
-bool marioCollision(int x, int y)                                        // Requested position of Mario first comes here. It is generally called wtih either x or y but not both. It exectues the first for loop if the movement is in x direction and the second if it is in y direction.It calls another function to check for collision. The purpose of this function is to check collision by moving 1 unit at a time.
+bool marioCollision(int x, int y)
 {
 	int i, k, l;
 	if (x > 0)
@@ -84,8 +84,13 @@ void marioLevelBound(int x, int y)
 			levelScroll();
 		}
 	}
-	if (marioY + y >= 0 && marioY + y <= 856)
+	if (marioY + y >= -64) //&& marioY + y <= 856)
 	{
 		marioY += y;
+	}
+	else if (marioY <= -64)
+	{
+		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+		death();
 	}
 }
