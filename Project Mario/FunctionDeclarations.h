@@ -26,3 +26,5 @@ void fireStart(int x, int y, int levelX, int levelY);
 void fireCollision();
 bool aabbCollisionFireObjects(int f, int o, int x, int y);
 bool aabbCollisionFireEnemy(int f, int e);
+void encounterCheck();
+void pointAdd(int x);

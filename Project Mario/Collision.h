@@ -70,12 +70,12 @@ bool aabbCollisionMario(int a, int x, int y)
 }
 void marioLevelBound(int x, int y)
 {
-	if (marioX + x >= 0 && marioX + x <= 312)
+	if (marioX + x >= 0 && marioX + x <= 328)
 	{
 		marioX = marioX + x;
 		marioTrueX += x;
 	}
-	else if (marioX + x == 313)
+	else if (marioX + x == 329)
 	{
 		if (13504 + levelX - screenWidth - x >= 0)
 		{
@@ -84,13 +84,14 @@ void marioLevelBound(int x, int y)
 			levelScroll();
 		}
 	}
-	if (marioY + y >= -64) //&& marioY + y <= 856)
+	if (marioY + y >= 0) //&& marioY + y <= 856)
 	{
 		marioY += y;
 	}
-	else if (marioY <= -64)
+	if (marioY <= 0)
 	{
 		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		death();
 	}
+	encounterCheck();
 }

@@ -61,7 +61,7 @@ struct enemy
 	int height;
 	int velocityX;
 	bool alive;
-}enemyObjects[10];
+}enemyObjects[18];
 bool jumpUp = false;
 bool jump = false;
 int jumpLimit = 300;
@@ -82,7 +82,7 @@ int marioY = 128; //default 128
 int screenWidth = 1024;// default 1024
 int screenHeight = 960;
 int jumpDistance = 0;
-int enemyCount = 2;
+int enemyCount = 17;
 int gameState = 1;
 int npcCount = 13;
 int marioPowerState = 0;
@@ -93,6 +93,8 @@ int enemyCollisionTimer;
 int fourmsTimer;
 bool fired = false;
 int fireCount = 0;
+bool encounter[10] = { false, false, false, false, false, false, false, false, false, false};
+int point = 0;
 
 
 

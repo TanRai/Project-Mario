@@ -177,8 +177,84 @@ void setObjects()
 }
 void setEnemy()
 {
-	enemyObjects[0] = { 1332, 385, 1332, 385, 63, 63, 2, true };
-	enemyObjects[1] = { 1422, 385, 1422, 385, 63, 63, 2, true };
+	enemyObjects[0] = { 1298, 128, 1298, 128, 63, 63, -2, false };
+	enemyObjects[1] = { 2587, 128, 2587, 128, 63, 63, -2, false };
+	enemyObjects[2] = { 3096, 128, 3096, 128, 63, 63, -2, false };
+	enemyObjects[3] = { 3224, 128, 3224, 128, 63, 63, -2, false };
+	enemyObjects[4] = { 5128, 641, 5128, 641, 63, 63, -2, false };
+	enemyObjects[5] = { 5256, 641, 5256, 641, 63, 63, -2, false };
+	enemyObjects[6] = { 6449, 128, 6449, 128, 63, 63, -2, false };
+	enemyObjects[7] = { 6577, 128, 6577, 128, 63, 63, -2, false };
+	enemyObjects[8] = { 6864, 128, 6864, 128, 63, 63, -2, false };
+	enemyObjects[9] = { 7466, 128, 7466, 128, 63, 63, -2, false };
+	enemyObjects[10] = { 7594, 128, 7594, 128, 63, 63, -2, false };
+	enemyObjects[11] = { 8110, 128, 8110, 128, 63, 63, -2, false };
+	enemyObjects[12] = { 8238, 128, 8238, 128, 63, 63, -2, false };
+	enemyObjects[13] = { 8310, 128, 8310, 128, 63, 63, -2, false };
+	enemyObjects[14] = { 8510, 128, 8510, 128, 63, 63, -2, false };
+	enemyObjects[15] = { 11254, 128, 11254, 128, 63, 63, -2, false };
+	enemyObjects[16] = { 11370, 128, 11370, 128, 63, 63, -2, false };
+}
+void encounterCheck()
+{
+	if (marioTrueX > 548 && !encounter[0])
+	{
+		encounter[0] = true;
+		enemyObjects[0].alive = true;
+	}
+	if (marioTrueX > 548 && !encounter[1])
+	{
+		encounter[1] = true;
+		enemyObjects[1].alive = true;
+	}
+	if (marioTrueX > 548 && !encounter[2])
+	{
+		encounter[2] = true;
+		enemyObjects[2].alive = true;
+		enemyObjects[3].alive = true;
+	}
+	if (marioTrueX > 4363 && !encounter[3])
+	{
+		cout << "encouter 3" << endl;
+		encounter[3] = true;
+		enemyObjects[4].alive = true;
+		enemyObjects[5].alive = true;
+	}
+	if (marioTrueX > 5699 && !encounter[4])
+	{
+		encounter[4] = true;
+		enemyObjects[6].alive = true;
+		enemyObjects[7].alive = true;
+	}
+	if (marioTrueX > 6114 && !encounter[5])
+	{
+		encounter[5] = true;
+		enemyObjects[8].alive = true;
+	}
+	if (marioTrueX > 6716 && !encounter[6])
+	{
+		encounter[6] = true;
+		enemyObjects[9].alive = true;
+		enemyObjects[10].alive = true;
+	}
+	if (marioTrueX > 7360 && !encounter[7])
+	{
+		encounter[7] = true;
+		enemyObjects[11].alive = true;
+		enemyObjects[12].alive = true;
+	}
+	if (marioTrueX > 7572 && !encounter[8])
+	{
+		encounter[8] = true;
+		enemyObjects[13].alive = true;
+		enemyObjects[14].alive = true;
+	}
+	if (marioTrueX > 10604 && !encounter[9])
+	{
+		encounter[9] = true;
+		enemyObjects[15].alive = true;
+		enemyObjects[16].alive = true;
+	}
 }
 void setNpc()
 {
@@ -285,6 +361,7 @@ void npcCollision()         ///version 3
 					}
 					cout << "Power!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 					npc[i].show = false;
+					pointAdd(1000);
 				}
 			}
 			else if (npc[i].objectType == "coin")
@@ -299,6 +376,7 @@ void npcCollision()         ///version 3
 				else
 				{
 					npc[i].show = false;
+					pointAdd(200);
 				}
 			}
 		}
@@ -397,6 +475,7 @@ void enemyCollision()
 				if (enemyObjects[i].levelY + 40 < marioY)
 				{
 					enemyObjects[i].alive = false;
+					pointAdd(100);
 				}
 				else
 				{
@@ -433,20 +512,24 @@ void objectCollsionCheck(int y)
 	{
 		for (int i = 0; i < objectCount; i++)
 		{
-			if (objects[i].type == "power")
+			if (objects[i].show == true)
 			{
-				if (aabbCollisionMario(i, marioTrueX, marioY + y))
+				if (objects[i].type == "power")
 				{
-					//cout << "colliding with power = " << i << endl;
-					npc[objects[i].linkedObject].show = true;
-					objects[i].type = "done";
+					if (aabbCollisionMario(i, marioTrueX, marioY + y))
+					{
+						//cout << "colliding with power = " << i << endl;
+						npc[objects[i].linkedObject].show = true;
+						objects[i].type = "done";
+					}
 				}
-			}
-			if (objects[i].type == "brick")
-			{
-				if (aabbCollisionMario(i, marioTrueX, marioY + y))
+				if (objects[i].type == "brick")
 				{
-					objects[i].show = false;
+					if (aabbCollisionMario(i, marioTrueX, marioY + y))
+					{
+						objects[i].show = false;
+						pointAdd(50);
+					}
 				}
 			}
 		}
@@ -649,7 +732,7 @@ void loadLevel1(){
 	changeTimer = iSetTimer(100, change);
 	gravityTimer = iSetTimer(16, gravity);
 	fourmsTimer = iSetTimer(4, fourms);
-	iSetTimer(500, fireCheck);
+	iSetTimer(800, fireCheck);
 }
 void fourms(){
 	npcCollision();
@@ -743,10 +826,17 @@ void fireCollision()
 		}
 		for (int e = 0; e < enemyCount; e++)
 		{
-			if (aabbCollisionFireEnemy(i,e))
+			if (fireObjects[i].status == true)
 			{
-				fireObjects[i].status = false;
-				enemyObjects[e].alive = false;
+				if (enemyObjects[e].alive == true)
+				{
+					if (aabbCollisionFireEnemy(i, e))
+					{
+						fireObjects[i].status = false;
+						enemyObjects[e].alive = false;
+						pointAdd(100);
+					}
+				}
 			}
 		}
 	}
@@ -807,10 +897,16 @@ void fireCheck()
 }
 void death()
 {
+	marioIndex = 5;
 	iPauseTimer(checkInputTimer);
 	iPauseTimer(gravityTimer);
 	iPauseTimer(fourmsTimer);
 	iPauseTimer(changeTimer);
+}
+void pointAdd(int x)
+{
+	point += x;
+	cout << "point = " << point << endl;
 }
 //*******************************************************************main***********************************************************************//
 int main()

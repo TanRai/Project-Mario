@@ -85,9 +85,9 @@ void checkInput()
 			{
 				if (fired == false)
 				{
+					fired = true;
 					cout << "firing" << endl;
 					fireStart(marioX + 64, marioY+64, marioTrueX + 64, marioY+64);
-					fired = true;
 				}
 			}
 		}
