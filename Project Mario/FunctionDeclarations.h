@@ -29,3 +29,6 @@ bool aabbCollisionFireEnemy(int f, int e);
 void encounterCheck();
 void pointAdd(int x);
 void pointDraw();
+void gameClock();
+void clockDraw();
+void UIDraw();

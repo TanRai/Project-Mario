@@ -16,8 +16,19 @@ void iDraw()
 	if (gameState == 1)
 	{
 		iShowBMP(0, 0, "Levels\\Main Menu\\Main-menu.bmp");
+		pointDraw();
+		clockDraw();
+		iShowBMP2(cursorX, cursorY, "Font\\UI\\cursor.bmp", 255);
 	}
 	else if (gameState == 2)
+	{
+		iShowBMP(0, 0, "Levels\\Main Menu\\help.bmp");
+	}
+	else if (gameState == 3)
+	{
+		iShowBMP(0, 0, "Levels\\Main Menu\\credits.bmp");
+	}
+	else if (gameState == 4)
 	{
 		iShowImage(levelX, levelY, 13504, 960, levelTexture);
 		iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
@@ -72,6 +83,8 @@ void iDraw()
 			}
 		}
 		pointDraw();
+		clockDraw();
+		UIDraw();
 	}
 }
 //******************************************************************Useless **************************************************************************//
@@ -162,9 +175,12 @@ bool ground()
 	int i;
 	for(i=0;i<objectCount;i++)
 	{
-		if (aabbCollisionMario(i, marioTrueX, marioY-1))
+		if (objects[i].show == true)
 		{
-			return true;
+			if (aabbCollisionMario(i, marioTrueX, marioY - 1))
+			{
+				return true;
+			}
 		}
 	}
 	return false;
@@ -324,6 +340,7 @@ void loadLevel1(){
 	gravityTimer = iSetTimer(16, gravity);
 	fourmsTimer = iSetTimer(4, fourms);
 	iSetTimer(800, fireCheck);
+	clockTimer = iSetTimer(1000, gameClock);
 }
 void fourms(){
 	npcCollision();
@@ -337,6 +354,7 @@ void death()
 	iPauseTimer(gravityTimer);
 	iPauseTimer(fourmsTimer);
 	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
 }
 void pointAdd(int x)
 {
@@ -347,14 +365,47 @@ void pointDraw()
 {
 	int temp = point;
 	int temp2;
-	int x = 200;
-	int y = 800;
+	int x = 256;
+	int y = 832;
+	int i;
+	for (i = 0; temp != 0; i++)
+	{
+		temp2 = temp % 10;
+		iShowBMP2(x, y, number[temp2], 0);
+		x -= 32;
+		temp = temp / 10;
+	}
+	for (int j = 6 - i; j != 0; j--)
+	{
+		iShowBMP2(x, y, number[0], 0);
+		x -= 32;
+	}
+}
+void clockDraw()
+{
+	int temp = clockTime;
+	int temp2;
+	int x = 892;
+	int y = 832;
 	for (int i = 0; temp != 0; i++)
 	{
 		temp2 = temp % 10;
 		iShowBMP2(x, y, number[temp2], 0);
 		x -= 32;
 		temp = temp / 10;
+	}
+}
+void UIDraw()
+{
+	iShowBMP2(93, 868, "Font\\UI\\mario.bmp", 0);
+	iShowBMP2(801, 868, "Font\\UI\\time.bmp", 0);
+}
+void gameClock()
+{
+	clockTime -= 1;
+	if (clockTime == 0)
+	{
+		death();
 	}
 }
 //*******************************************************************main***********************************************************************//

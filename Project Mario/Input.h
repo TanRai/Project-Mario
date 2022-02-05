@@ -30,12 +30,55 @@ void checkInput()
 	{
 		if (m_keys[0x0D].bPressed == true)
 		{
-			cout << "Entering" << endl;
-			gameState = 2;
-			loadLevel1();
+			if (cursorPosition == 1)
+			{
+				cout << "Entering" << endl;
+				gameState = 4;
+				loadLevel1();
+			}
+			else if (cursorPosition == 2)
+			{
+				cout << "Help" << endl;
+				gameState = 2;
+			}
+			else if (cursorPosition == 3)
+			{
+				cout << "Credits" << endl;
+				gameState = 3;
+			}
+		}
+		if (m_keys[0x28].bPressed == true)
+		{
+			if (cursorPosition < 3)
+			{
+				cursorPosition += 1;
+				cursorY -= 68;
+			}
+		}
+		if (m_keys[0x26].bPressed == true)
+		{
+			if (cursorPosition > 1)
+			{
+				cursorPosition -= 1;
+				cursorY += 68;
+			}
 		}
 	}
 	if (gameState == 2)
+	{
+		if (m_keys[0x1B].bPressed == true)
+		{
+			gameState = 1;
+		}
+	}
+	if (gameState == 3)
+	{
+		if (m_keys[0x1B].bPressed == true)
+		{
+			gameState = 1;
+		}
+	}
+	if (gameState == 4)
 	{
 		if (m_keys[0x44].bHeld == true)
 		{

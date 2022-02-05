@@ -91,10 +91,15 @@ int changeTimer;
 int gravityTimer;
 int enemyCollisionTimer;
 int fourmsTimer;
+int clockTimer;
 bool fired = false;
 int fireCount = 0;
 bool encounter[10] = { false, false, false, false, false, false, false, false, false, false};
 int point = 0;
+int clockTime = 150;
+int cursorX = 320;
+int cursorY = 380;
+int cursorPosition = 1;
 
 
 
