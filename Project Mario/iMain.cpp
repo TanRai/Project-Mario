@@ -71,6 +71,7 @@ void iDraw()
 				iShowBMP2(fireObjects[i].x, fireObjects[i].y, fire[0], 0);
 			}
 		}
+		pointDraw();
 	}
 }
 //******************************************************************Useless **************************************************************************//
@@ -341,6 +342,20 @@ void pointAdd(int x)
 {
 	point += x;
 	cout << "point = " << point << endl;
+}
+void pointDraw()
+{
+	int temp = point;
+	int temp2;
+	int x = 200;
+	int y = 800;
+	for (int i = 0; temp != 0; i++)
+	{
+		temp2 = temp % 10;
+		iShowBMP2(x, y, number[temp2], 0);
+		x -= 32;
+		temp = temp / 10;
+	}
 }
 //*******************************************************************main***********************************************************************//
 int main()

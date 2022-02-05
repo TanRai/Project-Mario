@@ -115,3 +115,4 @@ char mainMenu[1][40] = { " " };
 char mushroom[1][40] = { "Objects\\Mushroom\\mushroom.bmp" };
 char coin[1][40] = { "Objects\\Coin\\coin.bmp" };
 char fire[1][40] = { "Objects\\Fire\\fire.bmp" };
+char number[10][40] = { "Font\\Numbers\\0.bmp", "Font\\Numbers\\1.bmp", "Font\\Numbers\\2.bmp", "Font\\Numbers\\3.bmp", "Font\\Numbers\\4.bmp", "Font\\Numbers\\5.bmp", "Font\\Numbers\\6.bmp", "Font\\Numbers\\7.bmp", "Font\\Numbers\\8.bmp", "Font\\Numbers\\9.bmp", };

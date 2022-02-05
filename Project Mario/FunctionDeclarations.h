@@ -28,3 +28,4 @@ bool aabbCollisionFireObjects(int f, int o, int x, int y);
 bool aabbCollisionFireEnemy(int f, int e);
 void encounterCheck();
 void pointAdd(int x);
+void pointDraw();
