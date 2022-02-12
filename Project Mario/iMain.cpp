@@ -30,7 +30,14 @@ void iDraw()
 	}
 	else if (gameState == 4)
 	{
-		iShowImage(levelX, levelY, 13504, 960, levelTexture);
+		if (currentLevel == 1)
+		{
+			iShowImage(levelX, levelY, 13504, 960, levelTexture);
+		}
+		else if (currentLevel == 2)
+		{
+			iShowImage(levelX, levelY, 12228, 960, level2Texture);
+		}
 		iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
 		for (int i = 0; i < enemyCount; i++)
 		{
@@ -160,11 +167,8 @@ void levelScroll()
 }
 void loadLevel()
 {
-	if (loadFlag == 1)
-	{
-		levelTexture = iLoadImage("Levels\\World 1-1\\Background.png");
-		loadFlag = 0;
-	}
+	levelTexture = iLoadImage("Levels\\World 1-1\\Background.png");
+	level2Texture = iLoadImage("Levels\\World 1-2\\Level 2.png");
 	brickTexture = iLoadImage("Objects\\Brick\\brick.bmp");
 	powerTexture = iLoadImage("Objects\\Brick\\power.bmp");
 	doneTexture = iLoadImage("Objects\\Brick\\done.bmp");
@@ -193,112 +197,250 @@ void setInput()
 	keyState *m_keys = new keyState[256];
 }
 void change(){
-	if (marioPowerState == 0)
+	if (ahead == true)
 	{
-		if (marioMove == true && jump == false)
+		if (marioPowerState == 0)
 		{
-			if (marioIndex == 0)
+			if (marioMove == true && jump == false)
 			{
-				marioIndex = 3;
+				if (marioIndex == 0)
+				{
+					marioIndex = 3;
+				}
+				else if (marioIndex == 2 && pos == true)
+				{
+					marioIndex++;
+				}
+				else if (marioIndex == 2 && pos == false)
+				{
+					marioIndex--;
+				}
+				else if (marioIndex == 3)
+				{
+					pos = false;
+					marioIndex--;
+				}
+				else if (marioIndex == 1)
+				{
+					pos = true;
+					marioIndex++;
+				}
+				else if (jump == false)
+				{
+					marioIndex = 0;
+				}
 			}
-			else if (marioIndex == 2 && pos == true)
+			else if (jump == true)
 			{
-				marioIndex++;
+				marioIndex = 4;
 			}
-			else if (marioIndex == 2 && pos == false)
+			else
 			{
-				marioIndex--;
-			}
-			else if (marioIndex == 3)
-			{
-				pos = false;
-				marioIndex--;
-			}
-			else if (marioIndex == 1)
-			{
-				pos = true;
-				marioIndex++;
+				marioIndex = 0;
 			}
 		}
-		else if (jump == false)
+		else if (marioPowerState == 1)
 		{
-			marioIndex = 0;
+			if (marioMove == true && jump == false)
+			{
+				if (marioIndex == 6)
+				{
+					marioIndex = 9;
+				}
+				else if (marioIndex == 8 && pos == true)
+				{
+					marioIndex++;
+				}
+				else if (marioIndex == 8 && pos == false)
+				{
+					marioIndex--;
+				}
+				else if (marioIndex == 9)
+				{
+					pos = false;
+					marioIndex--;
+				}
+				else if (marioIndex == 7)
+				{
+					pos = true;
+					marioIndex++;
+				}
+				else if (jump == false)
+				{
+					marioIndex = 6;
+				}
+			}
+			else if (jump == true)
+			{
+				marioIndex = 10;
+			}
+			else
+			{
+				marioIndex = 6;
+			}
 		}
-		else if (jump == true)
+		else if (marioPowerState == 2)
 		{
-			marioIndex = 4;
+			if (marioMove == true && jump == false)
+			{
+				if (marioIndex == 11)
+				{
+					marioIndex = 14;
+				}
+				else if (marioIndex == 13 && pos == true)
+				{
+					marioIndex++;
+				}
+				else if (marioIndex == 13 && pos == false)
+				{
+					marioIndex--;
+				}
+				else if (marioIndex == 14)
+				{
+					pos = false;
+					marioIndex--;
+				}
+				else if (marioIndex == 12)
+				{
+					pos = true;
+					marioIndex++;
+				}
+				else if (jump == false)
+				{
+					marioIndex = 11;
+				}
+			}
+			else if (jump == true)
+			{
+				marioIndex = 15;
+			}
+			else
+			{
+				marioIndex = 11;
+			}
 		}
 	}
-	else if (marioPowerState == 1)
+	else
 	{
-		if (marioMove == true && jump == false)
+		if (marioPowerState == 0)
 		{
-			if (marioIndex == 6)
+			if (marioMove == true && jump == false)
 			{
-				marioIndex = 9;
+				if (marioIndex == 16)
+				{
+					marioIndex = 19;
+				}
+				else if (marioIndex == 18 && pos == true)
+				{
+					marioIndex++;
+				}
+				else if (marioIndex == 18 && pos == false)
+				{
+					marioIndex--;
+				}
+				else if (marioIndex == 19)
+				{
+					pos = false;
+					marioIndex--;
+				}
+				else if (marioIndex == 17)
+				{
+					pos = true;
+					marioIndex++;
+				}
+				else if (jump == false)
+				{
+					marioIndex = 16;
+				}
 			}
-			else if (marioIndex == 8 && pos == true)
+			else if (jump == true)
 			{
-				marioIndex++;
+				marioIndex = 20;
 			}
-			else if (marioIndex == 8 && pos == false)
+			else
 			{
-				marioIndex--;
-			}
-			else if (marioIndex == 9)
-			{
-				pos = false;
-				marioIndex--;
-			}
-			else if (marioIndex == 7)
-			{
-				pos = true;
-				marioIndex++;
+				marioIndex = 16;
 			}
 		}
-		else if (jump == false)
+		else if (marioPowerState == 1)
 		{
-			marioIndex = 6;
+			if (marioMove == true && jump == false)
+			{
+				if (marioIndex == 21)
+				{
+					marioIndex = 24;
+				}
+				else if (marioIndex == 23 && pos == true)
+				{
+					marioIndex++;
+				}
+				else if (marioIndex == 23 && pos == false)
+				{
+					marioIndex--;
+				}
+				else if (marioIndex == 24)
+				{
+					pos = false;
+					marioIndex--;
+				}
+				else if (marioIndex == 22)
+				{
+					pos = true;
+					marioIndex++;
+				}
+				else if (jump == false)
+				{
+					marioIndex = 21;
+				}
+			}
+			else if (jump == true)
+			{
+				marioIndex = 25;
+			}
+			else
+			{
+				marioIndex = 21;
+			}
 		}
-		else if (jump == true)
+		else if (marioPowerState == 2)
 		{
-			marioIndex = 10;
-		}
-	}
-	else if (marioPowerState == 2)
-	{
-		if (marioMove == true && jump == false)
-		{
-			if (marioIndex == 11)
+			if (marioMove == true && jump == false)
 			{
-				marioIndex = 14;
+				if (marioIndex == 26)
+				{
+					marioIndex = 29;
+				}
+				else if (marioIndex == 28 && pos == true)
+				{
+					marioIndex++;
+				}
+				else if (marioIndex == 28 && pos == false)
+				{
+					marioIndex--;
+				}
+				else if (marioIndex == 29)
+				{
+					pos = false;
+					marioIndex--;
+				}
+				else if (marioIndex == 27)
+				{
+					pos = true;
+					marioIndex++;
+				}
+				else if (jump == false)
+				{
+					marioIndex = 26;
+				}
 			}
-			else if (marioIndex == 13 && pos == true)
+			else if (jump == true)
 			{
-				marioIndex++;
+				marioIndex = 30;
 			}
-			else if (marioIndex == 13 && pos == false)
+			else
 			{
-				marioIndex--;
+				marioIndex = 26;
 			}
-			else if (marioIndex == 14)
-			{
-				pos = false;
-				marioIndex--;
-			}
-			else if (marioIndex == 12)
-			{
-				pos = true;
-				marioIndex++;
-			}
-		}
-		else if (jump == false)
-		{
-			marioIndex = 11;
-		}
-		else if (jump == true)
-		{
-			marioIndex = 15;
 		}
 	}
 }
@@ -355,6 +497,7 @@ void death()
 	iPauseTimer(fourmsTimer);
 	iPauseTimer(changeTimer);
 	iPauseTimer(clockTimer);
+	restart();
 }
 void pointAdd(int x)
 {
@@ -407,6 +550,75 @@ void gameClock()
 	{
 		death();
 	}
+}
+void restart()
+{
+	jumpUp = false;
+	jump = false;
+	pos = false;
+	ahead = true;
+	objectCount = 78;
+	marioHeight = 64;
+	marioWidth = 48;
+	marioMove = false;
+	marioIndex = 0;
+	levelX = 0;
+	levelY = 0;
+	marioTrueX = 200;
+	marioX = 200;
+	marioY = 128; //default 128
+	jumpDistance = 0;
+	enemyCount = 17;
+	npcCount = 13;
+	marioPowerState = 0;
+	fired = false;
+	fireCount = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		encounter[i] = false;
+	}
+	setObjects();
+	setEnemy();
+	setNpc();
+	clockTime = 150;
+	iResumeTimer(checkInputTimer);
+	iResumeTimer(gravityTimer);
+	iResumeTimer(fourmsTimer);
+	iResumeTimer(changeTimer);
+	iResumeTimer(clockTimer);
+}
+void loadLevel2()
+{
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(gravityTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
+	jumpUp = false;
+	jump = false;
+	pos = false;
+	ahead = true;
+	objectCount = 1;
+	marioMove = false;
+	levelX = 0;
+	levelY = 0;
+	marioTrueX = 200;
+	marioX = 200;
+	marioY = 128; //default 128
+	jumpDistance = 0;
+	enemyCount = 0;
+	npcCount = 0;
+	fired = false;
+	fireCount = 0;
+	clockTime = 150;
+	setObjects2();
+	cout << levelX << endl;
+	cout << levelY << endl;
+	iResumeTimer(checkInputTimer);
+	iResumeTimer(gravityTimer);
+	iResumeTimer(fourmsTimer);
+	iResumeTimer(changeTimer);
+	iResumeTimer(clockTimer);
 }
 //*******************************************************************main***********************************************************************//
 int main()

@@ -94,6 +94,11 @@ void marioLevelBound(int x, int y)
 		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		death();
 	}
+	if (marioTrueX > 12672)
+	{
+		currentLevel = 2;
+		loadLevel2();
+	}
 	encounterCheck();
 }
 

@@ -79,6 +79,10 @@ void setObjects()
 	objects[76] = { 10944, 320, 10944, 320, 63, 63, "brick", true, -1 };
 	objects[77] = { 12672, 128, 12672, 128, 63, 63, "rock", true, -1 };
 }
+void setObjects2()
+{
+	objects[0] = { 0, 0, 0, 0, 12228, 127, "floor", true, -1 };
+}
 void setEnemy()
 {
 	enemyObjects[0] = { 1298, 128, 1298, 128, 63, 63, -2, false };

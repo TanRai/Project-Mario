@@ -84,6 +84,7 @@ void checkInput()
 		{
 			marioCollision(7, 0);
 			marioMove = true;
+			ahead = true;
 		}
 		if (m_keys[0x44].bReleased == true)
 		{
@@ -92,10 +93,12 @@ void checkInput()
 		if (m_keys[0x41].bHeld == true)
 		{
 			marioCollision(-7, 0);
+			marioMove = true;
+			ahead = false;
 		}
-		if (m_keys[0x4C].bHeld == true)
+		if (m_keys[0x41].bReleased == true)
 		{
-			enemyObjects[0].alive = false;
+			marioMove = false;
 		}
 		if (m_keys[0x4A].bHeld == true)
 		{

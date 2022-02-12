@@ -32,3 +32,6 @@ void pointDraw();
 void gameClock();
 void clockDraw();
 void UIDraw();
+void restart();
+void setObjects2();
+void loadLevel2();

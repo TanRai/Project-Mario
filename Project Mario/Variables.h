@@ -100,6 +100,8 @@ int clockTime = 150;
 int cursorX = 320;
 int cursorY = 380;
 int cursorPosition = 1;
+bool ahead = true;
+int currentLevel = 1;
 
 
 
@@ -107,6 +109,7 @@ int cursorPosition = 1;
 
 
 unsigned int  levelTexture;
+unsigned int  level2Texture;
 unsigned int  brickTexture;
 unsigned int  powerTexture;
 unsigned int  doneTexture;
@@ -114,7 +117,7 @@ unsigned int  doneTexture;
 
 
 
-char Mario[16][40] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Big Mario\\A15.bmp", "Characters\\Big Mario\\A16.bmp", "Characters\\Big Mario\\A17.bmp", "Characters\\Big Mario\\A18.bmp", "Characters\\Big Mario\\A19.bmp","Characters\\Fire Mario\\1.bmp","Characters\\Fire Mario\\2.bmp","Characters\\Fire Mario\\3.bmp","Characters\\Fire Mario\\4.bmp","Characters\\Fire Mario\\5.bmp" };
+char Mario[31][40] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Big Mario\\A15.bmp", "Characters\\Big Mario\\A16.bmp", "Characters\\Big Mario\\A17.bmp", "Characters\\Big Mario\\A18.bmp", "Characters\\Big Mario\\A19.bmp", "Characters\\Fire Mario\\1.bmp", "Characters\\Fire Mario\\2.bmp", "Characters\\Fire Mario\\3.bmp", "Characters\\Fire Mario\\4.bmp", "Characters\\Fire Mario\\5.bmp", "Characters\\Inverse Mario\\A1.bmp", "Characters\\Inverse Mario\\A2.bmp", "Characters\\Inverse Mario\\A3.bmp", "Characters\\Inverse Mario\\A4.bmp", "Characters\\Inverse Mario\\A5.bmp", "Characters\\Inverse Big Mario\\A15.bmp", "Characters\\Inverse Big Mario\\A16.bmp", "Characters\\Inverse Big Mario\\A17.bmp", "Characters\\Inverse Big Mario\\A18.bmp", "Characters\\Inverse Big Mario\\A19.bmp","Characters\\Inverse Fire Mario\\1.bmp", "Characters\\Inverse Fire Mario\\2.bmp", "Characters\\Inverse Fire Mario\\3.bmp", "Characters\\Inverse Fire Mario\\4.bmp", "Characters\\Inverse Fire Mario\\5.bmp"};
 char goomba[3][35] = { "Characters\\Goomba\\g1.bmp", "Characters\\Goomba\\g2.bmp", "Characters\\Goomba\\g3.bmp" };
 char mainMenu[1][40] = { " " };
 char mushroom[1][40] = { "Objects\\Mushroom\\mushroom.bmp" };
