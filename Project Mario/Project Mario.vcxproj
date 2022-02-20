@@ -47,9 +47,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\Tanvir Raiyan\Desktop\Project Mario\Project Mario\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Tanvir Raiyan\Desktop\Project Mario\Project Mario\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -74,6 +76,7 @@
     <ClInclude Include="Fire.h" />
     <ClInclude Include="FunctionDeclarations.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Music.h" />
     <ClInclude Include="SetFunctions.h" />
     <ClInclude Include="Variables.h" />
   </ItemGroup>

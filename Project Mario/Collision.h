@@ -51,6 +51,7 @@ bool detectCollision(int x, int y)
 		{
 			if (aabbCollisionMario(i, x, y))
 			{
+				cout << "colliding with object = " << i << endl;
 				return true;
 			}
 		}
@@ -84,6 +85,10 @@ void marioLevelBound(int x, int y)
 			marioTrueX += x;
 			levelScroll();
 		}
+		else
+		{
+			levelboundreached = true;
+		}
 	}
 	if (marioY + y >= 0) //&& marioY + y <= 856)
 	{
@@ -94,10 +99,10 @@ void marioLevelBound(int x, int y)
 		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		death();
 	}
-	if (marioTrueX > 12672)
+	if (marioTrueX > 12672 && !levelEndFlag)
 	{
-		currentLevel = 2;
-		loadLevel2();
+		levelEndFlag = true;
+		levelEnd();
 	}
 	encounterCheck();
 }
@@ -193,6 +198,7 @@ void npcCollision()
 							marioHeight += 64;
 						}
 						marioPowerState += 1;
+						engine->play2D("Music/smb_vine.wav");
 					}
 					cout << "Power!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 					npc[i].show = false;
@@ -310,6 +316,7 @@ void enemyCollision()
 				if (enemyObjects[i].levelY + 40 < marioY)
 				{
 					enemyObjects[i].alive = false;
+					engine->play2D("Music/smb_stomp.wav");
 					pointAdd(100);
 				}
 				else

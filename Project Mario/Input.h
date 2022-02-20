@@ -82,7 +82,7 @@ void checkInput()
 	{
 		if (m_keys[0x44].bHeld == true)
 		{
-			marioCollision(7, 0);
+			marioCollision(9, 0);
 			marioMove = true;
 			ahead = true;
 		}
@@ -92,7 +92,7 @@ void checkInput()
 		}
 		if (m_keys[0x41].bHeld == true)
 		{
-			marioCollision(-7, 0);
+			marioCollision(-9, 0);
 			marioMove = true;
 			ahead = false;
 		}
@@ -106,11 +106,15 @@ void checkInput()
 		}
 		if (m_keys[0x57].bHeld == true)
 		{
-			marioCollision(0, 10);
+			marioCollision(0, 30);
 		}
 		if (m_keys[0x53].bHeld == true)
 		{
 			marioCollision(0, -10);
+		}
+		if (m_keys[0x4C].bHeld == true)
+		{
+			marioCollision(50,0);
 		}
 
 		if (m_keys[0x20].bPressed == true)
@@ -121,6 +125,7 @@ void checkInput()
 				{
 					jump = true;
 					jumpUp = true;
+					engine->play2D("Music/smb_jump-super.wav");
 					//marioIndex = 4;
 				}
 			}

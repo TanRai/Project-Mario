@@ -16,7 +16,7 @@ struct levelObjects
 	string type;
 	bool show;
 	int linkedObject;
-}objects[80];
+}objects[300];
 struct powerObjects{
 	int x;
 	int y;
@@ -88,10 +88,11 @@ int npcCount = 13;
 int marioPowerState = 0;
 int checkInputTimer;
 int changeTimer;
-int gravityTimer;
 int enemyCollisionTimer;
 int fourmsTimer;
 int clockTimer;
+int animationTimer;
+int fireCheckTimer;
 bool fired = false;
 int fireCount = 0;
 bool encounter[10] = { false, false, false, false, false, false, false, false, false, false};
@@ -102,7 +103,16 @@ int cursorY = 380;
 int cursorPosition = 1;
 bool ahead = true;
 int currentLevel = 1;
-
+irrklang::ISoundEngine* engine;
+int storedMarioY;
+bool deathHeightReached = false;
+string animationState = "death";
+bool levelEnd_ground = false;
+bool levelEndFlag = false;
+bool levelboundreached = false;
+int capturedTime;
+int relativeTime = 0;
+int marioLife = 3;
 
 
 
@@ -113,7 +123,9 @@ unsigned int  level2Texture;
 unsigned int  brickTexture;
 unsigned int  powerTexture;
 unsigned int  doneTexture;
-
+unsigned int  brickTexture2;
+unsigned int  powerTexture2;
+unsigned int  doneTexture2;
 
 
 
@@ -124,3 +136,8 @@ char mushroom[1][40] = { "Objects\\Mushroom\\mushroom.bmp" };
 char coin[1][40] = { "Objects\\Coin\\coin.bmp" };
 char fire[1][40] = { "Objects\\Fire\\fire.bmp" };
 char number[10][40] = { "Font\\Numbers\\0.bmp", "Font\\Numbers\\1.bmp", "Font\\Numbers\\2.bmp", "Font\\Numbers\\3.bmp", "Font\\Numbers\\4.bmp", "Font\\Numbers\\5.bmp", "Font\\Numbers\\6.bmp", "Font\\Numbers\\7.bmp", "Font\\Numbers\\8.bmp", "Font\\Numbers\\9.bmp", };
+
+
+
+
+

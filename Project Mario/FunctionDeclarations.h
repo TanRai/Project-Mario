@@ -35,3 +35,8 @@ void UIDraw();
 void restart();
 void setObjects2();
 void loadLevel2();
+void createSoundEngine();
+void animation();
+void animationCall(string x);
+void levelEnd();
+void resetAll();

@@ -1,5 +1,8 @@
 #include<iostream>
 #include <cstdlib>
+#include <string>
+#include <irrKlang.h>
+#pragma comment(lib,"irrKlang.lib")
 using namespace std;
 #include "iGraphics.h"
 #include "WinUser.h"
@@ -9,6 +12,7 @@ using namespace std;
 #include "Collision.h"
 #include "SetFunctions.h"
 #include "Fire.h"
+#include "Music.h"
 //*******************************************************************iDraw***********************************************************************//
 void iDraw()
 {
@@ -66,17 +70,35 @@ void iDraw()
 		{
 			if (objects[i].show == true)
 			{
-				if (objects[i].type == "brick")
+				if (currentLevel == 1)
 				{
-					iShowImage(objects[i].x, objects[i].y, 64, 64, brickTexture);
+					if (objects[i].type == "brick")
+					{
+						iShowImage(objects[i].x, objects[i].y, 64, 64, brickTexture);
+					}
+					else if (objects[i].type == "power")
+					{
+						iShowImage(objects[i].x, objects[i].y, 64, 64, powerTexture);
+					}
+					else if (objects[i].type == "done")
+					{
+						iShowImage(objects[i].x, objects[i].y, 64, 64, doneTexture);
+					}
 				}
-				else if (objects[i].type == "power")
+				else if (currentLevel == 2)
 				{
-					iShowImage(objects[i].x, objects[i].y, 64, 64, powerTexture);
-				}
-				else if (objects[i].type == "done")
-				{
-					iShowImage(objects[i].x, objects[i].y, 64, 64, doneTexture);
+					if (objects[i].type == "brick")
+					{
+						iShowImage(objects[i].x, objects[i].y, 64, 64, brickTexture2);
+					}
+					else if (objects[i].type == "power")
+					{
+						iShowImage(objects[i].x, objects[i].y, 64, 64, powerTexture2);
+					}
+					else if (objects[i].type == "done")
+					{
+						iShowImage(objects[i].x, objects[i].y, 64, 64, doneTexture2);
+					}
 				}
 			}
 		}
@@ -92,6 +114,10 @@ void iDraw()
 		pointDraw();
 		clockDraw();
 		UIDraw();
+	}
+	else if (gameState == 5)
+	{
+		iShowBMP(0, 0, "Levels\\Game Over\\gameover.bmp");
 	}
 }
 //******************************************************************Useless **************************************************************************//
@@ -131,14 +157,23 @@ void objectCollsionCheck(int y)
 					{
 						//cout << "colliding with power = " << i << endl;
 						npc[objects[i].linkedObject].show = true;
+						if (npc[objects[i].linkedObject].objectType == "coin")
+						{
+							engine->play2D("Music/smb_coin.wav");
+						}
+						else if (npc[objects[i].linkedObject].objectType == "mushroom")
+						{
+							engine->play2D("Music/smb_powerup_appears.wav");
+						}
 						objects[i].type = "done";
 					}
 				}
-				if (objects[i].type == "brick")
+				else if (objects[i].type == "brick")
 				{
 					if (aabbCollisionMario(i, marioTrueX, marioY + y))
 					{
 						objects[i].show = false;
+						engine->play2D("Music/smb_breakblock.wav");
 						pointAdd(50);
 					}
 				}
@@ -172,6 +207,9 @@ void loadLevel()
 	brickTexture = iLoadImage("Objects\\Brick\\brick.bmp");
 	powerTexture = iLoadImage("Objects\\Brick\\power.bmp");
 	doneTexture = iLoadImage("Objects\\Brick\\done.bmp");
+	brickTexture2 = iLoadImage("Objects\\Brick\\brick2.bmp");
+	powerTexture2 = iLoadImage("Objects\\Brick\\power2.bmp");
+	doneTexture2 = iLoadImage("Objects\\Brick\\done2.bmp");
 }
 
 bool ground()
@@ -448,12 +486,12 @@ void gravity()
 {
 	if (jump)
 	{
-		if (jumpDistance + 10 <= jumpLimit && jumpUp)
+		if (jumpDistance + 12 <= jumpLimit && jumpUp)
 		{
-			jumpDistance += 10;
-			if (!marioCollision(0, 10))
+			jumpDistance += 12;
+			if (!marioCollision(0, 12))
 			{
-				objectCollsionCheck(10);
+				objectCollsionCheck(12);
 				jumpUp = false;
 			}
 		}
@@ -461,11 +499,10 @@ void gravity()
 		{
 			jumpDistance = 0;
 			jumpUp = false;
-			marioCollision(0, -10);
+			marioCollision(0, -12);
 			if (ground())
 			{
 				jump = false;
-				//marioIndex = 0;
 			}
 		}
 	}
@@ -478,26 +515,45 @@ void loadLevel1(){
 	setObjects();
 	setEnemy();
 	setNpc();
-	changeTimer = iSetTimer(100, change);
-	gravityTimer = iSetTimer(16, gravity);
-	fourmsTimer = iSetTimer(4, fourms);
-	iSetTimer(800, fireCheck);
-	clockTimer = iSetTimer(1000, gameClock);
+	if (!changeTimer)
+	{
+		changeTimer = iSetTimer(100, change);
+	}
+	else
+	{
+		iResumeTimer(changeTimer);
+	}
+	if (!fourmsTimer)
+	{
+		fourmsTimer = iSetTimer(4, fourms);
+	}
+	else
+	{
+		iResumeTimer(fourmsTimer);
+	}
+	if (!fireCheckTimer)
+	{
+		fireCheckTimer = iSetTimer(800, fireCheck);
+	}
+	else
+	{
+		iResumeTimer(fireCheckTimer);
+	}
+	if (!clockTimer)
+	{
+		clockTimer = iSetTimer(1000, gameClock);
+	}
+	else
+	{
+		iResumeTimer(clockTimer);
+	}
+	createSoundEngine();
 }
 void fourms(){
 	npcCollision();
 	fireCollision();
+	gravity();
 	enemyCollision();
-}
-void death()
-{
-	marioIndex = 5;
-	iPauseTimer(checkInputTimer);
-	iPauseTimer(gravityTimer);
-	iPauseTimer(fourmsTimer);
-	iPauseTimer(changeTimer);
-	iPauseTimer(clockTimer);
-	restart();
 }
 void pointAdd(int x)
 {
@@ -530,12 +586,18 @@ void clockDraw()
 	int temp2;
 	int x = 892;
 	int y = 832;
-	for (int i = 0; temp != 0; i++)
+	int i;
+	for (i = 0; temp != 0; i++)
 	{
 		temp2 = temp % 10;
 		iShowBMP2(x, y, number[temp2], 0);
 		x -= 32;
 		temp = temp / 10;
+	}
+	for (int j = 3 - i; j != 0; j--)
+	{
+		iShowBMP2(x, y, number[0], 0);
+		x -= 32;
 	}
 }
 void UIDraw()
@@ -557,7 +619,6 @@ void restart()
 	jump = false;
 	pos = false;
 	ahead = true;
-	objectCount = 78;
 	marioHeight = 64;
 	marioWidth = 48;
 	marioMove = false;
@@ -566,31 +627,43 @@ void restart()
 	levelY = 0;
 	marioTrueX = 200;
 	marioX = 200;
-	marioY = 128; //default 128
+	marioY = 128; 
 	jumpDistance = 0;
-	enemyCount = 17;
-	npcCount = 13;
 	marioPowerState = 0;
 	fired = false;
 	fireCount = 0;
-	for (int i = 0; i < 10; i++)
-	{
-		encounter[i] = false;
-	}
-	setObjects();
-	setEnemy();
-	setNpc();
 	clockTime = 150;
+	if (currentLevel == 1)
+	{
+		objectCount = 78;
+		enemyCount = 17;
+		npcCount = 13;
+		for (int i = 0; i < 10; i++)
+		{
+			encounter[i] = false;
+		}
+		setObjects();
+		setEnemy();
+		setNpc();
+	}
+	else if (currentLevel == 2)
+	{
+		objectCount = 278;
+		enemyCount = 0;
+		npcCount = 0;
+		setObjects2();
+	}
 	iResumeTimer(checkInputTimer);
-	iResumeTimer(gravityTimer);
 	iResumeTimer(fourmsTimer);
 	iResumeTimer(changeTimer);
 	iResumeTimer(clockTimer);
+	engine->play2D("Music/smb_overworld.wav");
 }
+
 void loadLevel2()
 {
+	currentLevel = 2;
 	iPauseTimer(checkInputTimer);
-	iPauseTimer(gravityTimer);
 	iPauseTimer(fourmsTimer);
 	iPauseTimer(changeTimer);
 	iPauseTimer(clockTimer);
@@ -598,13 +671,13 @@ void loadLevel2()
 	jump = false;
 	pos = false;
 	ahead = true;
-	objectCount = 1;
+	objectCount = 278;
 	marioMove = false;
 	levelX = 0;
 	levelY = 0;
 	marioTrueX = 200;
 	marioX = 200;
-	marioY = 128; //default 128
+	marioY = 880; //default 128
 	jumpDistance = 0;
 	enemyCount = 0;
 	npcCount = 0;
@@ -615,10 +688,207 @@ void loadLevel2()
 	cout << levelX << endl;
 	cout << levelY << endl;
 	iResumeTimer(checkInputTimer);
-	iResumeTimer(gravityTimer);
 	iResumeTimer(fourmsTimer);
 	iResumeTimer(changeTimer);
 	iResumeTimer(clockTimer);
+	engine->play2D("Music/smb_underground.wav");
+}
+void death()
+{
+	marioLife -= 1;
+	marioIndex = 5;
+	engine->stopAllSounds();
+	engine->play2D("Music/smb_mariodie.wav");
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
+	storedMarioY = marioY;
+	if (marioLife > 0)
+	{
+		animationCall("death");
+	}
+	else
+	{
+		animationCall("gameover");
+	}
+	
+}
+void animationCall(string x){
+	animationState = x;
+	capturedTime = relativeTime;
+	if (!animationTimer)
+	{
+		animationTimer = iSetTimer(10, animation);
+	}
+	else
+	{
+		iResumeTimer(animationTimer);
+	}
+}
+void animation(){
+	if (animationState == "death")
+	{
+		if ((!deathHeightReached) && (storedMarioY + 600 > marioY))
+		{
+			marioY += 10;
+			if (storedMarioY + 600 <= marioY)
+			{
+				deathHeightReached = true;
+			}
+		}
+		else if (marioY > -300)
+		{
+			marioY -= 10;
+		}
+		else
+		{
+			iPauseTimer(animationTimer);
+			animationState = "";
+			deathHeightReached = false;
+			restart();
+		}
+	}
+	else if (animationState == "levelEnd")
+	{
+		if (!levelEnd_ground){
+			marioCollision(0, -5);
+			cout << marioY << endl;
+			if (marioY == 192)
+			{
+				levelEnd_ground = true;
+			}
+		}
+		else
+		{
+			if (!levelboundreached)
+			{
+				marioCollision(5, -5);
+			}
+			else
+			{
+				if (marioX < 550)
+				{
+					marioX += 5;
+				}
+				else
+				{
+					marioX = 2000;
+				}
+			}
+		}
+		if (clockTime > 0)
+		{
+			clockTime -= 1;
+			point += 50;
+		}
+		if (capturedTime + 7 < relativeTime)
+		{
+			cout << "loading level 2" << endl;
+			iPauseTimer(animationTimer);
+			animationState = "";
+			loadLevel2();
+		}
+	}
+	else if (animationState == "gameover")
+	{
+		if ((!deathHeightReached) && (storedMarioY + 600 > marioY))
+		{
+			marioY += 10;
+			if (storedMarioY + 600 <= marioY)
+			{
+				deathHeightReached = true;
+			}
+		}
+		else if (marioY > -300)
+		{
+			marioY -= 10;
+		}
+		else
+		{
+			//iPauseTimer(animationTimer);
+			//animationState = "";
+			deathHeightReached = false;
+			gameState = 5;
+			animationState = "gameover-screen";
+			engine->play2D("Music/smb_gameover.wav");
+			capturedTime = relativeTime;
+		}
+	}
+	else if (animationState == "gameover-screen")
+	{
+		if (capturedTime + 5 < relativeTime)
+		{
+			iPauseTimer(animationTimer);
+			animationState = "";
+			gameState = 1;
+			resetAll();
+		}
+	}
+}
+void resetAll(){
+	jumpUp = false;
+	jump = false;
+	jumpLimit = 300;
+	pos = false;
+	objectCount = 78;
+	marioHeight = 64;
+	marioWidth = 48;
+	marioMove = false;
+	marioIndex = 0;
+	levelX = 0;
+	levelY = 0;
+	loadFlag = 1;
+	marioTrueX = 200;
+	marioX = 200;
+	marioY = 128; 
+	screenWidth = 1024;
+	screenHeight = 960;
+	jumpDistance = 0;
+	enemyCount = 17;
+	gameState = 1;
+	npcCount = 13;
+	marioPowerState = 0;
+	fired = false;
+	fireCount = 0;
+	for (int i = 0; i < 10; i++)
+	{
+		encounter[i] = false;
+	}
+	point = 0;
+	clockTime = 150;
+	cursorX = 320;
+	cursorY = 380;
+	cursorPosition = 1;
+	ahead = true;
+	currentLevel = 1;
+	deathHeightReached = false;
+	animationState = "";
+	levelEnd_ground = false;
+	levelEndFlag = false;
+	levelboundreached = false;
+	relativeTime = 0;
+	marioLife = 3;
+	iResumeTimer(checkInputTimer);
+}
+void levelEnd(){
+	
+	if (marioPowerState == 0)
+		marioIndex = 0;
+	else if (marioPowerState == 1)
+		marioIndex = 6;
+	else if (marioPowerState == 2)
+		marioIndex = 11;
+	engine->stopAllSounds();
+	engine->play2D("Music/smb_stage_clear.wav");
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
+	animationCall("levelEnd");
+}
+void gameTime(){
+	relativeTime += 1;
 }
 //*******************************************************************main***********************************************************************//
 int main()
@@ -626,6 +896,7 @@ int main()
 	setInput();
 	iSetTimer(1, winInput);
 	checkInputTimer = iSetTimer(8, checkInput);
+	iSetTimer(1000, gameTime);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
 	loadLevel();
 	iStart();
