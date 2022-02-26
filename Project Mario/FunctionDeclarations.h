@@ -1,5 +1,5 @@
 //*******************************************************************Function Declarations*********************************************************************//
-void loadLevel();
+void loadTexture();
 void setInput();
 void change();
 void winInput();

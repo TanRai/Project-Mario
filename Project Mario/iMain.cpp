@@ -200,7 +200,7 @@ void levelScroll()
 		fireObjects[i].x--;
 	}
 }
-void loadLevel()
+void loadTexture()
 {
 	levelTexture = iLoadImage("Levels\\World 1-1\\Background.png");
 	level2Texture = iLoadImage("Levels\\World 1-2\\Level 2.png");
@@ -719,7 +719,7 @@ void animationCall(string x){
 	capturedTime = relativeTime;
 	if (!animationTimer)
 	{
-		animationTimer = iSetTimer(10, animation);
+		animationTimer = iSetTimer(10, animation);/////
 	}
 	else
 	{
@@ -898,7 +898,7 @@ int main()
 	checkInputTimer = iSetTimer(8, checkInput);
 	iSetTimer(1000, gameTime);
 	iInitialize(screenWidth, screenHeight, "Project Mario");
-	loadLevel();
+	loadTexture();
 	iStart();
 	return 0;
 }
