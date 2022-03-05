@@ -119,6 +119,7 @@ void iDraw()
 	{
 		iShowBMP(0, 0, "Levels\\Game Over\\gameover.bmp");
 	}
+	cout << marioLife << endl;
 }
 //******************************************************************Useless **************************************************************************//
 void iMouseMove(int mx, int my)

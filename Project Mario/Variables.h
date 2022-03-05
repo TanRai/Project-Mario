@@ -106,7 +106,7 @@ int currentLevel = 1;
 irrklang::ISoundEngine* engine;
 int storedMarioY;
 bool deathHeightReached = false;
-string animationState = "death";
+string animationState = "";
 bool levelEnd_ground = false;
 bool levelEndFlag = false;
 bool levelboundreached = false;

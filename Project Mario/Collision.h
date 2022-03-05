@@ -51,7 +51,6 @@ bool detectCollision(int x, int y)
 		{
 			if (aabbCollisionMario(i, x, y))
 			{
-				cout << "colliding with object = " << i << endl;
 				return true;
 			}
 		}
@@ -94,7 +93,7 @@ void marioLevelBound(int x, int y)
 	{
 		marioY += y;
 	}
-	if (marioY <= 0)
+	if (marioY <= 0 && animationState == "")
 	{
 		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		death();
