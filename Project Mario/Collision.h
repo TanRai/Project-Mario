@@ -51,6 +51,9 @@ bool detectCollision(int x, int y)
 		{
 			if (aabbCollisionMario(i, x, y))
 			{
+				cout << "colliding with object = " << i << endl;
+				cout << "mario x = " << marioTrueX << " mario y = " << marioY << endl;
+				cout << "levelx = " << levelX << endl;
 				return true;
 			}
 		}

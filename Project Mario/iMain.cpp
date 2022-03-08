@@ -40,7 +40,7 @@ void iDraw()
 		}
 		else if (currentLevel == 2)
 		{
-			iShowImage(levelX, levelY, 12228, 960, level2Texture);
+			iShowImage(levelX, levelY, 11328, 960, level2Texture);
 		}
 		iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
 		for (int i = 0; i < enemyCount; i++)
@@ -119,7 +119,6 @@ void iDraw()
 	{
 		iShowBMP(0, 0, "Levels\\Game Over\\gameover.bmp");
 	}
-	cout << marioLife << endl;
 }
 //******************************************************************Useless **************************************************************************//
 void iMouseMove(int mx, int my)
@@ -672,7 +671,7 @@ void loadLevel2()
 	jump = false;
 	pos = false;
 	ahead = true;
-	objectCount = 278;
+	objectCount = 288;
 	marioMove = false;
 	levelX = 0;
 	levelY = 0;
