@@ -51,9 +51,7 @@ bool detectCollision(int x, int y)
 		{
 			if (aabbCollisionMario(i, x, y))
 			{
-				cout << "colliding with object = " << i << endl;
-				cout << "mario x = " << marioTrueX << " mario y = " << marioY << endl;
-				cout << "levelx = " << levelX << endl;
+				cout << "colliding with i = " << i << endl;
 				return true;
 			}
 		}
@@ -81,15 +79,44 @@ void marioLevelBound(int x, int y)
 	}
 	else if (marioX + x == 329)
 	{
-		if (13504 + levelX - screenWidth - x >= 0)
+		if (currentLevel == 1)
 		{
-			levelX = levelX - x;
-			marioTrueX += x;
-			levelScroll();
+			if (13504 + levelX - screenWidth - x >= 0)
+			{
+				levelX = levelX - x;
+				marioTrueX += x;
+				levelScroll();
+			}
+			else
+			{
+				levelboundreached = true;
+			}
+		}
+		else if (currentLevel == 3)
+		{
+			if (2240 + levelX - screenWidth - x >= 0)
+			{
+				levelX = levelX - x;
+				marioTrueX += x;
+				levelScroll();
+			}
+			else
+			{
+				levelboundreached = true;
+			}
 		}
 		else
 		{
-			levelboundreached = true;
+			if (13504 + levelX - screenWidth - x >= 0)
+			{
+				levelX = levelX - x;
+				marioTrueX += x;
+				levelScroll();
+			}
+			else
+			{
+				levelboundreached = true;
+			}
 		}
 	}
 	if (marioY + y >= 0) //&& marioY + y <= 856)
@@ -101,7 +128,12 @@ void marioLevelBound(int x, int y)
 		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		death();
 	}
-	if (marioTrueX > 12672 && !levelEndFlag)
+	if (marioTrueX > 12672 && !levelEndFlag  && currentLevel == 1)
+	{
+		levelEndFlag = true;
+		levelEnd();
+	}
+	if (marioTrueX > 1408 && !levelEndFlag  && currentLevel == 3)
 	{
 		levelEndFlag = true;
 		levelEnd();
@@ -349,4 +381,22 @@ bool aabbCollisionEnemy(int e, int o, int x, int y)
 		return false;
 	}
 	return true;
+}
+void coinCollision()
+{
+	if (currentLevel == 2)
+	{
+		for (int i = 0; i < 17; i++)
+		{
+			if (!((coins[i].levelX > marioTrueX + marioWidth) || (coins[i].levelX + coins[i].width < marioTrueX) || (coins[i].levelY > marioY + marioHeight) || (coins[i].levelY + coins[i].height < marioY)))
+			{
+				if (coins[i].show == true)
+				{
+					coins[i].show = false;
+					engine->play2D("Music/smb_coin.wav");
+					pointAdd(200);
+				}
+			}
+		}
+	}
 }

@@ -40,3 +40,5 @@ void animation();
 void animationCall(string x);
 void levelEnd();
 void resetAll();
+void loadLevel3();
+void elevateMario();

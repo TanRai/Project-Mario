@@ -220,11 +220,11 @@ void setObjects2()
 	objects[136] = { 8064, 0, 8064, 0, 767, 127, "floor", true, -1 };
 	objects[137] = { 9280, 0, 9280, 0, 511, 127, "floor", true, -1 };
 	objects[138] = { 10240, 0, 10240, 0, 1087, 319, "floor", true, -1 };
-	objects[139] = { 640, 320, 640, 320, 63, 63, "power", true, -1 };
-	objects[140] = { 704, 320, 704, 320, 63, 63, "power", true, -1 };
-	objects[141] = { 768, 320, 768, 320, 63, 63, "power", true, -1 };
-	objects[142] = { 832, 320, 832, 320, 63, 63, "power", true, -1 };
-	objects[143] = { 896, 320, 896, 320, 63, 63, "power", true, -1 };
+	objects[139] = { 640, 320, 640, 320, 63, 63, "power", true, 0 };
+	objects[140] = { 704, 320, 704, 320, 63, 63, "power", true, 1 };
+	objects[141] = { 768, 320, 768, 320, 63, 63, "power", true, 2 };
+	objects[142] = { 832, 320, 832, 320, 63, 63, "power", true, 3 };
+	objects[143] = { 896, 320, 896, 320, 63, 63, "power", true, 4 };
 	objects[144] = { 1216, 128, 1216, 1128, 59, 127, "rock", true, -1 };
 	objects[145] = { 1344, 128, 1344, 128, 59, 191, "rock", true, -1 };
 	objects[146] = { 1472, 128, 1472, 128, 59, 255, "rock", true, -1 };
@@ -369,7 +369,88 @@ void setObjects2()
 	objects[285] = { 1088, 128, 1088, 128, 59, 63, "rock", true, -1 };
 	objects[286] = { 1216, 128, 1216, 128, 59, 127, "rock", true, -1 };
 	objects[287] = { 10624, 768, 10624, 768, 127, 63, "rock", true, -1 };
+	objects[288] = { 8944, 476, 8944, 476, 191, 31, "ladder", true, -1 };
+	objects[289] = { 8944, 92, 8944, 92, 191, 31, "ladder", true, -1 };
+	objects[290] = { 9904, 348, 9904, 348, 191, 31, "ladder", true, -1 };
+	objects[291] = { 9904, 860, 9904, 860, 191, 31, "ladder", true, -1 };
 
+}
+void setObjects3()
+{
+	objects[0] = { 0, 0, 0, 0, 2239, 127, "floor", true, -1 };
+	objects[1] = { 192, 128, 192, 128, 127, 127, "pipe", true, -1 };
+	objects[2] = { 576, 128, 576, 128, 319, 319, "rock", true, -1 };
+	objects[3] = { 512, 128, 512, 128, 63, 255, "rock", true, -1 };
+	objects[4] = { 448, 128, 448, 128, 63, 191, "rock", true, -1 };
+	objects[5] = { 384, 128, 384, 128, 63, 127, "rock", true, -1 };
+	objects[6] = { 320, 128, 320, 128, 63, 63, "rock", true, -1 };
+	objects[7] = { 640, 448, 640, 448, 255, 63, "rock", true, -1 };
+	objects[8] = { 704, 512, 704, 512, 191, 63, "rock", true, -1 };
+	objects[9] = { 768, 576, 768, 576, 127, 63, "rock", true, -1 };
+	objects[10] = { 1408, 128, 1408, 128, 63, 63, "rock", true, -1 };
+}
+void setObjects4()
+{
+	objects[0] = { 0, 0, 0, 0, 191, 511, "floor", true, -1 };
+	objects[1] = { 192, 0, 192, 0, 63, 447, "floor", true, -1 };
+	objects[2] = { 256, 0, 256, 0, 63, 383, "floor", true, -1 };
+	objects[3] = { 320, 0, 320, 0, 511, 319, "floor", true, -1 };
+	objects[4] = { 960, 0, 960, 0, 703, 319, "floor", true, -1 };
+	objects[5] = { 1856, 0, 1856, 0, 191, 319, "floor", true, -1 };
+	objects[6] = { 2240, 0, 2240, 0, 2367, 383, "floor", true, -1 };
+	objects[7] = { 4608, 0, 4608, 0, 2047, 319, "floor", true, -1 };
+	objects[8] = { 4864, 320, 4864, 320, 63, 63, "floor", true, -1 };
+	objects[9] = { 5376, 320, 5376, 320, 63, 63, "floor", true, -1 };
+	objects[10] = { 5888, 320, 5888, 320, 63, 63, "floor", true, -1 };
+	objects[11] = { 6656, 0, 6656, 0, 767, 127, "floor", true, -1 };
+	objects[12] = { 7424, 0, 7424, 0, 255, 319, "floor", true, -1 };
+	objects[13] = { 7680, 0, 7680, 0, 191, 127, "floor", true, -1 };
+	objects[14] = { 7872, 0, 7872, 0, 319, 319, "floor", true, -1 };
+	objects[15] = { 9024, 0, 9024, 0, 191, 383, "floor", true, -1 };
+	objects[16] = { 9216, 0, 9216, 0, 1023, 127, "floor", true, -1 };
+	objects[17] = { 0, 640, 0, 640, 1535, 191, "floor", true, -1 };
+	objects[18] = { 1472, 512, 1472, 512, 63, 127, "floor", true, -1 };
+	objects[19] = { 1536, 768, 1536, 768, 831, 63, "floor", true, -1 };
+	objects[20] = { 2368, 576, 2368, 576, 2239, 255, "floor", true, -1 };
+	objects[21] = { 4608, 768, 4608, 768, 1599, 63, "floor", true, -1 };
+	objects[22] = { 6208, 640, 6208, 640, 447, 191, "floor", true, -1 };
+	objects[23] = { 6656, 768, 6656, 768, 1215, 63, "floor", true, -1 };
+	objects[24] = { 7872, 640, 7872, 640, 319, 191, "floor", true, -1 };
+	objects[25] = { 8192, 768, 8192, 768, 895, 63, "floor", true, -1 };
+	objects[26] = { 9088, 576, 9088, 576, 127, 255, "floor", true, -1 };
+	objects[27] = { 9216, 768, 9216, 768, 1023, 63, "floor", true, -1 };
+	objects[28] = { 1920, 512, 1920, 512, 63, 63, "power", true, 0 };
+	objects[29] = { 2368, 512, 2368, 512, 63, 63, "floor", true, -1 };
+	objects[30] = { 3136, 512, 3136, 512, 63, 63, "floor", true, -1 };
+	objects[31] = { 3840, 512, 3840, 512, 63, 63, "floor", true, -1 };
+	objects[32] = { 4288, 512, 4288, 512, 63, 63, "floor", true, -1 };
+	objects[33] = { 4864, 320, 4864, 320, 63, 63, "floor", true, -1 };
+	objects[34] = { 5376, 320, 5376, 320, 63, 63, "floor", true, -1 };
+	objects[35] = { 5888, 320, 5888, 320, 63, 63, "floor", true, -1 };
+	objects[36] = { 5120, 640, 5120, 640, 63, 511, "floor", true, -1 };
+	objects[37] = { 5632, 640, 5632, 640, 63, 511, "floor", true, -1 };
+	objects[38] = { 8192, 256, 8192, 256, 831, 63, "floor", true, -1 };
+	
+}
+void setCoins()
+{
+	coins[0] = { 2572, 385, 2572, 385, 39, 63, true };
+	coins[1] = { 2636, 577, 2636, 577, 39, 63, true };
+	coins[2] = { 2700, 577, 2700, 577, 39, 63, true };
+	coins[3] = { 2764, 577, 2764, 577, 39, 63, true };
+	coins[4] = { 2828, 577, 2828, 577, 39, 63, true };
+	coins[5] = { 2892, 385, 2892, 385, 39, 63, true };
+	coins[6] = { 3724, 385, 3724, 385, 39, 63, true };
+	coins[7] = { 3788, 385, 3788, 385, 39, 63, true };
+	coins[8] = { 3852, 385, 3852, 385, 39, 63, true };
+	coins[9] = { 3916, 385, 3916, 385, 39, 63, true };
+	coins[10] = { 4364, 385, 4364, 385, 39, 63, true };
+	coins[11] = { 5388, 577, 5388, 577, 39, 63, true };
+	coins[12] = { 5452, 577, 5452, 577, 39, 63, true };
+	coins[13] = { 5516, 577, 5516, 577, 39, 63, true };
+	coins[14] = { 5580, 577, 5580, 577, 39, 63, true };
+	coins[15] = { 5644, 577, 5644, 577, 39, 63, true };
+	coins[16] = { 5708, 577, 5708, 577, 39, 63, true };
 }
 void setEnemy()
 {
@@ -391,64 +472,156 @@ void setEnemy()
 	enemyObjects[15] = { 11254, 128, 11254, 128, 63, 63, -2, false };
 	enemyObjects[16] = { 11370, 128, 11370, 128, 63, 63, -2, false };
 }
+void setEnemy2()
+{
+	enemyObjects[0] = { 700, 128, 700, 128, 63, 63, -2, false };
+	enemyObjects[1] = { 765, 128, 765, 128, 63, 63, -2, false };
+	enemyObjects[2] = { 1820, 128, 1820, 128, 63, 63, -2, false };
+	enemyObjects[3] = { 2900, 128, 2900, 128, 63, 63, -2, false };
+	enemyObjects[4] = { 3000, 128, 3000, 128, 63, 63, -2, false };
+	enemyObjects[5] = { 3700, 128, 3700, 128, 63, 63, -2, false };
+	enemyObjects[6] = { 3950, 128, 3950, 128, 63, 63, -2, false };
+	enemyObjects[7] = { 4050, 128, 4050, 128, 63, 63, -2, false };
+	enemyObjects[8] = { 4600, 128, 4600, 128, 63, 63, -2, false };
+	enemyObjects[9] = { 4900, 128, 4900, 128, 63, 63, -2, false };
+	enemyObjects[10] = { 4965, 128, 4965, 128, 63, 63, -2, false };
+	enemyObjects[11] = { 6400, 128, 6400, 128, 63, 63, -2, false };
+	enemyObjects[12] = { 6500, 128, 6500, 128, 63, 63, -2, false };
+	enemyObjects[13] = { 6800, 128, 6800, 128, 63, 63, -2, false };
+	enemyObjects[14] = { 7200, 128, 7200, 128, 63, 63, -2, false };
+	enemyObjects[15] = { 8600, 128, 8600, 128, 63, 63, -2, false };
+}
 void encounterCheck()
 {
-	if (marioTrueX > 548 && !encounter[0])
+	if (currentLevel == 1)
 	{
-		encounter[0] = true;
-		enemyObjects[0].alive = true;
+		if (marioTrueX > 548 && !encounter[0])
+		{
+			encounter[0] = true;
+			enemyObjects[0].alive = true;
+		}
+		if (marioTrueX > 548 && !encounter[1])
+		{
+			encounter[1] = true;
+			enemyObjects[1].alive = true;
+		}
+		if (marioTrueX > 548 && !encounter[2])
+		{
+			encounter[2] = true;
+			enemyObjects[2].alive = true;
+			enemyObjects[3].alive = true;
+		}
+		if (marioTrueX > 4363 && !encounter[3])
+		{
+			encounter[3] = true;
+			enemyObjects[4].alive = true;
+			enemyObjects[5].alive = true;
+		}
+		if (marioTrueX > 5699 && !encounter[4])
+		{
+			encounter[4] = true;
+			enemyObjects[6].alive = true;
+			enemyObjects[7].alive = true;
+		}
+		if (marioTrueX > 6114 && !encounter[5])
+		{
+			encounter[5] = true;
+			enemyObjects[8].alive = true;
+		}
+		if (marioTrueX > 6716 && !encounter[6])
+		{
+			encounter[6] = true;
+			enemyObjects[9].alive = true;
+			enemyObjects[10].alive = true;
+		}
+		if (marioTrueX > 7360 && !encounter[7])
+		{
+			encounter[7] = true;
+			enemyObjects[11].alive = true;
+			enemyObjects[12].alive = true;
+		}
+		if (marioTrueX > 7572 && !encounter[8])
+		{
+			encounter[8] = true;
+			enemyObjects[13].alive = true;
+			enemyObjects[14].alive = true;
+		}
+		if (marioTrueX > 10604 && !encounter[9])
+		{
+			encounter[9] = true;
+			enemyObjects[15].alive = true;
+			enemyObjects[16].alive = true;
+		}
 	}
-	if (marioTrueX > 548 && !encounter[1])
+	else if (currentLevel == 2)
 	{
-		encounter[1] = true;
-		enemyObjects[1].alive = true;
-	}
-	if (marioTrueX > 548 && !encounter[2])
-	{
-		encounter[2] = true;
-		enemyObjects[2].alive = true;
-		enemyObjects[3].alive = true;
-	}
-	if (marioTrueX > 4363 && !encounter[3])
-	{
-		encounter[3] = true;
-		enemyObjects[4].alive = true;
-		enemyObjects[5].alive = true;
-	}
-	if (marioTrueX > 5699 && !encounter[4])
-	{
-		encounter[4] = true;
-		enemyObjects[6].alive = true;
-		enemyObjects[7].alive = true;
-	}
-	if (marioTrueX > 6114 && !encounter[5])
-	{
-		encounter[5] = true;
-		enemyObjects[8].alive = true;
-	}
-	if (marioTrueX > 6716 && !encounter[6])
-	{
-		encounter[6] = true;
-		enemyObjects[9].alive = true;
-		enemyObjects[10].alive = true;
-	}
-	if (marioTrueX > 7360 && !encounter[7])
-	{
-		encounter[7] = true;
-		enemyObjects[11].alive = true;
-		enemyObjects[12].alive = true;
-	}
-	if (marioTrueX > 7572 && !encounter[8])
-	{
-		encounter[8] = true;
-		enemyObjects[13].alive = true;
-		enemyObjects[14].alive = true;
-	}
-	if (marioTrueX > 10604 && !encounter[9])
-	{
-		encounter[9] = true;
-		enemyObjects[15].alive = true;
-		enemyObjects[16].alive = true;
+		if (marioTrueX > 100 && !encounter[0])
+		{
+			encounter[0] = true;
+			
+			enemyObjects[0].alive = true;
+			enemyObjects[1].alive = true;
+		}
+		if (marioTrueX > 1000 && !encounter[1])
+		{
+			encounter[1] = true;
+			enemyObjects[2].alive = true;
+		}
+		if (marioTrueX > 2208 && !encounter[2])
+		{
+			encounter[2] = true;
+			enemyObjects[3].alive = true;
+			enemyObjects[4].alive = true;
+		}
+		if (marioTrueX > 2967 && !encounter[3])
+		{
+			encounter[3] = true;
+			enemyObjects[5].alive = true;
+		}
+		if (marioTrueX > 3240 && !encounter[4])
+		{
+			encounter[4] = true;
+			enemyObjects[6].alive = true;
+		}
+		if (marioTrueX > 3337 && !encounter[5])
+		{
+			encounter[5] = true;
+			enemyObjects[7].alive = true;
+			
+		}
+		if (marioTrueX > 3916 && !encounter[6])
+		{
+			encounter[6] = true;
+			enemyObjects[8].alive = true;
+			
+		}
+		if (marioTrueX > 4205 && !encounter[7])
+		{
+			encounter[7] = true;
+			enemyObjects[9].alive = true;
+			enemyObjects[10].alive = true;
+			
+		}
+		if (marioTrueX > 5747 && !encounter[8])
+		{
+			encounter[8] = true;
+			enemyObjects[11].alive = true;
+			enemyObjects[12].alive = true;
+			enemyObjects[13].alive = true;
+			
+		}
+		if (marioTrueX > 6592 && !encounter[9])
+		{
+			encounter[9] = true;
+			enemyObjects[14].alive = true;
+			
+		}
+		if (marioTrueX > 8085 && !encounter[9])
+		{
+			encounter[10] = true;
+			enemyObjects[15].alive = true;
+			enemyObjects[16].alive = true;
+		}
 	}
 }
 void setNpc()
@@ -466,4 +639,16 @@ void setNpc()
 	npc[10] = { 8256, 577, 8256, 577, 61, 61, 0, 3, false, "coin" };
 	npc[11] = { 8320, 577, 8320, 577, 61, 61, 0, 3, false, "coin" };
 	npc[12] = { 10880, 320, 10880, 320, 61, 61, 0, 3, false, "coin" };
+}
+void setNpc2()
+{
+	npc[0] = { 640, 321, 640, 321, 61, 61, 0, 3, false, "mushroom" };
+	npc[1] = { 704, 321, 704, 321, 61, 61, 0, 3, false, "coin" };
+	npc[2] = { 768, 321, 768, 321, 61, 61, 0, 3, false, "coin" };
+	npc[3] = { 832, 321, 832, 321, 61, 61, 0, 3, false, "coin" };
+	npc[4] = { 896, 321, 896, 321, 61, 61, 0, 3, false, "coin" };
+}
+void setNpc3()
+{
+	npc[0] = { 1920, 513, 1920, 513, 61, 61, 0, 3, false, "mushroom" };
 }

@@ -41,6 +41,21 @@ void iDraw()
 		else if (currentLevel == 2)
 		{
 			iShowImage(levelX, levelY, 11328, 960, level2Texture);
+			for (int i = 0; i < 17; i++)
+			{
+				if (coins[i].show == true)
+				{
+					iShowBMP2(coins[i].x, coins[i].y, static_coin[0], 0);
+				}
+			}
+		}
+		else if (currentLevel == 3)
+		{
+			iShowImage(levelX, levelY, 2240, 960, level3Texture);
+		}
+		else if (currentLevel == 4)
+		{
+			iShowImage(levelX, levelY, 10240, 960, level4Texture);
 		}
 		iShowBMP2(marioX, marioY, Mario[marioIndex], 0);
 		for (int i = 0; i < enemyCount; i++)
@@ -98,6 +113,10 @@ void iDraw()
 					else if (objects[i].type == "done")
 					{
 						iShowImage(objects[i].x, objects[i].y, 64, 64, doneTexture2);
+					}
+					else if (objects[i].type == "ladder")
+					{
+						iShowImage(objects[i].x, objects[i].y, 192, 32, ladderTexture);
 					}
 				}
 			}
@@ -199,17 +218,24 @@ void levelScroll()
 	{
 		fireObjects[i].x--;
 	}
+	for (int i = 0; i < 17; i++)
+	{
+		coins[i].x--;
+	}
 }
 void loadTexture()
 {
 	levelTexture = iLoadImage("Levels\\World 1-1\\Background.png");
 	level2Texture = iLoadImage("Levels\\World 1-2\\Level 2.png");
+	level3Texture = iLoadImage("Levels\\World 1-2\\Level 2_2.png");
+	level4Texture = iLoadImage("Levels\\World 1-4\\Level 4.png");
 	brickTexture = iLoadImage("Objects\\Brick\\brick.bmp");
 	powerTexture = iLoadImage("Objects\\Brick\\power.bmp");
 	doneTexture = iLoadImage("Objects\\Brick\\done.bmp");
 	brickTexture2 = iLoadImage("Objects\\Brick\\brick2.bmp");
 	powerTexture2 = iLoadImage("Objects\\Brick\\power2.bmp");
 	doneTexture2 = iLoadImage("Objects\\Brick\\done2.bmp");
+	ladderTexture = iLoadImage("Objects\\Ladder\\ladder.bmp");
 }
 
 bool ground()
@@ -510,6 +536,37 @@ void gravity()
 	{
 		marioCollision(0, -10);
 	}
+	if (currentLevel == 2)
+	{
+		for (int i = 288; i <= 289; i++)
+		{
+			if (!((objects[i].levelX > marioTrueX + marioWidth) || (objects[i].levelX + objects[i].width < marioTrueX) || (objects[i].levelY > marioY + marioHeight) || (objects[i].levelY + objects[i].height < marioY - 1)))
+			{
+				marioY -= 4;
+			}
+			objects[i].y -= 4;
+			objects[i].levelY -= 4;
+			if (objects[i].y < -100)
+			{
+				objects[i].y = 1060;
+				objects[i].levelY = 1060;
+			}
+		}
+		for (int i = 290; i <= 291; i++)
+		{
+			objects[i].y += 4;
+			objects[i].levelY += 4;
+			if (!((objects[i].levelX > marioTrueX + marioWidth) || (objects[i].levelX + objects[i].width < marioTrueX) || (objects[i].levelY > marioY + marioHeight) || (objects[i].levelY + objects[i].height < marioY - 1)))
+			{
+				marioY += 4;
+			}
+			if (objects[i].y > 1060)
+			{
+				objects[i].y = -100;
+				objects[i].levelY = -100;
+			}
+		}
+	}
 }
 void loadLevel1(){
 	setObjects();
@@ -549,12 +606,26 @@ void loadLevel1(){
 	}
 	createSoundEngine();
 }
+void pipeDetect()
+{
+	if (currentLevel == 2)
+	{
+		if (aabbCollisionMario(138, marioTrueX, marioY - 1) && aabbCollisionMario(283, marioTrueX + 1, marioY))
+		{
+			cout << "KILLLLLLLLLL!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+			elevateMario();
+		}
+	}
+}
 void fourms(){
 	npcCollision();
 	fireCollision();
 	gravity();
 	enemyCollision();
+	coinCollision();
+	pipeDetect();
 }
+
 void pointAdd(int x)
 {
 	point += x;
@@ -619,7 +690,7 @@ void restart()
 	jump = false;
 	pos = false;
 	ahead = true;
-	marioHeight = 64;
+	marioHeight = 63;
 	marioWidth = 48;
 	marioMove = false;
 	marioIndex = 0;
@@ -645,23 +716,47 @@ void restart()
 		setObjects();
 		setEnemy();
 		setNpc();
+		engine->play2D("Music/smb_overworld.wav");
 	}
 	else if (currentLevel == 2)
 	{
-		objectCount = 278;
-		enemyCount = 0;
-		npcCount = 0;
+		setCoins();
+		objectCount = 292;
+		for (int i = 0; i < 11; i++)
+		{
+			encounter[i] = false;
+		}
+		enemyCount = 16;
+		npcCount = 5;
+		setEnemy2();
 		setObjects2();
+		setNpc2();
+		engine->play2D("Music/smb_underground.wav");
+	}
+	else if (currentLevel == 4)
+	{
+		objectCount = 39;
+		marioTrueX = 100;
+		marioX = 100;
+		marioY = 532; //default 128
+		enemyCount = 0;
+		npcCount = 1;
+		setNpc3();
+		setObjects4();
+		engine->play2D("Music/smb_castle.wav");
 	}
 	iResumeTimer(checkInputTimer);
 	iResumeTimer(fourmsTimer);
 	iResumeTimer(changeTimer);
 	iResumeTimer(clockTimer);
-	engine->play2D("Music/smb_overworld.wav");
+	
 }
 
 void loadLevel2()
 {
+	setCoins();
+	setEnemy2();
+	setNpc2();
 	currentLevel = 2;
 	iPauseTimer(checkInputTimer);
 	iPauseTimer(fourmsTimer);
@@ -671,7 +766,7 @@ void loadLevel2()
 	jump = false;
 	pos = false;
 	ahead = true;
-	objectCount = 288;
+	objectCount = 292;
 	marioMove = false;
 	levelX = 0;
 	levelY = 0;
@@ -679,12 +774,16 @@ void loadLevel2()
 	marioX = 200;
 	marioY = 880; //default 128
 	jumpDistance = 0;
-	enemyCount = 0;
-	npcCount = 0;
+	enemyCount = 16;
+	npcCount = 5;
 	fired = false;
 	fireCount = 0;
 	clockTime = 150;
 	setObjects2();
+	for (int i = 0; i < 11; i++)
+	{
+		encounter[i] = false;
+	}
 	cout << levelX << endl;
 	cout << levelY << endl;
 	iResumeTimer(checkInputTimer);
@@ -713,6 +812,42 @@ void death()
 		animationCall("gameover");
 	}
 	
+}
+void loadLevel4()
+{
+	currentLevel = 4;
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
+	jumpUp = false;
+	jump = false;
+	pos = false;
+	ahead = true;
+	objectCount = 39;
+	marioMove = false;
+	levelX = 0;
+	levelY = 0;
+	marioTrueX = 100;
+	marioX = 100;
+	marioY = 532; //default 128
+	jumpDistance = 0;
+	enemyCount = 0;
+	npcCount = 1;
+	fired = false;
+	fireCount = 0;
+	clockTime = 150;
+	setNpc3();
+	setObjects4();
+	for (int i = 0; i < 11; i++)
+	{
+		encounter[i] = false;
+	}
+	iResumeTimer(checkInputTimer);
+	iResumeTimer(fourmsTimer);
+	iResumeTimer(changeTimer);
+	iResumeTimer(clockTimer);
+	engine->play2D("Music/smb_castle.wav");
 }
 void animationCall(string x){
 	animationState = x;
@@ -787,7 +922,18 @@ void animation(){
 			cout << "loading level 2" << endl;
 			iPauseTimer(animationTimer);
 			animationState = "";
-			loadLevel2();
+			levelEnd_ground = false;
+			levelboundreached = false;
+			levelEndFlag = false;
+			if (currentLevel == 1)
+			{
+				loadLevel2();
+			}
+			else if (currentLevel == 3)
+			{
+				loadLevel4();
+			}
+			
 		}
 	}
 	else if (animationState == "gameover")
@@ -825,6 +971,45 @@ void animation(){
 			resetAll();
 		}
 	}
+	else if (animationState == "elevate")
+	{
+		if (capturedTime + 3 < relativeTime)
+		{
+			iPauseTimer(animationTimer);
+			animationState = "";
+			loadLevel3();
+		}
+	}
+}
+void loadLevel3()
+{
+	setObjects3();
+	currentLevel = 3;
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
+	jumpUp = false;
+	jump = false;
+	pos = false;
+	ahead = true;
+	objectCount = 11;
+	marioMove = false;
+	levelX = 0;
+	levelY = 0;
+	marioTrueX = 200;
+	marioX = 200;
+	marioY = 256; //default 128
+	jumpDistance = 0;
+	enemyCount = 0;
+	npcCount = 0;
+	fired = false;
+	fireCount = 0;
+	iResumeTimer(checkInputTimer);
+	iResumeTimer(fourmsTimer);
+	iResumeTimer(changeTimer);
+	iResumeTimer(clockTimer);
+	engine->play2D("Music/smb_overworld.wav");
 }
 void resetAll(){
 	jumpUp = false;
@@ -832,7 +1017,7 @@ void resetAll(){
 	jumpLimit = 300;
 	pos = false;
 	objectCount = 78;
-	marioHeight = 64;
+	marioHeight = 63;
 	marioWidth = 48;
 	marioMove = false;
 	marioIndex = 0;
@@ -886,6 +1071,17 @@ void levelEnd(){
 	iPauseTimer(changeTimer);
 	iPauseTimer(clockTimer);
 	animationCall("levelEnd");
+}
+void elevateMario()
+{
+	engine->stopAllSounds();
+	engine->play2D("Music/smb_pipe.wav");
+	iPauseTimer(checkInputTimer);
+	iPauseTimer(fourmsTimer);
+	iPauseTimer(changeTimer);
+	iPauseTimer(clockTimer);
+	marioX = 1200;
+	animationCall("elevate");
 }
 void gameTime(){
 	relativeTime += 1;

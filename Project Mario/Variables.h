@@ -17,6 +17,16 @@ struct levelObjects
 	bool show;
 	int linkedObject;
 }objects[300];
+struct staticCoin
+{
+	int x;
+	int y;
+	int levelX;
+	int levelY;
+	int width;
+	int height;
+	bool show;
+}coins[20];
 struct powerObjects{
 	int x;
 	int y;
@@ -67,7 +77,7 @@ bool jump = false;
 int jumpLimit = 300;
 bool pos = false;
 int objectCount = 78;
-int marioHeight = 64;
+int marioHeight = 63;
 int marioWidth = 48;
 bool marioMove = false;
 int marioIndex = 0;
@@ -95,7 +105,7 @@ int animationTimer;
 int fireCheckTimer;
 bool fired = false;
 int fireCount = 0;
-bool encounter[10] = { false, false, false, false, false, false, false, false, false, false};
+bool encounter[11] = { false, false, false, false, false, false, false, false, false, false,false};
 int point = 0;
 int clockTime = 150;
 int cursorX = 320;
@@ -126,8 +136,9 @@ unsigned int  doneTexture;
 unsigned int  brickTexture2;
 unsigned int  powerTexture2;
 unsigned int  doneTexture2;
-
-
+unsigned int  ladderTexture;
+unsigned int  level3Texture;
+unsigned int  level4Texture;
 
 char Mario[31][40] = { "Characters\\Mario\\A1.bmp", "Characters\\Mario\\A2.bmp", "Characters\\Mario\\A3.bmp", "Characters\\Mario\\A4.bmp", "Characters\\Mario\\A5.bmp", "Characters\\Mario\\A6.bmp", "Characters\\Big Mario\\A15.bmp", "Characters\\Big Mario\\A16.bmp", "Characters\\Big Mario\\A17.bmp", "Characters\\Big Mario\\A18.bmp", "Characters\\Big Mario\\A19.bmp", "Characters\\Fire Mario\\1.bmp", "Characters\\Fire Mario\\2.bmp", "Characters\\Fire Mario\\3.bmp", "Characters\\Fire Mario\\4.bmp", "Characters\\Fire Mario\\5.bmp", "Characters\\Inverse Mario\\A1.bmp", "Characters\\Inverse Mario\\A2.bmp", "Characters\\Inverse Mario\\A3.bmp", "Characters\\Inverse Mario\\A4.bmp", "Characters\\Inverse Mario\\A5.bmp", "Characters\\Inverse Big Mario\\A15.bmp", "Characters\\Inverse Big Mario\\A16.bmp", "Characters\\Inverse Big Mario\\A17.bmp", "Characters\\Inverse Big Mario\\A18.bmp", "Characters\\Inverse Big Mario\\A19.bmp","Characters\\Inverse Fire Mario\\1.bmp", "Characters\\Inverse Fire Mario\\2.bmp", "Characters\\Inverse Fire Mario\\3.bmp", "Characters\\Inverse Fire Mario\\4.bmp", "Characters\\Inverse Fire Mario\\5.bmp"};
 char goomba[3][35] = { "Characters\\Goomba\\g1.bmp", "Characters\\Goomba\\g2.bmp", "Characters\\Goomba\\g3.bmp" };
@@ -135,6 +146,7 @@ char mainMenu[1][40] = { " " };
 char mushroom[1][40] = { "Objects\\Mushroom\\mushroom.bmp" };
 char coin[1][40] = { "Objects\\Coin\\coin.bmp" };
 char fire[1][40] = { "Objects\\Fire\\fire.bmp" };
+char static_coin[1][40] = { "Objects\\Coin\\static_coin.bmp" };
 char number[10][40] = { "Font\\Numbers\\0.bmp", "Font\\Numbers\\1.bmp", "Font\\Numbers\\2.bmp", "Font\\Numbers\\3.bmp", "Font\\Numbers\\4.bmp", "Font\\Numbers\\5.bmp", "Font\\Numbers\\6.bmp", "Font\\Numbers\\7.bmp", "Font\\Numbers\\8.bmp", "Font\\Numbers\\9.bmp", };
 
 
