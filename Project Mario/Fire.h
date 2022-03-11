@@ -1,16 +1,18 @@
 void fireStart(int x, int y, int levelX, int levelY)
 {
-	//cout << "in FireStart" << endl;
 	fireObjects[fireCount].x = x;
 	fireObjects[fireCount].y = y;
 	fireObjects[fireCount].levelX = levelX;
 	fireObjects[fireCount].levelY = levelY;
-	//cout << fireObjects[fireCount].x << "                  " << fireObjects[fireCount].y << endl;
 	fireCount++;
 }
 void fireCheck()
 {
 	fired = false;
+	if (relativeTime % 5 == 0)
+	{
+		bossFired = false;
+	}
 }
 void fireCollision()
 {

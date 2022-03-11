@@ -72,10 +72,12 @@
     <ClCompile Include="iMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="FunctionDeclarations.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="LevelLoad.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="SetFunctions.h" />
     <ClInclude Include="Variables.h" />

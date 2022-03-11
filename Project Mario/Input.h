@@ -32,24 +32,25 @@ void checkInput()
 		{
 			if (cursorPosition == 1)
 			{
-				cout << "Entering" << endl;
 				gameState = 4;
 				loadLevel1();
 			}
 			else if (cursorPosition == 2)
 			{
-				cout << "Help" << endl;
 				gameState = 2;
 			}
 			else if (cursorPosition == 3)
 			{
-				cout << "Credits" << endl;
 				gameState = 3;
+			}
+			else if (cursorPosition == 4)
+			{
+				gameState = 6;
 			}
 		}
 		if (m_keys[0x28].bPressed == true)
 		{
-			if (cursorPosition < 3)
+			if (cursorPosition < 4)
 			{
 				cursorPosition += 1;
 				cursorY -= 68;
@@ -72,6 +73,13 @@ void checkInput()
 		}
 	}
 	if (gameState == 3)
+	{
+		if (m_keys[0x1B].bPressed == true)
+		{
+			gameState = 1;
+		}
+	}
+	if (gameState == 6)
 	{
 		if (m_keys[0x1B].bPressed == true)
 		{
@@ -104,19 +112,6 @@ void checkInput()
 		{
 			marioCollision(-1, 0);
 		}
-		if (m_keys[0x57].bHeld == true)
-		{
-			marioCollision(0, 30);
-		}
-		if (m_keys[0x53].bHeld == true)
-		{
-			marioCollision(0, -10);
-		}
-		if (m_keys[0x4C].bHeld == true)
-		{
-			marioCollision(50,0);
-		}
-
 		if (m_keys[0x20].bPressed == true)
 		{
 			if (!jump)
@@ -137,7 +132,7 @@ void checkInput()
 				if (fired == false)
 				{
 					fired = true;
-					cout << "firing" << endl;
+					engine->play2D("Music/smb_fireball.wav");
 					fireStart(marioX + 64, marioY+64, marioTrueX + 64, marioY+64);
 				}
 			}

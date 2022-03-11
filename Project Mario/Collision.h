@@ -51,7 +51,6 @@ bool detectCollision(int x, int y)
 		{
 			if (aabbCollisionMario(i, x, y))
 			{
-				cout << "colliding with i = " << i << endl;
 				return true;
 			}
 		}
@@ -72,12 +71,25 @@ bool aabbCollisionMario(int a, int x, int y)
 }
 void marioLevelBound(int x, int y)
 {
-	if (marioX + x >= 0 && marioX + x <= 328)
+	if (currentLevel == 4 && bossDead)
+	{
+		if (10240 + levelX - screenWidth - x >= 0)
+		{
+			levelX = levelX - x;
+			marioTrueX += x;
+			levelScroll();
+		}
+		else
+		{
+			levelboundreached = true;
+		}
+	}
+	else if (marioX + x >= 0 && marioX + x <= 328)
 	{
 		marioX = marioX + x;
 		marioTrueX += x;
 	}
-	else if (marioX + x == 329)
+	else if (marioX + x == 329 && (!bossReached))
 	{
 		if (currentLevel == 1)
 		{
@@ -105,6 +117,19 @@ void marioLevelBound(int x, int y)
 				levelboundreached = true;
 			}
 		}
+		else if (currentLevel == 4)
+		{
+			if (9120 + levelX - screenWidth - x >= 0)
+			{
+				levelX = levelX - x;
+				marioTrueX += x;
+				levelScroll();
+			}
+			else if (!bossReached)
+			{
+				bossReached = true;
+			}
+		}
 		else
 		{
 			if (13504 + levelX - screenWidth - x >= 0)
@@ -119,13 +144,23 @@ void marioLevelBound(int x, int y)
 			}
 		}
 	}
+	else
+	{
+		if (currentLevel == 4 && bossReached && (!bossDead))
+		{
+			if (marioX + x >= 0 && marioX + x <= 960)
+			{
+				marioX = marioX + x;
+				marioTrueX += x;
+			}
+		}
+	}
 	if (marioY + y >= 0) //&& marioY + y <= 856)
 	{
 		marioY += y;
 	}
 	if (marioY <= 0 && animationState == "")
 	{
-		cout << "death !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 		death();
 	}
 	if (marioTrueX > 12672 && !levelEndFlag  && currentLevel == 1)
@@ -234,7 +269,6 @@ void npcCollision()
 						marioPowerState += 1;
 						engine->play2D("Music/smb_vine.wav");
 					}
-					cout << "Power!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 					npc[i].show = false;
 					pointAdd(1000);
 				}
@@ -355,7 +389,6 @@ void enemyCollision()
 				}
 				else
 				{
-					cout << "Death !!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 					death();
 				}
 			}
@@ -395,6 +428,57 @@ void coinCollision()
 					coins[i].show = false;
 					engine->play2D("Music/smb_coin.wav");
 					pointAdd(200);
+				}
+			}
+		}
+	}
+}
+void rotatingFireCollision()
+{
+	if (currentLevel == 4)
+	{
+		for (int i = 0; i < 42; i++)
+		{
+			if (!((fires[i].fireX > marioTrueX + marioWidth) || (fires[i].fireX + 32 < marioTrueX) || (fires[i].fireY > marioY + marioHeight) || (fires[i].fireY + 32 < marioY)))
+			{
+					death();
+			}
+		}
+	}
+}
+void objectCollsionCheck(int y)
+{
+	if (jumpUp == true)
+	{
+		for (int i = 0; i < objectCount; i++)
+		{
+			if (objects[i].show == true)
+			{
+				if (objects[i].type == "power")
+				{
+					if (aabbCollisionMario(i, marioTrueX, marioY + y))
+					{
+						//cout << "colliding with power = " << i << endl;
+						npc[objects[i].linkedObject].show = true;
+						if (npc[objects[i].linkedObject].objectType == "coin")
+						{
+							engine->play2D("Music/smb_coin.wav");
+						}
+						else if (npc[objects[i].linkedObject].objectType == "mushroom")
+						{
+							engine->play2D("Music/smb_powerup_appears.wav");
+						}
+						objects[i].type = "done";
+					}
+				}
+				else if (objects[i].type == "brick")
+				{
+					if (aabbCollisionMario(i, marioTrueX, marioY + y))
+					{
+						objects[i].show = false;
+						engine->play2D("Music/smb_breakblock.wav");
+						pointAdd(50);
+					}
 				}
 			}
 		}
