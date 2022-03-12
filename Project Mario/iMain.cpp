@@ -157,6 +157,7 @@ void iDraw()
 		{
 			if (fireObjects[i].status == true)
 			{
+				cout << "displaying fire = " << i << endl;
 				iShowBMP2(fireObjects[i].x, fireObjects[i].y, fire[0], 0);
 			}
 		}

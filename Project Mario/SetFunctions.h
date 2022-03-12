@@ -479,8 +479,8 @@ void setEnemy()
 }
 void setEnemy2()
 {
-	enemyObjects[0] = { 700, 128, 700, 128, 63, 63, -2, false };
-	enemyObjects[1] = { 765, 128, 765, 128, 63, 63, -2, false };
+	enemyObjects[0] = { 700, 128, 700, 128, 63, 63, -2, true };
+	enemyObjects[1] = { 765, 128, 765, 128, 63, 63, -2, true };
 	enemyObjects[2] = { 1820, 128, 1820, 128, 63, 63, -2, false };
 	enemyObjects[3] = { 2900, 128, 2900, 128, 63, 63, -2, false };
 	enemyObjects[4] = { 3000, 128, 3000, 128, 63, 63, -2, false };

@@ -48,17 +48,18 @@ struct fire
 	int maxHeight = 0;
 	int velocityX = 15;
 	int velocityY = -15;
-	bool status = true;
+	bool status;
 	fire()
 	{
 
 	}
-	fire(int _x,int _y,int _levelX,int _levelY)
+	fire(int _x,int _y,int _levelX,int _levelY,bool _status)
 	{
 		x = _x;
 		y = _y;
 		levelX = _levelX;
 		levelY = _levelY;
+		status = _status;
 	}
 }fireObjects[1000];
 struct bossFire{

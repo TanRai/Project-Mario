@@ -4,6 +4,7 @@ void fireStart(int x, int y, int levelX, int levelY)
 	fireObjects[fireCount].y = y;
 	fireObjects[fireCount].levelX = levelX;
 	fireObjects[fireCount].levelY = levelY;
+	fireObjects[fireCount].status = true;
 	fireCount++;
 }
 void fireCheck()
