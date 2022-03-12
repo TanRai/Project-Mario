@@ -157,7 +157,6 @@ void iDraw()
 		{
 			if (fireObjects[i].status == true)
 			{
-				cout << "displaying fire = " << i << endl;
 				iShowBMP2(fireObjects[i].x, fireObjects[i].y, fire[0], 0);
 			}
 		}
@@ -749,7 +748,6 @@ void highscoreFunc()
 	ifstream ofs("HighScore.txt", std::ifstream::in);
 	if (ofs.is_open())
 	{
-		cout << "is opened" << endl;
 		ofs >> size;
 		for (int i = 0; i < size; i++)
 		{

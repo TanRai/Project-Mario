@@ -5,6 +5,10 @@ void fireStart(int x, int y, int levelX, int levelY)
 	fireObjects[fireCount].levelX = levelX;
 	fireObjects[fireCount].levelY = levelY;
 	fireObjects[fireCount].status = true;
+	fireObjects[fireCount].maxHeight = 0;
+	fireObjects[fireCount].velocityX = 15;
+	fireObjects[fireCount].velocityY = -15;
+
 	fireCount++;
 }
 void fireCheck()
